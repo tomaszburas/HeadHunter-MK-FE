@@ -92,9 +92,6 @@ export default createGlobalStyle`
     font-size: 100%;
     vertical-align: baseline;
     font-family: "Catamaran", sans-serif;
-    width: 100%;
-    background-color: ${(props) => props.theme.colors.background};
-    color: ${(props) => props.theme.colors.gray};
   }
   /* HTML5 display-role reset for older browsers */
   article,
@@ -148,5 +145,12 @@ export default createGlobalStyle`
 
   ::-webkit-scrollbar-thumb {
     background-color: ${(props: any) => props.theme.colors.red};
+  }
+
+  body {
+    background-color: ${(props) => props.theme.colors.background};
+    color: ${(props) => props.theme.colors.gray};
+    font-size: ${(props) => props.theme.fontSize.base};
+    width: 100%;
   }
 `;
