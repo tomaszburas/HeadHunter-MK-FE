@@ -1,46 +1,15 @@
-# Getting Started with Create React App
+<div align="center">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <img src="https://i.imgur.com/nYV30Ba.png" alt="logo" width="200" height="auto" />
+  <p>
+    Frontend for the MK Head Hunter project.
+  </p>
+</div>
 
-## Available Scripts
+### :space_invader: Jak pracujemy
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. `Prettier` – formatujemy kod prettierem, konfiguracja jest w pliku .prettierrc Polecam sobie ustawić automatyczne formatowanie podczas zapisu pliku (ctrl+alt+s -> Languages & Freamworks -> Javascript -> Prettier -> zaznaczamy pole „On save”) lub formatujemy klikając prawym przyciskiem myszy na dany plik lub folder i klikamy Reformat with Prettier.
+    
+2. Stylujemy za pomocą `styled-components`. Bardzo łatwa i przyjemna sprawa. Zmienne kolorów, rozmiarów czcionki a także marginów i paddingów są w komponencie Theme.tsx i z nich korzystamy.
+3. Pracujemy zgodnie z git-flow, upewnij się, że jesteś na branchu develop, stwórz feature brancha `git flow feature start NAZWA` commituj, pushuj i gdy skończysz dany feature `git flow feature finish NAZWA`
+4. Stan globalny - `redux-toolkit`
