@@ -14,6 +14,7 @@ const theme = {
     white: '#FFFFFF',
   },
   fontSize: {
+    m: '0.8rem',
     sm: '1.2rem',
     base: '1.5rem',
     lg: '2rem',
