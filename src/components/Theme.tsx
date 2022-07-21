@@ -26,12 +26,14 @@ const theme = {
     base: '1rem',
     lg: '1.5rem',
     xl: '2rem',
+    xl2: '4rem',
   },
   marginSize: {
     sm: '0.5rem',
     base: '1rem',
     lg: '1.5rem',
     xl: '2rem',
+    xl2: '4rem',
   },
 };
 
