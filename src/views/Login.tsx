@@ -1,60 +1,27 @@
 import React, {FormEvent} from 'react';
-import styled from 'styled-components';
 import logo from '../assets/images/logo.png';
 import {Button} from '../components/Button';
+import {CenterContainer} from '../styled/CenterContainer';
+import {Form} from '../styled/Form';
+import {Input} from '../styled/Input';
+import {Logo} from '../styled/Logo';
 
 export const Login = () => {
   const handleForm = (e: FormEvent) => {
     e.preventDefault();
   };
   return (
-    <Container>
-      <Logo src={logo} />
+    <CenterContainer>
+      <Logo src={logo} className="margin-bottom-lg" />
       <Form onSubmit={handleForm}>
         <Input type="mail" placeholder="Email" />
         <Input
           type="password"
-          placeholder="Password"
-          className="margin-bottom"
+          placeholder="Hasło"
+          className="margin-bottom-base"
         />
         <Button text="Zaloguj" />
       </Form>
-    </Container>
+    </CenterContainer>
   );
 };
-
-const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  .margin-bottom {
-    margin-bottom: ${(props) => props.theme.marginSize.base};
-  }
-`;
-
-const Form = styled.form`
-  width: 30%;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: ${(props) => props.theme.paddingSize.sm};
-  margin-bottom: ${(props) => props.theme.marginSize.sm};
-  border: none;
-  background-color: ${(props) => props.theme.colors.black};
-  color: ${(props) => props.theme.colors.white};
-
-  &:focus {
-    outline: 1px solid ${(props) => props.theme.colors.red};
-    color: ${(props) => props.theme.colors.white};
-  }
-`;
-
-const Logo = styled.img`
-  height: 2.5rem;
-  margin-bottom: ${(props) => props.theme.marginSize.lg};
-`;
