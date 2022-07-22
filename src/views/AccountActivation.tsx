@@ -1,11 +1,11 @@
 import React, {FormEvent} from 'react';
 import styled from 'styled-components';
-import {CenterContainer} from '../styled/CenterContainer';
+import {CenterContainer} from '../assets/styled/CenterContainer';
 import logo from '../assets/images/logo.png';
-import {Logo} from '../styled/Logo';
-import {Input} from '../styled/Input';
+import {Logo} from '../assets/styled/Logo';
+import {Input} from '../assets/styled/Input';
 import {Button} from '../components/Button';
-import {Form} from '../styled/Form';
+import {Form} from '../assets/styled/Form';
 
 export const AccountActivation = () => {
   const handleForm = (e: FormEvent) => {
@@ -17,7 +17,11 @@ export const AccountActivation = () => {
       <Text className="margin-bottom-xl2">Wpisz hasło aby aktywować konto</Text>
       <Logo src={logo} className="margin-bottom-lg" />
       <Form onSubmit={handleForm}>
-        <Input type="password" placeholder="Hasło" />
+        <Input
+          type="password"
+          placeholder="Hasło"
+          className="margin-bottom-sm"
+        />
         <Input
           type="password"
           placeholder="Powtórz hasło"
@@ -31,5 +35,5 @@ export const AccountActivation = () => {
 
 const Text = styled.h1`
   color: ${(props) => props.theme.colors.white};
-  margin-bottom: ${(props) => props.theme.marginSize.base};
+  margin-bottom: ${(props) => props.theme.marginSize.sm};
 `;
