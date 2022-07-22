@@ -1,11 +1,11 @@
 import React, {FormEvent} from 'react';
 import styled from 'styled-components';
-import {CenterContainer} from '../styled/CenterContainer';
+import {CenterContainer} from '../assets/styled/CenterContainer';
 import logo from '../assets/images/logo.png';
-import {Logo} from '../styled/Logo';
-import {Input} from '../styled/Input';
+import {Logo} from '../assets/styled/Logo';
+import {Input} from '../assets/styled/Input';
 import {Button} from '../components/Button';
-import {Form} from '../styled/Form';
+import {Form} from '../assets/styled/Form';
 
 export const AccountActivation = () => {
   const handleForm = (e: FormEvent) => {
