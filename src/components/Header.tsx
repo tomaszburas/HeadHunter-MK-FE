@@ -99,7 +99,7 @@ const HeaderBackground = styled.div`
   position: absolute;
   left: 0;
   top: 0;
-  height: 4rem;
+  height: 4.4rem;
   width: 100vw;
   background-color: ${(props) => props.theme.colors.black};
 `;
