@@ -17,7 +17,11 @@ export const AccountActivation = () => {
       <Text className="margin-bottom-xl2">Wpisz hasło aby aktywować konto</Text>
       <Logo src={logo} className="margin-bottom-lg" />
       <Form onSubmit={handleForm}>
-        <Input type="password" placeholder="Hasło" />
+        <Input
+          type="password"
+          placeholder="Hasło"
+          className="margin-bottom-sm"
+        />
         <Input
           type="password"
           placeholder="Powtórz hasło"
@@ -31,5 +35,5 @@ export const AccountActivation = () => {
 
 const Text = styled.h1`
   color: ${(props) => props.theme.colors.white};
-  margin-bottom: ${(props) => props.theme.marginSize.base};
+  margin-bottom: ${(props) => props.theme.marginSize.sm};
 `;
