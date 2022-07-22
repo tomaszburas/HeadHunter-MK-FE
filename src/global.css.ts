@@ -152,5 +152,6 @@ export default createGlobalStyle`
     color: ${(props) => props.theme.colors.gray};
     font-size: ${(props) => props.theme.fontSize.base};
     width: 100%;
+    overflow-x: hidden;
   }
 `;
