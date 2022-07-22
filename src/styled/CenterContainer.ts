@@ -8,6 +8,10 @@ export const CenterContainer = styled.div`
   justify-content: center;
   align-items: center;
 
+  .margin-bottom-sm {
+    margin-bottom: ${(props) => props.theme.marginSize.sm};
+  }
+
   .margin-bottom-base {
     margin-bottom: ${(props) => props.theme.marginSize.base};
   }
