@@ -14,7 +14,7 @@ export const Login = () => {
     <CenterContainer>
       <Logo src={logo} className="margin-bottom-lg" />
       <Form onSubmit={handleForm}>
-        <Input type="mail" placeholder="Email" />
+        <Input type="mail" placeholder="Email" className="margin-bottom-sm" />
         <Input
           type="password"
           placeholder="Hasło"
