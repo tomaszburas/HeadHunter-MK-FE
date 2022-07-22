@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import {Header} from '../components/Header';
 import {Input} from '../assets/styled/Input';
@@ -8,8 +8,17 @@ import {Button} from '../components/Button';
 import {Experience} from '../types/enums/Experience';
 import {Workplace} from '../types/enums/Workplace';
 import {Contract} from '../types/enums/Contract';
+import {
+  handleAddLink,
+  handleInputChange,
+  handleRemoveLink,
+} from '../handlers/linkHandlers';
 
 export const StudentEdit = () => {
+  const [linkPortfolio, setLinkPortfolio] = useState<string[]>(['']);
+  const [linkScrum, setLinkScrum] = useState<string[]>(['']);
+  const [linkProject, setLinkProject] = useState<string[]>(['']);
+
   return (
     <Form>
       <Header />
@@ -158,43 +167,136 @@ export const StudentEdit = () => {
       {/*Portfolio*/}
       <Wrapper>
         <Title>Portfolio</Title>
-        <InputWrapper>
-          <div className="label-box">
-            <label htmlFor="p-link1">Link:</label>
-          </div>
-          <div className="input-box">
-            <Input type="text" id="p-link1" />
-            <button className="add-link">+</button>
-          </div>
-        </InputWrapper>
+        {linkPortfolio.map((link, index) => {
+          return (
+            <InputWrapper key={index}>
+              <div className="label-box">
+                <label htmlFor={`p-link${index}`}>
+                  {index === 0 ? `Link:` : `Link ${index + 1}:`}
+                </label>
+              </div>
+              <div className="input-box">
+                <Input
+                  type="text"
+                  id={`p-link${index}`}
+                  value={link}
+                  onChange={(e) =>
+                    handleInputChange(index, e, linkPortfolio, setLinkPortfolio)
+                  }
+                />
+                {linkPortfolio.length === index + 1 && (
+                  <button
+                    className="add-link"
+                    onClick={() =>
+                      handleAddLink(linkPortfolio, setLinkPortfolio)
+                    }
+                  >
+                    +
+                  </button>
+                )}
+                {linkPortfolio.length > 1 &&
+                  linkPortfolio.length === index + 1 && (
+                    <button
+                      className="remove-link"
+                      onClick={() =>
+                        handleRemoveLink(index, linkPortfolio, setLinkPortfolio)
+                      }
+                    >
+                      -
+                    </button>
+                  )}
+              </div>
+            </InputWrapper>
+          );
+        })}
       </Wrapper>
 
       {/*Scrum*/}
       <Wrapper>
         <Title>Projekt w zespole scrumowym</Title>
-        <InputWrapper>
-          <div className="label-box">
-            <label htmlFor="s-link1">Link:</label>
-          </div>
-          <div className="input-box">
-            <Input type="text" id="s-link1" />
-            <button className="add-link">+</button>
-          </div>
-        </InputWrapper>
+        {linkScrum.map((link, index) => {
+          return (
+            <InputWrapper key={index}>
+              <div className="label-box">
+                <label htmlFor={`s-link${index}`}>
+                  {index === 0 ? `Link:` : `Link ${index + 1}:`}
+                </label>
+              </div>
+              <div className="input-box">
+                <Input
+                  type="text"
+                  id={`s-link${index}`}
+                  value={link}
+                  onChange={(e) =>
+                    handleInputChange(index, e, linkScrum, setLinkScrum)
+                  }
+                />
+                {linkScrum.length === index + 1 && (
+                  <button
+                    className="add-link"
+                    onClick={() => handleAddLink(linkScrum, setLinkScrum)}
+                  >
+                    +
+                  </button>
+                )}
+                {linkScrum.length > 1 && linkScrum.length === index + 1 && (
+                  <button
+                    className="remove-link"
+                    onClick={() =>
+                      handleRemoveLink(index, linkScrum, setLinkScrum)
+                    }
+                  >
+                    -
+                  </button>
+                )}
+              </div>
+            </InputWrapper>
+          );
+        })}
       </Wrapper>
 
       {/*Project*/}
       <Wrapper>
         <Title>Projekt na zaliczenie</Title>
-        <InputWrapper>
-          <div className="label-box">
-            <label htmlFor="z-link1">Link:</label>
-          </div>
-          <div className="input-box">
-            <Input type="text" id="z-link1" />
-            <button className="add-link">+</button>
-          </div>
-        </InputWrapper>
+        {linkProject.map((link, index) => {
+          return (
+            <InputWrapper key={index}>
+              <div className="label-box">
+                <label htmlFor={`pr-link${index}`}>
+                  {index === 0 ? `Link:` : `Link ${index + 1}:`}
+                </label>
+              </div>
+              <div className="input-box">
+                <Input
+                  type="text"
+                  id={`pr-link${index}`}
+                  value={link}
+                  onChange={(e) =>
+                    handleInputChange(index, e, linkProject, setLinkProject)
+                  }
+                />
+                {linkProject.length === index + 1 && (
+                  <button
+                    className="add-link"
+                    onClick={() => handleAddLink(linkProject, setLinkProject)}
+                  >
+                    +
+                  </button>
+                )}
+                {linkProject.length > 1 && linkProject.length === index + 1 && (
+                  <button
+                    className="remove-link"
+                    onClick={() =>
+                      handleRemoveLink(index, linkProject, setLinkProject)
+                    }
+                  >
+                    -
+                  </button>
+                )}
+              </div>
+            </InputWrapper>
+          );
+        })}
       </Wrapper>
       <ButtonContainer>
         <Button text="Zapisz" />
@@ -256,6 +358,7 @@ const InputWrapper = styled.div`
       }
     }
 
+    .remove-link,
     .add-link {
       background-color: ${(props) => props.theme.colors.red};
       color: ${(props) => props.theme.colors.white};
@@ -264,6 +367,10 @@ const InputWrapper = styled.div`
       border: none;
       cursor: pointer;
       margin-left: ${(props) => props.theme.marginSize.sm};
+    }
+
+    .remove-link {
+      padding: 0 calc(${(props) => props.theme.paddingSize.sm} * 1.3);
     }
   }
 `;
