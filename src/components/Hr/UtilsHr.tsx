@@ -1,0 +1,74 @@
+import styled from 'styled-components';
+import {Input} from '../../assets/styled/Input';
+import React from 'react';
+
+export const UtilsHr = () => {
+  return (
+    <Utils>
+      <div className="input-wrapper">
+        <Input type="search" placeholder="Szukaj" />
+        <i className="bx bx-search" />
+      </div>
+      <button>
+        <i className="bx bx-filter" /> Filtrowanie
+      </button>
+    </Utils>
+  );
+};
+
+const Utils = styled.div`
+  padding: ${(props) => props.theme.paddingSize.base};
+  border-bottom: solid 2px ${(props) => props.theme.colors.background};
+  display: flex;
+  justify-content: space-between;
+
+  .input-wrapper {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    input[type='search'] {
+      position: relative;
+      padding-right: ${(props) => props.theme.paddingSize.xl};
+    }
+
+    /* clears the 'X' from Internet Explorer */
+    input[type='search']::-ms-clear {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+    input[type='search']::-ms-reveal {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    /* clears the 'X' from Chrome */
+    input[type='search']::-webkit-search-decoration,
+    input[type='search']::-webkit-search-cancel-button,
+    input[type='search']::-webkit-search-results-button,
+    input[type='search']::-webkit-search-results-decoration {
+      display: none;
+    }
+
+    .bx-search {
+      position: absolute;
+      padding-right: ${(props) => props.theme.paddingSize.sm};
+    }
+  }
+
+  button {
+    background-color: ${(props) => props.theme.colors.black};
+    color: ${(props) => props.theme.colors.gray};
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    .bx-filter {
+      padding-right: ${(props) => props.theme.paddingSize.sm};
+    }
+  }
+`;
