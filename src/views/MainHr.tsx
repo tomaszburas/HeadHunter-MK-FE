@@ -5,7 +5,7 @@ import {NavHr} from '../components/Hr/NavHr';
 import {Students} from '../components/Hr/Students';
 import {UtilsHr} from '../components/Hr/UtilsHr';
 
-export const ActiveStudents = () => {
+export const MainHr = () => {
   const [activeLink, setActiveLink] = useState(true);
 
   return (
