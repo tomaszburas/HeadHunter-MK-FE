@@ -15,5 +15,7 @@ export const Students = () => {
 };
 
 const Container = styled.div`
-  padding: ${(props) => props.theme.paddingSize.base};
+  padding: 0 ${(props) => props.theme.paddingSize.base}
+    ${(props) => props.theme.paddingSize.base}
+    ${(props) => props.theme.paddingSize.base};
 `;
