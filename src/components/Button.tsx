@@ -3,10 +3,11 @@ import styled from 'styled-components';
 
 interface Props {
   text: string;
+  type?: 'button' | 'submit' | 'reset';
 }
 
-export const Button = ({text}: Props) => {
-  return <Btn type="submit">{text}</Btn>;
+export const Button = ({text, type = 'button'}: Props) => {
+  return <Btn type={type}>{text}</Btn>;
 };
 
 const Btn = styled.button`
