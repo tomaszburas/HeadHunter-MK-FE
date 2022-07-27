@@ -4,6 +4,7 @@ import {Header} from '../components/Header';
 import {NavHr} from '../components/Hr/NavHr';
 import {Students} from '../components/Hr/Students';
 import {UtilsHr} from '../components/Hr/UtilsHr';
+import {Pagination} from '../components/Hr/Pagination';
 
 export const MainHr = () => {
   const [activeLink, setActiveLink] = useState(true);
@@ -16,6 +17,7 @@ export const MainHr = () => {
         <UtilsHr />
         <Students />
       </Wrapper>
+      <Pagination />
     </>
   );
 };
