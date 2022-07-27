@@ -6,8 +6,10 @@ export const UtilsHr = () => {
   return (
     <Utils>
       <div className="input-wrapper">
-        <Input type="search" placeholder="Szukaj" />
-        <i className="bx bx-search" />
+        <Input type="search" placeholder="Szukaj" id="search" />
+        <label htmlFor="search">
+          <i className="bx bx-search" />
+        </label>
       </div>
       <button>
         <i className="bx bx-filter" /> Filtrowanie
@@ -53,9 +55,11 @@ const Utils = styled.div`
       display: none;
     }
 
-    .bx-search {
+    label {
       position: absolute;
       padding-right: ${(props) => props.theme.paddingSize.sm};
+      cursor: pointer;
+      display: flex;
     }
   }
 
