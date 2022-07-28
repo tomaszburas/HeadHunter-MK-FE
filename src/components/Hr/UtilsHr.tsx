@@ -1,20 +1,26 @@
 import styled from 'styled-components';
 import {Input} from '../../assets/styled/Input';
-import React from 'react';
+import React, {useState} from 'react';
+import {Filtration} from './Filtration/Filtration';
 
 export const UtilsHr = () => {
+  const [openFiltration, setOpenFiltration] = useState(false);
+
   return (
-    <Utils>
-      <div className="input-wrapper">
-        <Input type="search" placeholder="Szukaj" id="search" />
-        <label htmlFor="search">
-          <i className="bx bx-search" />
-        </label>
-      </div>
-      <button>
-        <i className="bx bx-filter" /> Filtrowanie
-      </button>
-    </Utils>
+    <>
+      <Utils>
+        <div className="input-wrapper">
+          <Input type="search" placeholder="Szukaj" id="search" />
+          <label htmlFor="search">
+            <i className="bx bx-search" />
+          </label>
+        </div>
+        <button onClick={() => setOpenFiltration(true)}>
+          <i className="bx bx-filter" /> Filtrowanie
+        </button>
+      </Utils>
+      {openFiltration && <Filtration setOpenFiltration={setOpenFiltration} />}
+    </>
   );
 };
 
