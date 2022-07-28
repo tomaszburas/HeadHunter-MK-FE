@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import {NavigationHr} from '../../types/enums/NavigationHr';
 
 interface Props {
-  activeLink: boolean;
-  setActiveLink: (param: boolean) => void;
+  activeLink: NavigationHr;
+  setActiveLink: (param: NavigationHr) => void;
 }
 
 export const NavHr = ({activeLink, setActiveLink}: Props) => {
@@ -11,16 +12,18 @@ export const NavHr = ({activeLink, setActiveLink}: Props) => {
     <Nav>
       <ul>
         <li
-          className={activeLink ? 'active' : ''}
-          onClick={() => setActiveLink(!activeLink)}
+          className={
+            activeLink === NavigationHr.AVAILABLE_STUDENTS ? 'active' : ''
+          }
+          onClick={() => setActiveLink(NavigationHr.AVAILABLE_STUDENTS)}
         >
-          Dostępni kursanci
+          {NavigationHr.AVAILABLE_STUDENTS}
         </li>
         <li
-          className={!activeLink ? 'active' : ''}
-          onClick={() => setActiveLink(!activeLink)}
+          className={activeLink === NavigationHr.TO_TALK ? 'active' : ''}
+          onClick={() => setActiveLink(NavigationHr.TO_TALK)}
         >
-          Do rozmowy
+          {NavigationHr.TO_TALK}
         </li>
       </ul>
     </Nav>
