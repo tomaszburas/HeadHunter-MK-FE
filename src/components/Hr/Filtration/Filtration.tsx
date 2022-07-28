@@ -255,6 +255,8 @@ const Container = styled.div`
     padding: 1rem;
     z-index: 10;
     color: ${(props) => props.theme.colors.white};
+    max-height: 80vh;
+    overflow: auto;
 
     .save-btn,
     .clear-btn {
