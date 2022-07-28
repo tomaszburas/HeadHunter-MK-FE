@@ -5,9 +5,10 @@ import {NavHr} from '../components/Hr/NavHr';
 import {Students} from '../components/Hr/Students';
 import {UtilsHr} from '../components/Hr/UtilsHr';
 import {Pagination} from '../components/Hr/Pagination';
+import {NavigationHr} from '../types/enums/NavigationHr';
 
 export const MainHr = () => {
-  const [activeLink, setActiveLink] = useState(true);
+  const [activeLink, setActiveLink] = useState(NavigationHr.AVAILABLE_STUDENTS);
 
   return (
     <>
