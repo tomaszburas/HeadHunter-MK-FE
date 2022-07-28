@@ -27,7 +27,7 @@ export const AccountActivation = () => {
           placeholder="Powtórz hasło"
           className="margin-bottom-base"
         />
-        <Button text="Aktywuj" />
+        <Button type="submit" text="Aktywuj" />
       </Form>
     </CenterContainer>
   );

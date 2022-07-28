@@ -4,6 +4,7 @@ import {Route, Routes} from 'react-router-dom';
 import {Login} from './views/Login';
 import {AccountActivation} from './views/AccountActivation';
 import {StudentEdit} from './views/StudentEdit';
+import {MainHr} from './views/MainHr';
 
 export const App = () => {
   return (
@@ -12,6 +13,7 @@ export const App = () => {
         <Route path={`/login`} element={<Login />} />
         <Route path={`/activation`} element={<AccountActivation />} />
         <Route path={`/student/edit`} element={<StudentEdit />} />
+        <Route path={`/hr/active-students`} element={<MainHr />} />
       </Routes>
     </Container>
   );

@@ -1,5 +1,5 @@
 export enum Contract {
-  CONTRACT_OF_EMPLOYMENT = 'Umowa o pracę',
-  CONTRACT_WORK = 'Umowa o dzieło',
+  PERMANENT = 'Umowa o pracę',
+  CONTRACT_WORK = 'Umowa zlecenie',
   B2B = 'B2b',
 }

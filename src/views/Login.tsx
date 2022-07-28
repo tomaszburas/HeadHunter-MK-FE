@@ -20,7 +20,7 @@ export const Login = () => {
           placeholder="Hasło"
           className="margin-bottom-base"
         />
-        <Button text="Zaloguj" />
+        <Button type="submit" text="Zaloguj" />
       </Form>
     </CenterContainer>
   );

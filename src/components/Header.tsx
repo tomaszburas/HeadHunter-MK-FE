@@ -5,8 +5,8 @@ import avatar from '../assets/images/avatar.png';
 import {Link} from 'react-router-dom';
 
 export const Header = () => {
-  const [click, setClick] = useState(false);
-  const toggleArrow = () => setClick((prev) => !prev);
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleMenu = () => setIsOpen((prev) => !prev);
 
   return (
     <>
@@ -16,11 +16,11 @@ export const Header = () => {
           <Logo src={logo} />
         </Link>
         <UserNav>
-          <Avatar src={avatar} />
-          <Name>Jan Kowalski</Name>
-          {click ? (
+          <Avatar src={avatar} onClick={toggleMenu} />
+          <Name onClick={toggleMenu}>Jan Kowalski</Name>
+          {isOpen ? (
             <>
-              <i className="bx bxs-up-arrow" onClick={toggleArrow} />
+              <i className="bx bxs-up-arrow" onClick={toggleMenu} />
               <MenuNav>
                 <ul>
                   <li>Edytuj konto</li>
@@ -29,7 +29,7 @@ export const Header = () => {
               </MenuNav>
             </>
           ) : (
-            <i className="bx bxs-down-arrow" onClick={toggleArrow} />
+            <i className="bx bxs-down-arrow" onClick={toggleMenu} />
           )}
         </UserNav>
       </Container>
@@ -61,14 +61,13 @@ const UserNav = styled.div`
 `;
 
 const MenuNav = styled.div`
-  transition: width 2s linear 1s;
   position: absolute;
   width: 100%;
   top: 130%;
   background-color: ${(props) => props.theme.colors.red};
   color: ${(props) => props.theme.colors.white};
   padding: ${(props) => props.theme.paddingSize.base};
-  font-size: ${(props) => props.theme.fontSize.sm};
+  font-size: 1rem;
   border-radius: 0.5rem;
 
   li {
@@ -86,12 +85,14 @@ const Logo = styled.img`
 
 const Avatar = styled.img`
   height: 2rem;
+  cursor: pointer;
 `;
 
 const Name = styled.p`
   font-size: ${(props) => props.theme.fontSize.sm};
   margin: 0 1rem;
   white-space: nowrap;
+  cursor: pointer;
 `;
 
 const HeaderBackground = styled.div`

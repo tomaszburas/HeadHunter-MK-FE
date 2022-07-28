@@ -5,7 +5,6 @@ import {Input} from '../assets/styled/Input';
 import {Textarea} from '../assets/styled/Textarea';
 import {Select} from '../assets/styled/Select';
 import {Button} from '../components/Button';
-import {Experience} from '../types/enums/Experience';
 import {Workplace} from '../types/enums/Workplace';
 import {Contract} from '../types/enums/Contract';
 import {
@@ -83,29 +82,23 @@ export const StudentEdit = () => {
         </InputWrapper>
         <InputWrapper>
           <div className="label-box">
-            <label htmlFor="experience">
-              Komercyjne doświadczenie w programowaniu:
-            </label>
-          </div>
-          <Select id="experience">
-            <option value={Experience.LACK}>{Experience.LACK}</option>
-            <option value={Experience.LESS}>{Experience.LESS}</option>
-            <option value={Experience.OVER}>{Experience.OVER}</option>
-          </Select>
-        </InputWrapper>
-        <InputWrapper>
-          <div className="label-box">
             <label htmlFor="contract">Oczekiwany typ kontraktu:</label>
           </div>
           <Select id="contract">
-            <option value={Contract.CONTRACT_OF_EMPLOYMENT}>
-              {Contract.CONTRACT_OF_EMPLOYMENT}
-            </option>
+            <option value={Contract.PERMANENT}>{Contract.PERMANENT}</option>
             <option value={Contract.CONTRACT_WORK}>
               {Contract.CONTRACT_WORK}
             </option>
             <option value={Contract.B2B}>{Contract.B2B}</option>
           </Select>
+        </InputWrapper>
+        <InputWrapper>
+          <div className="label-box">
+            <label htmlFor="experience">
+              Doświadczenie komercyjne w programowaniu (miesiące):
+            </label>
+          </div>
+          <Input type="number" id="experience" />
         </InputWrapper>
         <InputWrapper>
           <div className="label-box">
