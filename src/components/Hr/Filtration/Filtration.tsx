@@ -252,9 +252,11 @@ const Container = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: ${(props) => props.theme.colors.black};
-    padding: 1rem;
+    padding: ${(props) => props.theme.paddingSize.base};
     z-index: 10;
     color: ${(props) => props.theme.colors.white};
+    max-height: 80vh;
+    overflow: auto;
 
     .save-btn,
     .clear-btn {
@@ -291,7 +293,7 @@ const Container = styled.div`
         .title {
           margin-bottom: ${(props) => props.theme.marginSize.sm};
           color: ${(props) => props.theme.colors.white};
-          font-size: 1rem;
+          font-size: ${(props) => props.theme.fontSize.sm};
         }
 
         .input-box {
@@ -325,7 +327,7 @@ const Container = styled.div`
           }
 
           .input-title {
-            font-size: 1rem;
+            font-size: ${(props) => props.theme.fontSize.sm};
             margin-right: ${(props) => props.theme.marginSize.sm};
           }
 

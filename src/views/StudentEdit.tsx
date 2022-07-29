@@ -306,8 +306,10 @@ const Wrapper = styled.div`
 
 const Title = styled.div`
   background-color: ${(props) => props.theme.colors.darkGray};
-  color: ${(props) => props.theme.colors.lightGray};
+  color: ${(props) => props.theme.colors.white};
   padding: ${(props) => props.theme.paddingSize.base};
+  font-size: ${(props) => props.theme.fontSize.sm};
+  font-weight: bold;
 `;
 
 const ButtonContainer = styled.div`

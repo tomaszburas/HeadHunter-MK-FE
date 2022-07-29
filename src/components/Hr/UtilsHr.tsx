@@ -71,7 +71,7 @@ const Utils = styled.div`
 
   button {
     background-color: ${(props) => props.theme.colors.black};
-    color: ${(props) => props.theme.colors.gray};
+    color: ${(props) => props.theme.colors.lightGray};
     border: none;
     cursor: pointer;
     display: flex;

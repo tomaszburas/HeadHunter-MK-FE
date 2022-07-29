@@ -24,7 +24,7 @@ const Container = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  font-size: 1rem;
+  font-size: ${(props) => props.theme.fontSize.sm};
   margin-bottom: ${(props) => props.theme.marginSize.base};
 
   .pagination-title,
