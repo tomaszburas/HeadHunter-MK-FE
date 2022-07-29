@@ -12,6 +12,7 @@ export const Button = ({text, type = 'button'}: Props) => {
 
 const Btn = styled.button`
   width: 100%;
+  white-space: nowrap;
   background-color: ${(props) => props.theme.colors.red};
   color: ${(props) => props.theme.colors.white};
   padding: ${(props) => props.theme.paddingSize.sm};
