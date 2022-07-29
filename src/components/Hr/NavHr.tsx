@@ -1,30 +1,34 @@
 import React from 'react';
 import styled from 'styled-components';
 import {NavigationHr} from '../../types/enums/NavigationHr';
+import {NavLink} from 'react-router-dom';
 
 interface Props {
   activeLink: NavigationHr;
-  setActiveLink: (param: NavigationHr) => void;
 }
 
-export const NavHr = ({activeLink, setActiveLink}: Props) => {
+export const NavHr = ({activeLink}: Props) => {
   return (
     <Nav>
       <ul>
-        <li
-          className={
-            activeLink === NavigationHr.AVAILABLE_STUDENTS ? 'active' : ''
-          }
-          onClick={() => setActiveLink(NavigationHr.AVAILABLE_STUDENTS)}
-        >
-          {NavigationHr.AVAILABLE_STUDENTS}
-        </li>
-        <li
-          className={activeLink === NavigationHr.TO_TALK ? 'active' : ''}
-          onClick={() => setActiveLink(NavigationHr.TO_TALK)}
-        >
-          {NavigationHr.TO_TALK}
-        </li>
+        <NavLink to="/hr/available" className="nav-link">
+          <li
+            className={
+              activeLink === NavigationHr.AVAILABLE_STUDENTS ? 'active' : ''
+            }
+          >
+            {NavigationHr.AVAILABLE_STUDENTS}
+          </li>
+        </NavLink>
+        <NavLink to="/hr/to-talk" className="nav-link">
+          <li
+            className={
+              activeLink === NavigationHr.TO_TALK_STUDENTS ? 'active' : ''
+            }
+          >
+            {NavigationHr.TO_TALK_STUDENTS}
+          </li>
+        </NavLink>
       </ul>
     </Nav>
   );
@@ -38,13 +42,17 @@ const Nav = styled.nav`
     display: flex;
   }
 
+  .nav-link {
+    display: flex;
+  }
+
+  .nav-link:not(:first-child) {
+    margin-left: calc(2 * ${(props) => props.theme.marginSize.base});
+  }
+
   li {
     cursor: pointer;
     position: relative;
-  }
-
-  li:not(:first-child) {
-    margin-left: calc(2 * ${(props) => props.theme.marginSize.base});
   }
 
   .active {
