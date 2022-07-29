@@ -38,7 +38,7 @@ export const Header = () => {
 };
 
 const Container = styled.header`
-  padding: 1rem;
+  padding: ${(props) => props.theme.paddingSize.base};
   display: flex;
   justify-content: space-between;
 
@@ -67,7 +67,7 @@ const MenuNav = styled.div`
   background-color: ${(props) => props.theme.colors.red};
   color: ${(props) => props.theme.colors.white};
   padding: ${(props) => props.theme.paddingSize.base};
-  font-size: 1rem;
+  font-size: ${(props) => props.theme.fontSize.sm};
   border-radius: 0.5rem;
 
   li {
@@ -90,7 +90,7 @@ const Avatar = styled.img`
 
 const Name = styled.p`
   font-size: ${(props) => props.theme.fontSize.sm};
-  margin: 0 1rem;
+  margin: 0 ${(props) => props.theme.marginSize.base};
   white-space: nowrap;
   cursor: pointer;
 `;

@@ -16,8 +16,8 @@ const theme = {
   },
   fontSize: {
     m: '0.8rem',
-    sm: '1.2rem',
-    base: '1.5rem',
+    sm: '1rem',
+    base: '1.3rem',
     lg: '2rem',
     xl: '2.5rem',
     xl2: '3rem',
