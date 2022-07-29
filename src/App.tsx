@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import {Login} from './views/Login';
 import {AccountActivation} from './views/AccountActivation';
 import {StudentEdit} from './views/StudentEdit';
-import {MainHr} from './views/MainHr';
+import {HrAvailableStudents} from './views/HrAvailableStudents';
+import {HrTTStudents} from './views/HrTTStudents';
 
 export const App = () => {
   return (
@@ -13,7 +14,9 @@ export const App = () => {
         <Route path={`/login`} element={<Login />} />
         <Route path={`/activation`} element={<AccountActivation />} />
         <Route path={`/student/edit`} element={<StudentEdit />} />
-        <Route path={`/hr/active-students`} element={<MainHr />} />
+        <Route path={`/hr/available`} element={<HrAvailableStudents />} />
+        <Route path={`/hr/to-talk`} element={<HrTTStudents />} />
+        <Route path={`/hr/*`} element={<Navigate to={'/hr/available'} />} />
       </Routes>
     </Container>
   );
