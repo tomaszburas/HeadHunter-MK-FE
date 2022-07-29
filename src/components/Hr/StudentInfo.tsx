@@ -83,9 +83,10 @@ const Container = styled.div<{isOpen: Boolean}>`
   justify-content: space-between;
 
   .info-wrapper {
-    .info-title {
-      height: 3rem;
-    }
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     .info-data {
       padding-top: ${(props) => props.theme.paddingSize.base};
 
