@@ -4,6 +4,7 @@ import {StudentInfo} from '../StudentInfo';
 import styled from 'styled-components';
 import {UnderlineHr} from '../../../assets/styled/Hr/UnderlineHr';
 import avatar from '../../../assets/images/avatar.png';
+import {Link} from 'react-router-dom';
 
 export const ToTalkStudent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +23,9 @@ export const ToTalkStudent = () => {
           </div>
         </div>
         <div className="student-nav">
-          <Button text="Pokaż CV" />
+          <Link to="/hr/cv">
+            <Button text="Pokaż CV" />
+          </Link>
           <div className="btn-container">
             <Button text="Brak zainteresowania" />
           </div>
