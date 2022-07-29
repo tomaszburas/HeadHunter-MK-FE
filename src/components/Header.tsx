@@ -93,6 +93,7 @@ const Name = styled.p`
   margin: 0 ${(props) => props.theme.marginSize.base};
   white-space: nowrap;
   cursor: pointer;
+  color: ${(props) => props.theme.colors.lightGray};
 `;
 
 const HeaderBackground = styled.div`
