@@ -16,7 +16,6 @@ const Btn = styled.button`
   background-color: ${(props) => props.theme.colors.red};
   color: ${(props) => props.theme.colors.white};
   padding: ${(props) => props.theme.paddingSize.sm};
-  font-size: ${(props) => props.theme.fontSize.sm};
   border: none;
   cursor: pointer;
 `;
