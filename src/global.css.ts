@@ -149,7 +149,7 @@ export default createGlobalStyle`
 
   body {
     background-color: ${(props) => props.theme.colors.background};
-    color: ${(props) => props.theme.colors.gray};
+    color: ${(props) => props.theme.colors.lightGray};
     font-size: ${(props) => props.theme.fontSize.base};
     width: 100%;
     overflow-x: hidden;
