@@ -17,7 +17,7 @@ const Container = styled.div`
   position: absolute;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: ${(props) => props.theme.colors.background};
 
   .loader {
