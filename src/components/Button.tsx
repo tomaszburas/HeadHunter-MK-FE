@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  text: string;
+  text: string | React.ReactNode;
   type?: 'button' | 'submit' | 'reset';
 }
 
