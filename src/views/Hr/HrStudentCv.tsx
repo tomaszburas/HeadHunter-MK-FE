@@ -57,7 +57,7 @@ export const HrStudentCv = () => {
               <div className="button-box">
                 <Button text="Brak zainteresowania" />
               </div>
-              <Button text="Zatrudniony" />
+              <Button text="Zatrudniony 🔥" />
             </div>
           </div>
           <div className="student-data-container">
