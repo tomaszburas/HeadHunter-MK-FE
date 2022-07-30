@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import {Header} from '../components/Header';
-import {Input} from '../assets/styled/Input';
-import {Textarea} from '../assets/styled/Textarea';
-import {Select} from '../assets/styled/Select';
-import {Button} from '../components/Button';
-import {Workplace} from '../types/enums/Workplace';
-import {Contract} from '../types/enums/Contract';
+import {Header} from '../../components/Header';
+import {Input} from '../../assets/styled/Input';
+import {Textarea} from '../../assets/styled/Textarea';
+import {Select} from '../../assets/styled/Select';
+import {Button} from '../../components/Button';
+import {Workplace} from '../../types/enums/Workplace';
+import {Contract} from '../../types/enums/Contract';
 import {
   handleAddLink,
   handleInputChange,
   handleRemoveLink,
-} from '../handlers/linkHandlers';
+} from '../../handlers/linkHandlers';
 
 export const StudentEdit = () => {
   const [linkPortfolio, setLinkPortfolio] = useState<string[]>(['']);
