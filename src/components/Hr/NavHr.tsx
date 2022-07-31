@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {NavigationHr} from '../../types/enums/NavigationHr';
-import {NavLink} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 interface Props {
   activeLink: NavigationHr;
@@ -11,7 +11,7 @@ export const NavHr = ({activeLink}: Props) => {
   return (
     <Nav>
       <ul>
-        <NavLink to="/hr/available" className="nav-link">
+        <Link to="/hr/available" className="nav-link">
           <li
             className={
               activeLink === NavigationHr.AVAILABLE_STUDENTS ? 'active' : ''
@@ -19,8 +19,8 @@ export const NavHr = ({activeLink}: Props) => {
           >
             {NavigationHr.AVAILABLE_STUDENTS}
           </li>
-        </NavLink>
-        <NavLink to="/hr/to-talk" className="nav-link">
+        </Link>
+        <Link to="/hr/to-talk" className="nav-link">
           <li
             className={
               activeLink === NavigationHr.TO_TALK_STUDENTS ? 'active' : ''
@@ -28,7 +28,7 @@ export const NavHr = ({activeLink}: Props) => {
           >
             {NavigationHr.TO_TALK_STUDENTS}
           </li>
-        </NavLink>
+        </Link>
       </ul>
     </Nav>
   );
