@@ -1,6 +1,5 @@
 import {Header} from '../../components/Header';
 import {WrapperHr} from '../../assets/styled/Hr/WrapperHr';
-import React from 'react';
 import styled from 'styled-components';
 import avatar from '../../assets/images/avatar.png';
 import {Button} from '../../components/Button';
@@ -21,7 +20,7 @@ export const HrStudentCv = () => {
             </Link>
             <img src={avatar} alt="avatar" className="student-img" />
             <p className="student-name">Jan Kowalski</p>
-            <a href="https://github.com/" target="_blank">
+            <a href="https://github.com/" target="_blank" rel="noreferrer">
               <p className="student-github">
                 <i className="bx bxl-github" /> jankowalski
               </p>
@@ -258,6 +257,7 @@ export const HrStudentCv = () => {
                     <a
                       href="https://github.com"
                       target="_blank"
+                      rel="noreferrer"
                       className="link"
                     >
                       https://github.com
@@ -276,6 +276,7 @@ export const HrStudentCv = () => {
                     <a
                       href="https://github.com"
                       target="_blank"
+                      rel="noreferrer"
                       className="link"
                     >
                       https://github.com
@@ -286,6 +287,7 @@ export const HrStudentCv = () => {
                     <a
                       href="https://github.com"
                       target="_blank"
+                      rel="noreferrer"
                       className="link"
                     >
                       https://github.com
@@ -304,6 +306,7 @@ export const HrStudentCv = () => {
                     <a
                       href="https://github.com"
                       target="_blank"
+                      rel="noreferrer"
                       className="link"
                     >
                       https://github.com
@@ -314,6 +317,7 @@ export const HrStudentCv = () => {
                     <a
                       href="https://github.com"
                       target="_blank"
+                      rel="noreferrer"
                       className="link"
                     >
                       https://github.com

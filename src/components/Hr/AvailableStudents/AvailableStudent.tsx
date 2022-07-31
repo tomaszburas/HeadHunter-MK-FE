@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import {Button} from '../../Button';
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {StudentInfo} from '../StudentInfo';
 import {UnderlineHr} from '../../../assets/styled/Hr/UnderlineHr';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import {NavigationHr} from '../../types/enums/NavigationHr';
 import {Link} from 'react-router-dom';

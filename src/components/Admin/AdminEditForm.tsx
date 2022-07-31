@@ -2,7 +2,6 @@ import {FormAccount} from '../../assets/styled/Form/FormAccount';
 import {InputWrapper} from '../../assets/styled/Form/InputWrapper';
 import {Input} from '../../assets/styled/Input';
 import {Button} from '../Button';
-import React from 'react';
 
 export const AdminEditForm = () => {
   return (

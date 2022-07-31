@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import {Login} from './views/Login';
@@ -23,12 +22,12 @@ export const App = () => {
         <Route path={`/activation`} element={<AccountActivation />} />
 
         <Route path={`/student`} element={<StudentMain />} />
-        <Route path={`/student/edit`} element={<StudentEdit />} />
+        <Route path={`/student/account-edit`} element={<StudentEdit />} />
         <Route path={`/student/*`} element={<Navigate to={'/student'} />} />
 
         <Route path={`/admin`} element={<AdminMain />} />
         <Route
-          path={`/admin/edit`}
+          path={`/admin/account-edit`}
           element={<Form title="Edycja konta" children={<AdminEditForm />} />}
         />
         <Route

@@ -1,6 +1,5 @@
 import {Input} from '../../assets/styled/Input';
 import {Button} from '../Button';
-import React from 'react';
 import {InputWrapper} from '../../assets/styled/Form/InputWrapper';
 import {FormAccount} from '../../assets/styled/Form/FormAccount';
 

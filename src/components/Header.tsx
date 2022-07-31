@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import styled from 'styled-components';
 import logo from '../assets/images/logo.png';
 import avatar from '../assets/images/avatar.png';

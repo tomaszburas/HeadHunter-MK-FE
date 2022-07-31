@@ -1,8 +1,8 @@
-import React, {FormEvent} from 'react';
+import {FormEvent} from 'react';
 import logo from '../assets/images/logo.png';
 import {Button} from '../components/Button';
 import {CenterContainer} from '../assets/styled/CenterContainer';
-import {Form} from '../assets/styled/Form';
+import {LoginForm} from '../assets/styled/LoginForm';
 import {Input} from '../assets/styled/Input';
 import {Logo} from '../assets/styled/Logo';
 
@@ -14,15 +14,21 @@ export const Login = () => {
   return (
     <CenterContainer>
       <Logo src={logo} className="margin-bottom-lg" />
-      <Form onSubmit={handleForm}>
-        <Input type="mail" placeholder="Email" className="margin-bottom-sm" />
+      <LoginForm onSubmit={handleForm}>
+        <Input
+          type="mail"
+          placeholder="Email"
+          className="margin-bottom-sm"
+          required
+        />
         <Input
           type="password"
           placeholder="Hasło"
           className="margin-bottom-base"
+          required
         />
         <Button type="submit" text="Zaloguj" />
-      </Form>
+      </LoginForm>
     </CenterContainer>
   );
 };

@@ -1,4 +1,4 @@
-import React, {FormEvent, useEffect, useState} from 'react';
+import {FormEvent, useEffect, useState} from 'react';
 import {Contract} from '../../../types/enums/Contract';
 
 interface Props {
@@ -28,7 +28,7 @@ export const ContractForm = ({
 
       setClear(false);
     }
-  }, [clear]);
+  }, [clear, setClear]);
 
   const handleBtn = (
     e: FormEvent,

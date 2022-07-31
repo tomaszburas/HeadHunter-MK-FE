@@ -1,4 +1,3 @@
-import React from 'react';
 import {Header} from '../../components/Header';
 import {NavHr} from '../../components/Hr/NavHr';
 import {AvailableStudents} from '../../components/Hr/AvailableStudents/AvailableStudents';

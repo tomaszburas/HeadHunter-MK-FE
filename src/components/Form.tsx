@@ -1,10 +1,10 @@
 import {Header} from './Header';
-import React from 'react';
 import styled from 'styled-components';
+import {ReactNode} from 'react';
 
 interface Props {
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const Form = ({title, children}: Props) => {
