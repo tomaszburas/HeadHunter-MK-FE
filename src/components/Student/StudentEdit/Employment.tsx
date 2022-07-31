@@ -6,7 +6,7 @@ import {Wrapper} from '../../../assets/styled/StudentAccountEdit/Wrapper';
 import {Title} from '../../../assets/styled/StudentAccountEdit/Title';
 import {InputWrapper} from '../../../assets/styled/StudentAccountEdit/InputContainer';
 import {Internships} from '../../../types/enums/Internships';
-import {EmploymentInterface} from '../../../types/StudentEditInterfaces/EmploymentInterface';
+import {EmploymentInterface} from '../../../types/interfaces/StudentEditInterfaces/EmploymentInterface';
 import {ChangeEvent} from 'react';
 
 interface Props {
