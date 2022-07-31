@@ -1,4 +1,4 @@
-import {FormEvent} from 'react';
+import {FormEvent, useState} from 'react';
 import logo from '../assets/images/logo.png';
 import {Button} from '../components/Button';
 import {CenterContainer} from '../assets/styled/CenterContainer';
@@ -7,6 +7,9 @@ import {Input} from '../assets/styled/Input';
 import {Logo} from '../assets/styled/Logo';
 
 export const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const handleForm = (e: FormEvent) => {
     e.preventDefault();
   };
@@ -16,15 +19,19 @@ export const Login = () => {
       <Logo src={logo} className="margin-bottom-lg" />
       <LoginForm onSubmit={handleForm}>
         <Input
-          type="mail"
+          type="email"
           placeholder="Email"
           className="margin-bottom-sm"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
         <Input
           type="password"
           placeholder="Hasło"
           className="margin-bottom-base"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
         <Button type="submit" text="Zaloguj" />
