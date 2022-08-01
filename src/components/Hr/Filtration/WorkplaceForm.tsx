@@ -1,4 +1,4 @@
-import React, {FormEvent, useEffect, useState} from 'react';
+import {FormEvent, useEffect, useState} from 'react';
 import {Workplace} from '../../../types/enums/Workplace';
 
 interface Props {
@@ -26,7 +26,7 @@ export const WorkplaceForm = ({
 
       setClear(false);
     }
-  }, [clear]);
+  }, [clear, setClear]);
 
   const handleBtn = (
     e: FormEvent,

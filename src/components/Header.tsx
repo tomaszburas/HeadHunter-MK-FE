@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import styled from 'styled-components';
 import logo from '../assets/images/logo.png';
 import avatar from '../assets/images/avatar.png';
@@ -102,6 +102,6 @@ const HeaderBackground = styled.div`
   left: 0;
   top: 0;
   height: 4.4rem;
-  width: 100vw;
+  width: 100%;
   background-color: ${(props) => props.theme.colors.black};
 `;

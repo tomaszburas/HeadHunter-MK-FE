@@ -150,8 +150,7 @@ export default createGlobalStyle`
   body {
     background-color: ${(props) => props.theme.colors.background};
     color: ${(props) => props.theme.colors.lightGray};
-    font-size: ${(props) => props.theme.fontSize.base};
+    font-size: ${(props) => props.theme.fontSize.sm};
     width: 100%;
-    overflow-x: hidden;
   }
 `;

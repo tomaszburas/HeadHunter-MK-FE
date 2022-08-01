@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import {Input} from '../../assets/styled/Input';
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Filtration} from './Filtration/Filtration';
 
 export const UtilsHr = () => {

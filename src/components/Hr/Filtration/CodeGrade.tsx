@@ -1,5 +1,4 @@
 import {Stars} from '../../../types/enums/Stars';
-import React from 'react';
 import {StarsBtns} from './StarsBtns';
 
 interface Props {

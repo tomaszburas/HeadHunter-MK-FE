@@ -1,5 +1,4 @@
 import {Header} from '../../components/Header';
-import React from 'react';
 import {Link} from 'react-router-dom';
 import {Button} from '../../components/Button';
 import styled from 'styled-components';
@@ -11,7 +10,7 @@ export const AdminMain = () => {
       <Container>
         <div className="box">
           <h1>Cześć Jan Kowalski 👋</h1>
-          <Link to="/admin/edit" className="btn-box">
+          <Link to="/admin/account-edit" className="btn-box">
             <Button text="Edytuj konto" />
           </Link>
           <Link to="/admin/add-students" className="btn-box">

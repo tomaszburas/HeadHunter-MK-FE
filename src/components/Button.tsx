@@ -1,8 +1,8 @@
-import React from 'react';
+import {ReactNode} from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  text: string;
+  text: string | ReactNode;
   type?: 'button' | 'submit' | 'reset';
 }
 

@@ -1,5 +1,5 @@
 import {Stars} from '../../../types/enums/Stars';
-import React, {FormEvent, useEffect, useState} from 'react';
+import {FormEvent, useEffect, useState} from 'react';
 
 interface Props {
   grade: Stars[];
@@ -32,7 +32,7 @@ export const StarsBtns = ({
 
       setClear(false);
     }
-  }, [clear]);
+  }, [clear, setClear]);
 
   const handleBtn = (
     e: FormEvent,

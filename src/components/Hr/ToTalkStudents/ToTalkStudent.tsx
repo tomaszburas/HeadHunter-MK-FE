@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Button} from '../../Button';
 import {StudentInfo} from '../StudentInfo';
 import styled from 'styled-components';

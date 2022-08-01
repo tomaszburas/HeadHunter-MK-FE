@@ -1,4 +1,3 @@
-import React from 'react';
 import {ContainerHrStudents} from '../../../assets/styled/Hr/ContainerHrStudents';
 import {AvailableStudent} from './AvailableStudent';
 
