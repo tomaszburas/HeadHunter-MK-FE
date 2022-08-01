@@ -16,18 +16,15 @@ export const AccountActivation = () => {
   const handleForm = (e: FormEvent) => {
     e.preventDefault();
 
-    if (password.length > 0 && !validationPassword(password)) {
+    if (!validationPassword(password)) {
       toast.error(
         'Hasło musi zawierać min. 5 znaków, przynajmniej jedną cyfrę oraz jedną wielką literę'
       );
-      return false;
+      return;
     }
-
-    if (password.length > 0) {
-      if (password !== passwordRepeat) {
-        toast.error('Podane hasła różnią się');
-        return false;
-      }
+    if (password !== passwordRepeat) {
+      toast.error('Podane hasła różnią się');
+      return;
     }
   };
   return (
