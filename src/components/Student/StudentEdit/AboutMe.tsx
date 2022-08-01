@@ -4,7 +4,7 @@ import {ChangeEvent} from 'react';
 import {Wrapper} from '../../../assets/styled/StudentAccountEdit/Wrapper';
 import {Title} from '../../../assets/styled/StudentAccountEdit/Title';
 import {InputWrapper} from '../../../assets/styled/StudentAccountEdit/InputContainer';
-import {AboutMeInterface} from '../../../types/interfaces/StudentEditInterfaces/AboutMeInterface';
+import {AboutMeInterface} from '../../../types/interfaces/Student/AboutMeInterface';
 
 interface Props {
   state: AboutMeInterface;
