@@ -26,7 +26,7 @@ export const HrEditForm = () => {
     e.preventDefault();
 
     if (form.fullName.length === 0 || form.company.length === 0) {
-      toast.error('Proszę uzupełnić dane');
+      toast.error('Proszę uzupełnić pola Imię i nazwisko oraz Firma');
       return;
     }
     if (form.password.length > 0 && !validationPassword(form.password)) {
