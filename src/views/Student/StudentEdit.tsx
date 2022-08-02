@@ -1,5 +1,5 @@
 import {FormEvent, useState} from 'react';
-import {Header} from '../../components/Header';
+import {Header} from '../../components/Header/Header';
 import {Button} from '../../components/Button';
 import {Form} from '../../assets/styled/StudentAccountEdit/Form';
 import {About} from '../../components/Student/StudentEdit/About';

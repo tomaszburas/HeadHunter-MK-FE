@@ -1,4 +1,4 @@
-import {Header} from '../../components/Header';
+import {Header} from '../../components/Header/Header';
 import {WrapperHr} from '../../assets/styled/Hr/WrapperHr';
 import styled from 'styled-components';
 import avatar from '../../assets/images/avatar.png';

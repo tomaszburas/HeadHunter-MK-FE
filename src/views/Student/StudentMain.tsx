@@ -1,4 +1,4 @@
-import {Header} from '../../components/Header';
+import {Header} from '../../components/Header/Header';
 import avatar from '../../assets/images/avatar.png';
 import {Button} from '../../components/Button';
 import styled from 'styled-components';

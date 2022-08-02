@@ -21,7 +21,7 @@ export const Login = () => {
     e.preventDefault();
 
     if (email === 'admin@wp.pl' && password === 'Qwerty1') {
-      dispatch(setAuth({isAuth: true, role: Role.HR}));
+      dispatch(setAuth({isAuth: true, role: Role.ADMIN}));
       navigate(Role.ADMIN, {replace: true});
     }
 

@@ -4,7 +4,7 @@ import {Login} from './views/Login';
 import {AccountActivation} from './views/AccountActivation';
 import {StudentEdit} from './views/Student/StudentEdit';
 import {HrAvailableStudents} from './views/Hr/HrAvailableStudents';
-import {HrTTStudents} from './views/Hr/HrToTalkStudents';
+import {HrTTStudents} from './views/Hr/HrToTalksStudents';
 import {HrStudentCv} from './views/Hr/HrStudentCv';
 import {Form} from './components/Form';
 import {HrEditForm} from './components/Hr/HrEditForm';
@@ -37,7 +37,6 @@ export const App = () => {
         {/*ADMIN*/}
         <Route element={<RequireAuth userRole={Role.ADMIN} />}>
           <Route path={`/admin`} element={<AdminMain />} />
-          <Route path={`/admin/login`} element={<AdminMain />} />
           <Route
             path={`/admin/account-edit`}
             element={<Form title="Edycja konta" children={<AdminEditForm />} />}
