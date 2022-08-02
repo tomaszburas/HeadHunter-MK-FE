@@ -21,24 +21,9 @@ export const Login = () => {
     e.preventDefault();
 
     if (email === 'admin@wp.pl' && password === 'Qwerty1') {
-      dispatch(setAuth({isAuth: true, role: Role.ADMIN}));
-      navigate(Role.ADMIN, {replace: true});
+      dispatch(setAuth({isAuth: true, role: Role.HR}));
+      navigate(Role.HR, {replace: true});
     }
-
-    // const res = await fetch(`http://localhost:3002/login`, {
-    //   method: 'POST',
-    //   credentials: 'include',
-    //   mode: 'cors',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     email: email.trim(),
-    //     password: password.trim(),
-    //   }),
-    // });
-    //
-    // const data = await res.json;
   };
 
   return (
