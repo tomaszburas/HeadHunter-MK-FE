@@ -9,7 +9,7 @@ export const AdminMain = () => {
       <Header />
       <Container>
         <div className="box">
-          <h1>Cześć Jan Kowalski 👋</h1>
+          <h1>Cześć admin 👋</h1>
           <Link to="/admin/account-edit" className="btn-box">
             <Button text="Edytuj konto" />
           </Link>

@@ -11,7 +11,6 @@ import {validationEmail} from '../../utils/validationEmail';
 export const AdminEditForm = () => {
   const [form, setForm] = useState<AdminEditFormInterface>({
     email: '',
-    fullName: '',
     password: '',
     passwordRepeat: '',
   });
@@ -24,45 +23,34 @@ export const AdminEditForm = () => {
   const handleForm = (e: FormEvent) => {
     e.preventDefault();
 
-    if (form.fullName.length === 0) {
-      toast.error('Proszę uzupełnić pole Imię i nazwisko');
-      return;
-    }
-    if (form.password.length > 0 && !validationPassword(form.password)) {
-      toast.error(
-        'Hasło musi zawierać min. 5 znaków, przynajmniej jedną cyfrę oraz jedną wielką literę'
-      );
-      return;
-    }
-    if (form.password.length > 0) {
-      if (form.password !== form.passwordRepeat) {
-        toast.error('Podane hasła różnią się');
-        return;
-      }
-    }
-    if (!validationEmail(form.email)) {
-      toast.error('Niepoprawny adres email');
-      return;
-    }
+    if (!valid()) return;
 
     console.log(form);
   };
 
+  const valid = (): boolean => {
+    if (form.password.length > 0 && !validationPassword(form.password)) {
+      toast.error(
+        'Hasło musi zawierać min. 5 znaków, przynajmniej jedną cyfrę oraz jedną wielką literę'
+      );
+      return false;
+    }
+    if (form.password.length > 0) {
+      if (form.password !== form.passwordRepeat) {
+        toast.error('Podane hasła różnią się');
+        return false;
+      }
+    }
+    if (!validationEmail(form.email)) {
+      toast.error('Niepoprawny adres email');
+      return false;
+    }
+
+    return true;
+  };
+
   return (
     <FormAccount onSubmit={handleForm}>
-      <InputWrapper>
-        <div className="label-box">
-          <label htmlFor="fullname">Imię i nazwisko:</label>
-        </div>
-        <Input
-          type="text"
-          id="fullname"
-          name="fullName"
-          value={form.fullName}
-          onChange={changeValue}
-          required
-        />
-      </InputWrapper>
       <InputWrapper>
         <div className="label-box">
           <label htmlFor="email">Email:</label>

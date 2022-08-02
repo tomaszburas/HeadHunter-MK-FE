@@ -1,9 +1,9 @@
 import {FormEvent, useEffect, useState} from 'react';
-import {Workplace} from '../../../types/enums/Workplace';
+import {WorkType} from '../../../types/enums/WorkType';
 
 interface Props {
-  workplace: Workplace[];
-  setWorkplace: (param: Workplace[]) => void;
+  workplace: WorkType[];
+  setWorkplace: (param: WorkType[]) => void;
   toggleBtn: any;
   clear: boolean;
   setClear: (param: boolean) => void;
@@ -17,12 +17,18 @@ export const WorkplaceForm = ({
   setClear,
 }: Props) => {
   const [remote, setRemote] = useState(false);
-  const [office, setOffice] = useState(false);
+  const [stay, setStay] = useState(false);
+  const [move, setMove] = useState(false);
+  const [hybrid, setHybrid] = useState(false);
+  const [whatever, setWhatever] = useState(false);
 
   useEffect(() => {
     if (clear) {
       setRemote(false);
-      setOffice(false);
+      setStay(false);
+      setMove(false);
+      setHybrid(false);
+      setWhatever(false);
 
       setClear(false);
     }
@@ -30,7 +36,7 @@ export const WorkplaceForm = ({
 
   const handleBtn = (
     e: FormEvent,
-    state: Workplace,
+    state: WorkType,
     setState: (param: (prev: boolean) => boolean) => void
   ) => {
     toggleBtn(e, state, workplace, setWorkplace);
@@ -44,19 +50,45 @@ export const WorkplaceForm = ({
         <div className="input-box">
           <button
             className={
-              office ? 'filtration-btn filtration-btn--blue' : 'filtration-btn'
+              whatever
+                ? 'filtration-btn filtration-btn--blue'
+                : 'filtration-btn'
             }
-            onClick={(e) => handleBtn(e, Workplace.OFFICE, setOffice)}
+            onClick={(e) => handleBtn(e, WorkType.WHATEVER, setWhatever)}
           >
-            {Workplace.OFFICE}
+            {WorkType.WHATEVER}
           </button>
           <button
             className={
               remote ? 'filtration-btn filtration-btn--blue' : 'filtration-btn'
             }
-            onClick={(e) => handleBtn(e, Workplace.REMOTE, setRemote)}
+            onClick={(e) => handleBtn(e, WorkType.REMOTE, setRemote)}
           >
-            {Workplace.REMOTE}
+            {WorkType.REMOTE}
+          </button>
+          <button
+            className={
+              stay ? 'filtration-btn filtration-btn--blue' : 'filtration-btn'
+            }
+            onClick={(e) => handleBtn(e, WorkType.STAY, setStay)}
+          >
+            {WorkType.STAY}
+          </button>
+          <button
+            className={
+              move ? 'filtration-btn filtration-btn--blue' : 'filtration-btn'
+            }
+            onClick={(e) => handleBtn(e, WorkType.MOVE, setMove)}
+          >
+            {WorkType.MOVE}
+          </button>
+          <button
+            className={
+              hybrid ? 'filtration-btn filtration-btn--blue' : 'filtration-btn'
+            }
+            onClick={(e) => handleBtn(e, WorkType.HYBRID, setHybrid)}
+          >
+            {WorkType.REMOTE}
           </button>
         </div>
       </div>

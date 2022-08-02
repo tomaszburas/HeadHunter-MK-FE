@@ -10,9 +10,10 @@ import {validationEmail} from '../../utils/validationEmail';
 export const AddHrForm = () => {
   const [form, setForm] = useState<AddHrInterface>({
     email: '',
-    fullName: '',
+    firstName: '',
+    lastName: '',
     company: '',
-    maxStudents: '',
+    maxStudents: 0,
   });
 
   const changeValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -23,40 +24,59 @@ export const AddHrForm = () => {
   const handleForm = (e: FormEvent) => {
     e.preventDefault();
 
-    if (form.fullName.length === 0) {
-      toast.error('Proszę uzupełnić pole Imię i nazwisko');
-      return;
+    if (!valid()) return;
+
+    console.log(form);
+  };
+
+  const valid = (): boolean => {
+    if (form.firstName.length === 0) {
+      toast.error('Proszę uzupełnić pole Imię');
+      return false;
+    }
+
+    if (form.lastName.length === 0) {
+      toast.error('Proszę uzupełnić pole Nazwisko');
+      return false;
     }
 
     if (!validationEmail(form.email)) {
       toast.error('Niepoprawny adres email');
-      return;
+      return false;
     }
 
     if (form.company.length === 0) {
       toast.error('Proszę uzupełnić pole Firma');
-      return;
+      return false;
     }
 
-    if (form.fullName === '') {
-      toast.error('Proszę uzupełnić pole Liczba osób do rezerwacji');
-      return;
-    }
-
-    console.log(form);
+    return true;
   };
 
   return (
     <FormAccount onSubmit={handleForm}>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="fullname">Imię i nazwisko:</label>
+          <label htmlFor="firstname">Imię:</label>
         </div>
         <Input
           type="text"
-          id="fullname"
-          name="fullName"
-          value={form.fullName}
+          id="firstname"
+          name="firstName"
+          value={form.firstName}
+          onChange={changeValue}
+          required
+        />
+      </InputWrapper>
+      <InputWrapper>
+        <div className="label-box">
+          <label htmlFor="lastname">Nazwisko:</label>
+        </div>
+        <Input
+          type="text"
+          id="lastname"
+          name="lastName"
+          value={form.lastName}
           onChange={changeValue}
           required
         />

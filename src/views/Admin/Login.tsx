@@ -1,10 +1,10 @@
 import {FormEvent, useState} from 'react';
+import {CenterContainer} from '../../assets/styled/CenterContainer';
+import {Input} from '../../assets/styled/Input';
+import {LoginForm} from '../../assets/styled/LoginForm';
+import {Logo} from '../../assets/styled/Logo';
 import logo from '../assets/images/logo.png';
-import {Button} from '../components/Button';
-import {CenterContainer} from '../assets/styled/CenterContainer';
-import {LoginForm} from '../assets/styled/LoginForm';
-import {Input} from '../assets/styled/Input';
-import {Logo} from '../assets/styled/Logo';
+import {Button} from '../../components/Button';
 
 export const Login = () => {
   const [email, setEmail] = useState('');

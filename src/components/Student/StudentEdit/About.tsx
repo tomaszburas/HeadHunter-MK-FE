@@ -11,15 +11,16 @@ interface Props {
   setState: (param: AboutMeInterface) => void;
 }
 
-export const AboutMe = ({state, setState}: Props) => {
+export const About = ({state, setState}: Props) => {
   const {
-    aboutMe,
+    bio,
     email,
-    fullName,
+    firstName,
+    lastName,
     password,
     passwordRepeat,
-    phone,
-    usernameGh,
+    tel,
+    githubUsername,
   } = state;
 
   const changeValue = (
@@ -34,13 +35,26 @@ export const AboutMe = ({state, setState}: Props) => {
       <Title>O mnie</Title>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="fullName">Imię i nazwisko:</label>
+          <label htmlFor="firstName">Imię:</label>
         </div>
         <Input
           type="text"
-          id="fullName"
-          name="fullName"
-          value={fullName}
+          id="firstName"
+          name="firstName"
+          value={firstName}
+          onChange={changeValue}
+          required
+        />
+      </InputWrapper>
+      <InputWrapper>
+        <div className="label-box">
+          <label htmlFor="lastName">Nazwisko:</label>
+        </div>
+        <Input
+          type="text"
+          id="lastName"
+          name="lastName"
+          value={lastName}
           onChange={changeValue}
           required
         />
@@ -84,39 +98,34 @@ export const AboutMe = ({state, setState}: Props) => {
       </InputWrapper>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="phone">Telefon:</label>
+          <label htmlFor="tel">Telefon:</label>
         </div>
         <Input
           type="phone"
-          id="phone"
-          name="phone"
-          value={phone}
+          id="tel"
+          name="tel"
+          value={tel}
           onChange={changeValue}
           required
         />
       </InputWrapper>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="usernameGh">Github username:</label>
+          <label htmlFor="githubUsername">Github username:</label>
         </div>
         <Input
           type="text"
-          id="usernameGh"
-          name="usernameGh"
-          value={usernameGh}
+          id="githubUsername"
+          name="githubUsername"
+          value={githubUsername}
           onChange={changeValue}
         />
       </InputWrapper>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="aboutMe">O mnie:</label>
+          <label htmlFor="bio">O mnie:</label>
         </div>
-        <Textarea
-          id="aboutMe"
-          name="aboutMe"
-          value={aboutMe}
-          onChange={changeValue}
-        />
+        <Textarea id="bio" name="bio" value={bio} onChange={changeValue} />
       </InputWrapper>
     </Wrapper>
   );

@@ -1,9 +1,9 @@
 import {FormEvent, useEffect, useState} from 'react';
-import {Contract} from '../../../types/enums/Contract';
+import {ContractType} from '../../../types/enums/ContractType';
 
 interface Props {
-  contract: Contract[];
-  setContract: (param: Contract[]) => void;
+  contract: ContractType[];
+  setContract: (param: ContractType[]) => void;
   toggleBtn: any;
   clear: boolean;
   setClear: (param: boolean) => void;
@@ -16,15 +16,19 @@ export const ContractForm = ({
   clear,
   setClear,
 }: Props) => {
-  const [permanent, setPermanent] = useState(false);
+  const [whatever, setWhatever] = useState(false);
   const [b2b, setB2b] = useState(false);
-  const [contractWork, setContractWork] = useState(false);
+  const [uop, setUop] = useState(false);
+  const [uz, setUz] = useState(false);
+  const [uod, setUod] = useState(false);
 
   useEffect(() => {
     if (clear) {
-      setPermanent(false);
+      setWhatever(false);
       setB2b(false);
-      setContractWork(false);
+      setUop(false);
+      setUz(false);
+      setUod(false);
 
       setClear(false);
     }
@@ -32,7 +36,7 @@ export const ContractForm = ({
 
   const handleBtn = (
     e: FormEvent,
-    state: Contract,
+    state: ContractType,
     setState: (param: (prev: boolean) => boolean) => void
   ) => {
     toggleBtn(e, state, contract, setContract);
@@ -46,33 +50,45 @@ export const ContractForm = ({
         <div className="input-box">
           <button
             className={
-              permanent
+              whatever
                 ? 'filtration-btn filtration-btn--blue'
                 : 'filtration-btn'
             }
-            onClick={(e) => handleBtn(e, Contract.PERMANENT, setPermanent)}
+            onClick={(e) => handleBtn(e, ContractType.WHATEVER, setWhatever)}
           >
-            {Contract.PERMANENT}
+            {ContractType.WHATEVER}
           </button>
           <button
             className={
               b2b ? 'filtration-btn filtration-btn--blue' : 'filtration-btn'
             }
-            onClick={(e) => handleBtn(e, Contract.B2B, setB2b)}
+            onClick={(e) => handleBtn(e, ContractType.B2B, setB2b)}
           >
-            {Contract.B2B}
+            {ContractType.B2B}
           </button>
           <button
             className={
-              contractWork
-                ? 'filtration-btn filtration-btn--blue'
-                : 'filtration-btn'
+              uop ? 'filtration-btn filtration-btn--blue' : 'filtration-btn'
             }
-            onClick={(e) =>
-              handleBtn(e, Contract.CONTRACT_WORK, setContractWork)
-            }
+            onClick={(e) => handleBtn(e, ContractType.UOP, setUop)}
           >
-            {Contract.CONTRACT_WORK}
+            {ContractType.UOP}
+          </button>
+          <button
+            className={
+              uz ? 'filtration-btn filtration-btn--blue' : 'filtration-btn'
+            }
+            onClick={(e) => handleBtn(e, ContractType.UZ, setUz)}
+          >
+            {ContractType.UZ}
+          </button>
+          <button
+            className={
+              uod ? 'filtration-btn filtration-btn--blue' : 'filtration-btn'
+            }
+            onClick={(e) => handleBtn(e, ContractType.UOD, setUod)}
+          >
+            {ContractType.UOD}
           </button>
         </div>
       </div>

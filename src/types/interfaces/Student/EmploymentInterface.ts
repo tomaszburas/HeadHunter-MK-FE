@@ -1,12 +1,12 @@
-import {Workplace} from '../../enums/Workplace';
-import {Contract} from '../../enums/Contract';
+import {WorkType} from '../../enums/WorkType';
+import {ContractType} from '../../enums/ContractType';
 import {Internships} from '../../enums/Internships';
 
 export interface EmploymentInterface {
-  workplace: Workplace;
-  contract: Contract;
-  experience: '' | number;
-  city: string;
-  salary: '' | number;
-  internships: '' | Internships;
+  expectedTypeWork: WorkType;
+  expectedContractType: ContractType;
+  monthsOfCommercialExp: number;
+  targetWorkCity: string;
+  expectedSalary: number;
+  canTakeApprenticeship: Internships;
 }

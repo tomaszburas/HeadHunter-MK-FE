@@ -13,11 +13,13 @@ import {AdminMain} from './views/Admin/AdminMain';
 import {AdminEditForm} from './components/Admin/AdminEditForm';
 import {AddStudentsForm} from './components/Admin/AddStudentsForm';
 import {AddHrForm} from './components/Admin/AddHrForm';
+import {MainPage} from './views/MainPage';
 
 export const App = () => {
   return (
     <Container>
       <Routes>
+        <Route path={`/`} element={<MainPage />} />
         <Route path={`/login`} element={<Login />} />
         <Route path={`/activation`} element={<AccountActivation />} />
 
@@ -26,6 +28,7 @@ export const App = () => {
         <Route path={`/student/*`} element={<Navigate to={'/student'} />} />
 
         <Route path={`/admin`} element={<AdminMain />} />
+        <Route path={`/admin/login`} element={<AdminMain />} />
         <Route
           path={`/admin/account-edit`}
           element={<Form title="Edycja konta" children={<AdminEditForm />} />}

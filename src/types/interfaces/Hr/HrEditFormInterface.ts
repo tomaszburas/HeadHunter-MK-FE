@@ -1,5 +1,6 @@
 export interface HrEditFormInterface {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   company: string;
   email: string;
   password: string;
