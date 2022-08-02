@@ -5,30 +5,40 @@ import {CenterContainer} from '../assets/styled/CenterContainer';
 import {LoginForm} from '../assets/styled/LoginForm';
 import {Input} from '../assets/styled/Input';
 import {Logo} from '../assets/styled/Logo';
+import {useDispatch} from 'react-redux';
+import {Role} from '../types/enums/Role';
+import {setAuth} from '../redux/features/authSlice';
+import {useNavigate} from 'react-router-dom';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const handleForm = async (e: FormEvent) => {
     e.preventDefault();
 
-    const res = await fetch(`http://localhost:3002/login`, {
-      method: 'POST',
-      credentials: 'include',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email.trim(),
-        password: password.trim(),
-      }),
-    });
+    if (email === 'admin@wp.pl' && password === 'Qwerty1') {
+      dispatch(setAuth({isAuth: true, role: Role.HR}));
+      navigate(Role.ADMIN, {replace: true});
+    }
 
-    const data = await res.json;
-
-    console.log(data);
+    // const res = await fetch(`http://localhost:3002/login`, {
+    //   method: 'POST',
+    //   credentials: 'include',
+    //   mode: 'cors',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     email: email.trim(),
+    //     password: password.trim(),
+    //   }),
+    // });
+    //
+    // const data = await res.json;
   };
 
   return (

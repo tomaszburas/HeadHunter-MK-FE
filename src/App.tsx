@@ -13,46 +13,61 @@ import {AdminMain} from './views/Admin/AdminMain';
 import {AdminEditForm} from './components/Admin/AdminEditForm';
 import {AddStudentsForm} from './components/Admin/AddStudentsForm';
 import {AddHrForm} from './components/Admin/AddHrForm';
-import {MainPage} from './views/MainPage';
+import {RequireAuth} from './components/RequireAuth';
+import {Role} from './types/enums/Role';
+import {CheckAuth} from './components/CheckAuth';
 
 export const App = () => {
   return (
     <Container>
       <Routes>
-        <Route path={`/`} element={<MainPage />} />
-        <Route path={`/login`} element={<Login />} />
-        <Route path={`/activation`} element={<AccountActivation />} />
+        <Route element={<CheckAuth />}>
+          <Route path={`/`} element={<Login />} />
+        </Route>
 
-        <Route path={`/student`} element={<StudentMain />} />
-        <Route path={`/student/account-edit`} element={<StudentEdit />} />
-        <Route path={`/student/*`} element={<Navigate to={'/student'} />} />
+        <Route path={`/activation/:id`} element={<AccountActivation />} />
 
-        <Route path={`/admin`} element={<AdminMain />} />
-        <Route path={`/admin/login`} element={<AdminMain />} />
-        <Route
-          path={`/admin/account-edit`}
-          element={<Form title="Edycja konta" children={<AdminEditForm />} />}
-        />
-        <Route
-          path={`/admin/add-students`}
-          element={
-            <Form title="Dodaj kursantów" children={<AddStudentsForm />} />
-          }
-        />
-        <Route
-          path={`/admin/add-hr`}
-          element={<Form title="Dodaj hr" children={<AddHrForm />} />}
-        />
-        <Route path={`/admin/*`} element={<Navigate to={'/admin'} />} />
+        {/*STUDENT*/}
+        <Route element={<RequireAuth userRole={Role.STUDENT} />}>
+          <Route path={`/student`} element={<StudentMain />} />
+          <Route path={`/student/account-edit`} element={<StudentEdit />} />
+          <Route path={`/student/*`} element={<Navigate to={'/student'} />} />
+        </Route>
 
-        <Route path={`/hr/available`} element={<HrAvailableStudents />} />
-        <Route path={`/hr/to-talk`} element={<HrTTStudents />} />
-        <Route path={`/hr/cv`} element={<HrStudentCv />} />
-        <Route
-          path={`/hr/account-edit`}
-          element={<Form title="Edycja konta" children={<HrEditForm />} />}
-        />
-        <Route path={`/hr/*`} element={<Navigate to={'/hr/available'} />} />
+        {/*ADMIN*/}
+        <Route element={<RequireAuth userRole={Role.ADMIN} />}>
+          <Route path={`/admin`} element={<AdminMain />} />
+          <Route path={`/admin/login`} element={<AdminMain />} />
+          <Route
+            path={`/admin/account-edit`}
+            element={<Form title="Edycja konta" children={<AdminEditForm />} />}
+          />
+          <Route
+            path={`/admin/add-students`}
+            element={
+              <Form title="Dodaj kursantów" children={<AddStudentsForm />} />
+            }
+          />
+          <Route
+            path={`/admin/add-hr`}
+            element={<Form title="Dodaj hr" children={<AddHrForm />} />}
+          />
+          <Route path={`/admin/*`} element={<Navigate to={'/admin'} />} />
+        </Route>
+
+        {/*HR*/}
+        <Route element={<RequireAuth userRole={Role.HR} />}>
+          <Route path={`/hr/available`} element={<HrAvailableStudents />} />
+          <Route path={`/hr/to-talk`} element={<HrTTStudents />} />
+          <Route path={`/hr/cv`} element={<HrStudentCv />} />
+          <Route
+            path={`/hr/account-edit`}
+            element={<Form title="Edycja konta" children={<HrEditForm />} />}
+          />
+          <Route path={`/hr/*`} element={<Navigate to={'/hr/available'} />} />
+        </Route>
+
+        <Route path={`/*`} element={<Login />} />
       </Routes>
     </Container>
   );
