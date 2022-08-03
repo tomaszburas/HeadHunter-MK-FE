@@ -22,21 +22,33 @@ export const AdminUserNav = () => {
           <MenuNav>
             <ul>
               <Link to="/admin/account-edit">
-                <li className="margin-bottom" title="Edytuj konto">
+                <li
+                  className="margin-bottom"
+                  title="Edytuj konto"
+                  onClick={toggleMenu}
+                >
                   Edytuj konto
                 </li>
               </Link>
               <Link to="/admin/add-students">
-                <li className="margin-bottom" title="Dodaj kursantów">
+                <li
+                  className="margin-bottom"
+                  title="Dodaj kursantów"
+                  onClick={toggleMenu}
+                >
                   Dodaj kursantów
                 </li>
               </Link>
               <Link to="/admin/add-hr">
-                <li className="margin-bottom" title="Dodaj hr">
+                <li
+                  className="margin-bottom"
+                  title="Dodaj hr"
+                  onClick={toggleMenu}
+                >
                   Dodaj hr
                 </li>
               </Link>
-              <Link to="/admin/logout">
+              <Link to="/admin/logout" onClick={toggleMenu}>
                 <li title="Wyloguj">Wyloguj</li>
               </Link>
             </ul>
