@@ -4,6 +4,7 @@ import {Button} from '../Button';
 import {useCSVReader} from 'react-papaparse';
 import styled from 'styled-components';
 import {FormEvent, useState} from 'react';
+import {configPapaparse} from '../../config-papaparse';
 
 export const AddStudentsForm = () => {
   const {CSVReader} = useCSVReader();
@@ -25,6 +26,7 @@ export const AddStudentsForm = () => {
           onUploadAccepted={(results: any) => {
             setFile(results.data);
           }}
+          config={configPapaparse}
         >
           {({getRootProps, acceptedFile, ProgressBar}: any) => (
             <Container>
