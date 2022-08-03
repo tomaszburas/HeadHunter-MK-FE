@@ -5,15 +5,40 @@ import {useCSVReader} from 'react-papaparse';
 import styled from 'styled-components';
 import {FormEvent, useState} from 'react';
 import {configPapaparse} from '../../config-papaparse';
+import {AddStudentInterface} from '../../types/interfaces/Admin/AddStudentInterface';
+import {toast} from 'react-toastify';
 
 export const AddStudentsForm = () => {
   const {CSVReader} = useCSVReader();
-  const [file, setFile] = useState();
+  const [file, setFile] = useState<AddStudentInterface[] | null>(null);
 
   const handleForm = (e: FormEvent) => {
     e.preventDefault();
 
-    console.log(file);
+    if (file) {
+      const resFile = file.map((obj) => {
+        const bonusProjectUrls = [];
+        for (const property in obj) {
+          if (/^bonusProjectUrls/.test(property)) {
+            bonusProjectUrls.push(`${obj[property]}`);
+          }
+        }
+
+        return {
+          id: obj.id,
+          email: obj.email,
+          courseCompletion: obj.courseCompletion,
+          courseEngagement: obj.courseEngagement,
+          projectDegree: obj.projectDegree,
+          teamProjectDegree: obj.teamProjectDegree,
+          bonusProjectUrls,
+        };
+      });
+
+      return;
+    }
+
+    toast.error('Plik nie został dodany');
   };
 
   return (
