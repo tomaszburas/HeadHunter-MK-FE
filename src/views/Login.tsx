@@ -9,6 +9,9 @@ import {useDispatch} from 'react-redux';
 import {Role} from '../types/enums/Role';
 import {setAuth} from '../redux/features/authSlice';
 import {useNavigate} from 'react-router-dom';
+import {API_URL} from '../config';
+import {toast} from 'react-toastify';
+import {setAdmin} from '../redux/features/adminSlice';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -20,9 +23,36 @@ export const Login = () => {
   const handleForm = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (email === 'admin@wp.pl' && password === 'Qwerty1') {
-      dispatch(setAuth({isAuth: true, role: Role.HR}));
-      navigate(Role.HR, {replace: true});
+    const res = await fetch(`${API_URL}/admin/login`, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email.trim(),
+        password: password.trim(),
+      }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      if (data.role === Role.ADMIN) {
+        dispatch(
+          setAdmin({
+            email: data.email,
+            id: data.id,
+          })
+        );
+      }
+
+      dispatch(setAuth({isAuth: true, role: data.role}));
+      navigate(data.role, {replace: true});
+    } else {
+      toast.error(data.error);
+      return;
     }
   };
 
