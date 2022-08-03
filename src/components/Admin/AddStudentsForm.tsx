@@ -65,7 +65,7 @@ export const AddStudentsForm = () => {
         </CSVReader>
       </InputWrapper>
       <div className="btn-box">
-        <Button text="Zapisz" type="submit" />
+        <Button text="Dodaj" type="submit" />
       </div>
     </FormAccount>
   );
@@ -89,4 +89,8 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   width: 55%;
+
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
 `;

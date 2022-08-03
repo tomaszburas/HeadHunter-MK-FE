@@ -41,6 +41,7 @@ const Container = styled.div`
 
     img {
       width: 60%;
+      max-width: 200px;
       margin: ${(props) => props.theme.marginSize.base} 0;
     }
 
@@ -50,6 +51,12 @@ const Container = styled.div`
 
     .btn-box {
       width: 100%;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .box {
+      width: 70%;
     }
   }
 `;

@@ -159,21 +159,22 @@ export const StudentEdit = () => {
   };
 
   return (
-    <Form onSubmit={handleForm}>
+    <>
       <Header />
+      <Form onSubmit={handleForm}>
+        <About state={about} setState={setAbout} />
+        <Employment state={employment} setState={setEmployment} />
+        <Education state={education} setState={setEducation} />
+        <Courses state={courses} setState={setCourses} />
+        <Experience state={workExperience} setState={setWorkExperience} />
+        <Portfolio state={portfolioUrls} setState={setPortfolioUrls} />
+        <Scrum state={scrumUrls} setState={setScrumUrls} />
+        <Project state={projectUrls} setState={setProjectUrls} />
 
-      <About state={about} setState={setAbout} />
-      <Employment state={employment} setState={setEmployment} />
-      <Education state={education} setState={setEducation} />
-      <Courses state={courses} setState={setCourses} />
-      <Experience state={workExperience} setState={setWorkExperience} />
-      <Portfolio state={portfolioUrls} setState={setPortfolioUrls} />
-      <Scrum state={scrumUrls} setState={setScrumUrls} />
-      <Project state={projectUrls} setState={setProjectUrls} />
-
-      <ButtonContainer>
-        <Button text="Zapisz" type="submit" />
-      </ButtonContainer>
-    </Form>
+        <ButtonContainer>
+          <Button text="Zapisz" type="submit" />
+        </ButtonContainer>
+      </Form>
+    </>
   );
 };

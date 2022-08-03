@@ -496,4 +496,42 @@ const Wrapper = styled.div`
       }
     }
   }
+
+  @media only screen and (max-width: 1000px) {
+    flex-direction: column;
+
+    .student-info-container {
+      width: 100%;
+
+      .student-img {
+        max-width: 150px;
+      }
+    }
+
+    .student-data-container {
+      width: 100%;
+    }
+  }
+
+  @media only screen and (max-width: 700px) {
+    .student-data-container {
+      .data-wrapper {
+        .content {
+          flex-direction: column;
+
+          .content-box {
+            width: 100%;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: ${(props) => props.theme.marginSize.sm};
+
+            .content-box-title {
+              margin-bottom: 0;
+              margin-right: ${(props) => props.theme.marginSize.sm};
+            }
+        }
+      }
+    }
+  }
 `;

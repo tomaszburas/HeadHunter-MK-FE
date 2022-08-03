@@ -52,4 +52,10 @@ const Container = styled.div`
       width: 100%;
     }
   }
+
+  @media only screen and (max-width: 600px) {
+    .box {
+      width: 70%;
+    }
+  }
 `;

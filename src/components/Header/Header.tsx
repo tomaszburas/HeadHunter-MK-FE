@@ -29,6 +29,7 @@ const Container = styled.header`
   padding: ${(props) => props.theme.paddingSize.base};
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   .z-index {
     z-index: 2;
@@ -37,6 +38,10 @@ const Container = styled.header`
 
 const Logo = styled.img`
   height: 2rem;
+
+  @media only screen and (max-width: 600px) {
+    height: 1.5rem;
+  }
 `;
 
 const HeaderBackground = styled.div`
@@ -44,7 +49,11 @@ const HeaderBackground = styled.div`
   position: absolute;
   left: 0;
   top: 0;
-  height: 4.4rem;
+  height: 4.3rem;
   width: 100%;
   background-color: ${(props) => props.theme.colors.black};
+
+  @media only screen and (max-width: 600px) {
+    height: 4.1rem;
+  }
 `;

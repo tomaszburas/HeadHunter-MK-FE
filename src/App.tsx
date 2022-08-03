@@ -75,4 +75,12 @@ export const App = () => {
 const Container = styled.div`
   width: 80%;
   margin: 0 auto;
+
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
+
+  @media only screen and (min-width: 2000px) {
+    width: 1600px;
+  }
 `;

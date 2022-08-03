@@ -298,6 +298,7 @@ const Container = styled.div`
 
         .input-box {
           display: flex;
+          gap: ${(props) => props.theme.marginSize.sm};
 
           .filtration-btn {
             display: flex;
@@ -316,10 +317,6 @@ const Container = styled.div`
 
           .filtration-btn--blue {
             background-color: ${(props) => props.theme.colors.darkBlue};
-          }
-
-          .filtration-btn:not(:last-child) {
-            margin-right: ${(props) => props.theme.marginSize.sm};
           }
 
           .input-container:first-child {
@@ -354,6 +351,18 @@ const Container = styled.div`
     .footer-box {
       display: flex;
       justify-content: flex-end;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .filtration {
+      width: 90%;
+      max-height: 90vh;
+
+      form {
+        .input-wrapper {
+          .input-box {
+            flex-wrap: wrap;
     }
   }
 `;

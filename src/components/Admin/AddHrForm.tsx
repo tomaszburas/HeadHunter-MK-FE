@@ -121,7 +121,7 @@ export const AddHrForm = () => {
         />
       </InputWrapper>
       <div className="btn-box">
-        <Button text="Zapisz" type="submit" />
+        <Button text="Dodaj" type="submit" />
       </div>
     </FormAccount>
   );

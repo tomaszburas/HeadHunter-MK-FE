@@ -37,12 +37,21 @@ export const MenuNav = styled.div`
 export const Avatar = styled.img`
   height: 2rem;
   cursor: pointer;
+  margin-right: ${(props) => props.theme.marginSize.base};
+
+  @media only screen and (max-width: 600px) {
+    margin-right: ${(props) => props.theme.marginSize.sm};
+  }
 `;
 
 export const Name = styled.p`
   font-size: ${(props) => props.theme.fontSize.sm};
-  margin: 0 ${(props) => props.theme.marginSize.base};
+  margin-right: ${(props) => props.theme.marginSize.base};
   white-space: nowrap;
   cursor: pointer;
   color: ${(props) => props.theme.colors.lightGray};
+
+  @media only screen and (max-width: 600px) {
+    display: none;
+  }
 `;
