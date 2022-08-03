@@ -7,10 +7,13 @@ import {AdminEditFormInterface} from '../../types/interfaces/Admin/AdminEditForm
 import {toast} from 'react-toastify';
 import {validationPassword} from '../../utils/validationPassword';
 import {validationEmail} from '../../utils/validationEmail';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux';
 
 export const AdminEditForm = () => {
+  const {email} = useSelector((store: RootState) => store.admin);
   const [form, setForm] = useState<AdminEditFormInterface>({
-    email: '',
+    email: email || '',
     password: '',
     passwordRepeat: '',
   });
