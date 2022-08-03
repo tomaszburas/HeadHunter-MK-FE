@@ -22,11 +22,15 @@ export const HrUserNav = () => {
           <MenuNav>
             <ul>
               <Link to="/hr/account-edit">
-                <li className="margin-bottom" title="Edytuj konto">
+                <li
+                  className="margin-bottom"
+                  title="Edytuj konto"
+                  onClick={toggleMenu}
+                >
                   Edytuj konto
                 </li>
               </Link>
-              <Link to="/hr/logout">
+              <Link to="/hr/logout" onClick={toggleMenu}>
                 <li title="Wyloguj">Wyloguj</li>
               </Link>
             </ul>

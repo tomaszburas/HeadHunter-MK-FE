@@ -22,11 +22,15 @@ export const StudentUserNav = () => {
           <MenuNav>
             <ul>
               <Link to="/student/account-edit">
-                <li className="margin-bottom" title="Edytuj konto">
+                <li
+                  className="margin-bottom"
+                  title="Edytuj konto"
+                  onClick={toggleMenu}
+                >
                   Edytuj konto
                 </li>
               </Link>
-              <Link to="/student/logout">
+              <Link to="/student/logout" onClick={toggleMenu}>
                 <li title="Wyloguj">Wyloguj</li>
               </Link>
             </ul>
