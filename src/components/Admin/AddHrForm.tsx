@@ -6,6 +6,7 @@ import {ChangeEvent, FormEvent, useState} from 'react';
 import {AddHrInterface} from '../../types/interfaces/Admin/AddHrInterface';
 import {toast} from 'react-toastify';
 import {validationEmail} from '../../utils/validationEmail';
+import {API_URL} from '../../config';
 
 export const AddHrForm = () => {
   const [form, setForm] = useState<AddHrInterface>({
@@ -21,12 +22,26 @@ export const AddHrForm = () => {
     setForm({...value, [`${e.target.name}`]: e.target.value});
   };
 
-  const handleForm = (e: FormEvent) => {
+  const handleForm = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!valid()) return;
 
-    console.log(form);
+    const res = await fetch(`${API_URL}/admin/add/hr`, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form),
+    });
+
+    if (res.ok) {
+      toast.success('Hr został dodany');
+    } else {
+      toast.error('Hr nie został dodany');
+    }
   };
 
   const valid = (): boolean => {

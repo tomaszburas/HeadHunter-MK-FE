@@ -9,6 +9,7 @@ import {validationPassword} from '../../utils/validationPassword';
 import {validationEmail} from '../../utils/validationEmail';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux';
+import {API_URL} from '../../config';
 
 export const AdminEditForm = () => {
   const {email} = useSelector((store: RootState) => store.admin);
@@ -23,12 +24,30 @@ export const AdminEditForm = () => {
     setForm({...value, [`${e.target.name}`]: e.target.value});
   };
 
-  const handleForm = (e: FormEvent) => {
+  const handleForm = async (e: FormEvent) => {
     e.preventDefault();
-
     if (!valid()) return;
 
-    console.log(form);
+    const validData =
+      form.password === '' || form.passwordRepeat === ''
+        ? {email: form.email}
+        : {...form};
+
+    const res = await fetch(`${API_URL}/admin/changePassword/${email}`, {
+      method: 'PUT',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(validData),
+    });
+
+    if (res.ok) {
+      toast.success('Zmiany zostały zapisane');
+    } else {
+      toast.error('Zmiany nie zostały zapisane');
+    }
   };
 
   const valid = (): boolean => {

@@ -7,12 +7,13 @@ import {FormEvent, useState} from 'react';
 import {configPapaparse} from '../../config-papaparse';
 import {AddStudentInterface} from '../../types/interfaces/Admin/AddStudentInterface';
 import {toast} from 'react-toastify';
+import {API_URL} from '../../config';
 
 export const AddStudentsForm = () => {
   const {CSVReader} = useCSVReader();
   const [file, setFile] = useState<AddStudentInterface[] | null>(null);
 
-  const handleForm = (e: FormEvent) => {
+  const handleForm = async (e: FormEvent) => {
     e.preventDefault();
 
     if (file) {
@@ -35,7 +36,19 @@ export const AddStudentsForm = () => {
         };
       });
 
-      return;
+      const res = await fetch(`${API_URL}/admin/upload`, {
+        method: 'POST',
+        credentials: 'include',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(resFile),
+      });
+
+      if (res.ok) {
+        toast.success('Kursanci zostali dodani');
+      }
     }
 
     toast.error('Plik nie został dodany');

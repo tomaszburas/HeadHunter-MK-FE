@@ -23,37 +23,37 @@ export const Login = () => {
   const handleForm = async (e: FormEvent) => {
     e.preventDefault();
 
-    // const res = await fetch(`${API_URL}/admin/login`, {
-    //   method: 'POST',
-    //   credentials: 'include',
-    //   mode: 'cors',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     email: email.trim(),
-    //     password: password.trim(),
-    //   }),
-    // });
-    //
-    // const data = await res.json();
-    //
-    // if (res.ok) {
-    //   if (data.role === Role.ADMIN) {
-    //     dispatch(
-    //       setAdmin({
-    //         email: data.email,
-    //         id: data.id,
-    //       })
-    //     );
-    //   }
-    //
-    //   dispatch(setAuth({isAuth: true, role: data.role}));
-    //   navigate(data.role, {replace: true});
-    // } else {
-    //   toast.error(data.error);
-    //   return;
-    // }
+    const res = await fetch(`${API_URL}/admin/login`, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email.trim(),
+        password: password.trim(),
+      }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      if (data.role === Role.ADMIN) {
+        dispatch(
+          setAdmin({
+            email: data.email,
+            id: data.id,
+          })
+        );
+      }
+
+      dispatch(setAuth({isAuth: true, role: data.role}));
+      navigate(data.role, {replace: true});
+    } else {
+      toast.error(data.error);
+      return;
+    }
 
     dispatch(setAuth({isAuth: true, role: Role.HR}));
     navigate(Role.HR, {replace: true});
