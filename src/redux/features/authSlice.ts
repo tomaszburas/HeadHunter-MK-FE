@@ -1,12 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {Role} from '../../types/enums/Role';
 
-export interface UserState {
+export interface AuthState {
   isAuth: boolean | null;
   role: Role | null;
 }
 
-const initialState: UserState = {
+const initialState: AuthState = {
   isAuth: null,
   role: null,
 };
