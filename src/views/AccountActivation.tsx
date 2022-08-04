@@ -8,8 +8,13 @@ import {Button} from '../components/Button';
 import {LoginForm} from '../assets/styled/LoginForm';
 import {validationPassword} from '../utils/validationPassword';
 import {toast} from 'react-toastify';
+import {Role} from '../types/enums/Role';
 
-export const AccountActivation = () => {
+interface Props {
+  role: Role;
+}
+
+export const AccountActivation = ({role}: Props) => {
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
 
@@ -29,7 +34,6 @@ export const AccountActivation = () => {
   };
   return (
     <CenterContainer>
-      <Text>Witaj, xxx@megak.pl 👋</Text>
       <Text className="margin-bottom-xl2">Wpisz hasło aby aktywować konto</Text>
       <Logo src={logo} className="margin-bottom-lg" />
       <LoginForm onSubmit={handleForm}>

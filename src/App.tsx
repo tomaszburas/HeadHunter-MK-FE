@@ -32,7 +32,14 @@ export const App = () => {
           <Route path={`/`} element={<Login />} />
         </Route>
 
-        <Route path={`/activation/:id`} element={<AccountActivation />} />
+        <Route
+          path={`/activation/hr/:id`}
+          element={<AccountActivation role={Role.HR} />}
+        />
+        <Route
+          path={`/activation/student/:id`}
+          element={<AccountActivation role={Role.STUDENT} />}
+        />
 
         {/*STUDENT*/}
         <Route
