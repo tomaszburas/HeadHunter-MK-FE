@@ -31,6 +31,14 @@ export const AccountActivation = ({role}: Props) => {
       toast.error('Podane hasła różnią się');
       return;
     }
+
+    if (role === Role.HR) {
+      // ...fetch
+    }
+
+    if (role === Role.STUDENT) {
+      // ...fetch
+    }
   };
   return (
     <CenterContainer>
