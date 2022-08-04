@@ -17,24 +17,15 @@ interface SetAdmin {
   };
 }
 
-interface SetAdminEmail {
-  payload: {
-    email: string;
-  };
-}
-
-export const adminSlice = createSlice({
-  name: 'admin',
+export const hrSlice = createSlice({
+  name: 'hr',
   initialState,
   reducers: {
-    setAdmin: (state, action: SetAdmin) => {
+    setHr: (state, action: SetAdmin) => {
       state.email = action.payload.email;
       state.id = action.payload.id;
-    },
-    setAdminEmail: (state, action: SetAdminEmail) => {
-      state.email = action.payload.email;
     },
   },
 });
 
-export const {setAdmin, setAdminEmail} = adminSlice.actions;
+export const {setHr} = hrSlice.actions;

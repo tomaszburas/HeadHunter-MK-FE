@@ -16,26 +16,45 @@ import {AddHrForm} from './components/Admin/AddHrForm';
 import {RequireAuth} from './components/RequireAuth';
 import {Role} from './types/enums/Role';
 import {CheckAuth} from './components/CheckAuth';
+import {Auth} from './components/Auth';
 
 export const App = () => {
   return (
     <Container>
       <Routes>
-        <Route element={<CheckAuth />}>
+        <Route
+          element={
+            <Auth>
+              <CheckAuth />
+            </Auth>
+          }
+        >
           <Route path={`/`} element={<Login />} />
         </Route>
 
         <Route path={`/activation/:id`} element={<AccountActivation />} />
 
         {/*STUDENT*/}
-        <Route element={<RequireAuth userRole={Role.STUDENT} />}>
+        <Route
+          element={
+            <Auth>
+              <RequireAuth userRole={Role.STUDENT} />
+            </Auth>
+          }
+        >
           <Route path={`/student`} element={<StudentMain />} />
           <Route path={`/student/account-edit`} element={<StudentEdit />} />
           <Route path={`/student/*`} element={<Navigate to={'/student'} />} />
         </Route>
 
         {/*ADMIN*/}
-        <Route element={<RequireAuth userRole={Role.ADMIN} />}>
+        <Route
+          element={
+            <Auth>
+              <RequireAuth userRole={Role.ADMIN} />
+            </Auth>
+          }
+        >
           <Route path={`/admin`} element={<AdminMain />} />
           <Route
             path={`/admin/account-edit`}
@@ -55,7 +74,13 @@ export const App = () => {
         </Route>
 
         {/*HR*/}
-        <Route element={<RequireAuth userRole={Role.HR} />}>
+        <Route
+          element={
+            <Auth>
+              <RequireAuth userRole={Role.HR} />
+            </Auth>
+          }
+        >
           <Route path={`/hr/available`} element={<HrAvailableStudents />} />
           <Route path={`/hr/to-talk`} element={<HrTTStudents />} />
           <Route path={`/hr/cv`} element={<HrStudentCv />} />

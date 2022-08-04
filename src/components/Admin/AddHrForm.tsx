@@ -37,7 +37,9 @@ export const AddHrForm = () => {
       body: JSON.stringify(form),
     });
 
-    if (res.ok) {
+    const data = await res.json();
+
+    if (data.success) {
       toast.success('Hr został dodany');
     } else {
       toast.error('Hr nie został dodany');
@@ -101,7 +103,7 @@ export const AddHrForm = () => {
           <label htmlFor="email">Email:</label>
         </div>
         <Input
-          type="text"
+          type="email"
           id="email"
           name="email"
           value={form.email}

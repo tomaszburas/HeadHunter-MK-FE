@@ -7,8 +7,11 @@ import {
   UserNav,
 } from '../../../assets/styled/UserNavHeader';
 import {Link} from 'react-router-dom';
+import {handleLogout} from '../../../utils/handleLogout';
+import {useDispatch} from 'react-redux';
 
 export const HrUserNav = () => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
@@ -30,7 +33,7 @@ export const HrUserNav = () => {
                   Edytuj konto
                 </li>
               </Link>
-              <Link to="/hr/logout" onClick={toggleMenu}>
+              <Link to="/" onClick={() => handleLogout(dispatch)}>
                 <li title="Wyloguj">Wyloguj</li>
               </Link>
             </ul>

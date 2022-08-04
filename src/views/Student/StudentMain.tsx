@@ -3,8 +3,12 @@ import avatar from '../../assets/images/avatar.png';
 import {Button} from '../../components/Button';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {handleLogout} from '../../utils/handleLogout';
 
 export const StudentMain = () => {
+  const dispatch = useDispatch();
+
   return (
     <>
       <Header />
@@ -18,7 +22,11 @@ export const StudentMain = () => {
           <Link to="/student/hired" className="btn-box">
             <Button text="Zatrudniony 🔥" />
           </Link>
-          <Link to="/student/logout" className="btn-box">
+          <Link
+            to="/"
+            onClick={() => handleLogout(dispatch)}
+            className="btn-box"
+          >
             <Button text="Wyloguj" />
           </Link>
         </div>

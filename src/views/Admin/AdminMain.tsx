@@ -2,8 +2,12 @@ import {Header} from '../../components/Header/Header';
 import {Link} from 'react-router-dom';
 import {Button} from '../../components/Button';
 import styled from 'styled-components';
+import {handleLogout} from '../../utils/handleLogout';
+import {useDispatch} from 'react-redux';
 
 export const AdminMain = () => {
+  const dispatch = useDispatch();
+
   return (
     <>
       <Header />
@@ -19,7 +23,11 @@ export const AdminMain = () => {
           <Link to="/admin/add-hr" className="btn-box">
             <Button text="Dodaj hr" />
           </Link>
-          <Link to="/admin/logout" className="btn-box">
+          <Link
+            to="/"
+            onClick={() => handleLogout(dispatch)}
+            className="btn-box"
+          >
             <Button text="Wyloguj" />
           </Link>
         </div>

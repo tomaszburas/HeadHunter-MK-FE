@@ -46,12 +46,14 @@ export const AddStudentsForm = () => {
         body: JSON.stringify(resFile),
       });
 
-      if (res.ok) {
+      const data = await res.json();
+
+      if (data.success) {
         toast.success('Kursanci zostali dodani');
+      } else {
+        toast.error('Plik nie został dodany');
       }
     }
-
-    toast.error('Plik nie został dodany');
   };
 
   return (

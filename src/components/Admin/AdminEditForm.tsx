@@ -7,12 +7,14 @@ import {AdminEditFormInterface} from '../../types/interfaces/Admin/AdminEditForm
 import {toast} from 'react-toastify';
 import {validationPassword} from '../../utils/validationPassword';
 import {validationEmail} from '../../utils/validationEmail';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux';
 import {API_URL} from '../../config';
+import {setAdminEmail} from '../../redux/features/adminSlice';
 
 export const AdminEditForm = () => {
-  const {email} = useSelector((store: RootState) => store.admin);
+  const {email, id} = useSelector((store: RootState) => store.admin);
+  const dispatch = useDispatch();
   const [form, setForm] = useState<AdminEditFormInterface>({
     email: email || '',
     password: '',
@@ -28,29 +30,37 @@ export const AdminEditForm = () => {
     e.preventDefault();
     if (!valid()) return;
 
-    const validData =
-      form.password === '' || form.passwordRepeat === ''
-        ? {email: form.email}
-        : {...form};
-
-    const res = await fetch(`${API_URL}/admin/changePassword/${email}`, {
+    const res = await fetch(`${API_URL}/admin/update/${id}`, {
       method: 'PUT',
       credentials: 'include',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(validData),
+      body: JSON.stringify(form),
     });
 
     if (res.ok) {
       toast.success('Zmiany zostały zapisane');
+
+      if (email !== form.email) {
+        dispatch(setAdminEmail({email: form.email}));
+      }
     } else {
       toast.error('Zmiany nie zostały zapisane');
     }
   };
 
   const valid = (): boolean => {
+    if (
+      email === form.email &&
+      form.password === '' &&
+      form.passwordRepeat === ''
+    ) {
+      toast.error('Zmień dane');
+      return false;
+    }
+
     if (form.password.length > 0 && !validationPassword(form.password)) {
       toast.error(
         'Hasło musi zawierać min. 5 znaków, przynajmniej jedną cyfrę oraz jedną wielką literę'
@@ -91,7 +101,7 @@ export const AdminEditForm = () => {
           <label htmlFor="password">Hasło:</label>
         </div>
         <Input
-          type="text"
+          type="password"
           id="password"
           name="password"
           value={form.password}
@@ -103,7 +113,7 @@ export const AdminEditForm = () => {
           <label htmlFor="passwordRepeat">Powtórz hasło:</label>
         </div>
         <Input
-          type="text"
+          type="password"
           id="passwordRepeat"
           name="passwordRepeat"
           value={form.passwordRepeat}

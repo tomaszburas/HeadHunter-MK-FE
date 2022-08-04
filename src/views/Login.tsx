@@ -8,22 +8,21 @@ import {Logo} from '../assets/styled/Logo';
 import {useDispatch} from 'react-redux';
 import {Role} from '../types/enums/Role';
 import {setAuth} from '../redux/features/authSlice';
-import {useNavigate} from 'react-router-dom';
 import {API_URL} from '../config';
 import {toast} from 'react-toastify';
 import {setAdmin} from '../redux/features/adminSlice';
+import {useNavigate} from 'react-router-dom';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const handleForm = async (e: FormEvent) => {
     e.preventDefault();
 
-    const res = await fetch(`${API_URL}/admin/login`, {
+    const res = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
       credentials: 'include',
       mode: 'cors',
@@ -38,25 +37,22 @@ export const Login = () => {
 
     const data = await res.json();
 
-    if (res.ok) {
-      if (data.role === Role.ADMIN) {
+    if (data.success) {
+      if (data.user.role === Role.ADMIN) {
         dispatch(
           setAdmin({
-            email: data.email,
-            id: data.id,
+            email: data.user.email,
+            id: data.user.id,
           })
         );
       }
 
-      dispatch(setAuth({isAuth: true, role: data.role}));
-      navigate(data.role, {replace: true});
+      dispatch(setAuth({isAuth: true, role: data.user.role}));
+      navigate(data.user.role, {replace: true});
     } else {
-      toast.error(data.error);
+      toast.error('Podano zły adres email lub hasło');
       return;
     }
-
-    dispatch(setAuth({isAuth: true, role: Role.HR}));
-    navigate(Role.HR, {replace: true});
   };
 
   return (

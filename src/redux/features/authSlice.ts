@@ -14,7 +14,7 @@ const initialState: AuthState = {
 interface SetAuth {
   payload: {
     isAuth: boolean;
-    role: Role;
+    role: Role | null;
   };
 }
 
