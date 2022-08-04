@@ -41,6 +41,13 @@ export const AddHrForm = () => {
 
     if (data.success) {
       toast.success('Hr został dodany');
+      setForm({
+        email: '',
+        firstName: '',
+        lastName: '',
+        company: '',
+        maxStudents: 0,
+      });
     } else {
       toast.error('Hr nie został dodany');
     }
