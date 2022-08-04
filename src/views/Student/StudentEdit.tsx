@@ -1,8 +1,8 @@
 import {FormEvent, useState} from 'react';
-import {Header} from '../../components/Header';
+import {Header} from '../../components/Header/Header';
 import {Button} from '../../components/Button';
 import {Form} from '../../assets/styled/StudentAccountEdit/Form';
-import {AboutMe} from '../../components/Student/StudentEdit/AboutMe';
+import {About} from '../../components/Student/StudentEdit/About';
 import {Employment} from '../../components/Student/StudentEdit/Employment';
 import {Education} from '../../components/Student/StudentEdit/Education';
 import {Courses} from '../../components/Student/StudentEdit/Courses';
@@ -16,34 +16,36 @@ import {validationPassword} from '../../utils/validationPassword';
 import {toast} from 'react-toastify';
 import {validationEmail} from '../../utils/validationEmail';
 import {EmploymentInterface} from '../../types/interfaces/Student/EmploymentInterface';
-import {Contract} from '../../types/enums/Contract';
-import {Workplace} from '../../types/enums/Workplace';
+import {ContractType} from '../../types/enums/ContractType';
+import {WorkType} from '../../types/enums/WorkType';
 import {validationArrayUrl} from '../../utils/validationUrl';
+import {Internships} from '../../types/enums/Internships';
 
 export const StudentEdit = () => {
-  const [aboutMe, setAboutMe] = useState<AboutMeInterface>({
-    aboutMe: '',
+  const [about, setAbout] = useState<AboutMeInterface>({
+    bio: '',
     email: '',
-    fullName: '',
+    firstName: '',
+    lastName: '',
     password: '',
     passwordRepeat: '',
-    phone: '',
-    usernameGh: '',
+    tel: '',
+    githubUsername: '',
   });
   const [employment, setEmployment] = useState<EmploymentInterface>({
-    city: '',
-    contract: Contract.PERMANENT,
-    experience: '',
-    internships: '',
-    salary: '',
-    workplace: Workplace.REMOTE,
+    targetWorkCity: '',
+    expectedContractType: ContractType.WHATEVER,
+    monthsOfCommercialExp: 0,
+    canTakeApprenticeship: Internships.YES,
+    expectedSalary: 0,
+    expectedTypeWork: WorkType.WHATEVER,
   });
   const [education, setEducation] = useState('');
-  const [course, setCourse] = useState('');
-  const [experience, setExperience] = useState('');
-  const [linkPortfolio, setLinkPortfolio] = useState<string[]>(['']);
-  const [linkScrum, setLinkScrum] = useState<string[]>(['']);
-  const [linkProject, setLinkProject] = useState<string[]>(['']);
+  const [courses, setCourses] = useState('');
+  const [workExperience, setWorkExperience] = useState('');
+  const [portfolioUrls, setPortfolioUrls] = useState<string[]>(['']);
+  const [scrumUrls, setScrumUrls] = useState<string[]>(['']);
+  const [projectUrls, setProjectUrls] = useState<string[]>(['']);
 
   const handleForm = async (e: FormEvent) => {
     e.preventDefault();
@@ -51,14 +53,14 @@ export const StudentEdit = () => {
     if (!validate()) return;
 
     const obj = {
-      aboutMe,
-      employment,
+      ...about,
+      ...employment,
       education,
-      course,
-      experience,
-      linkPortfolio: linkPortfolio.filter((el) => el !== ''),
-      linkScrum: linkScrum.filter((el) => el !== ''),
-      linkProject: linkProject.filter((el) => el !== ''),
+      courses,
+      workExperience,
+      portfolioUrls: portfolioUrls.filter((el) => el !== ''),
+      scrumUrls: scrumUrls.filter((el) => el !== ''),
+      projectUrls: projectUrls.filter((el) => el !== ''),
     };
 
     console.log(obj);
@@ -66,73 +68,73 @@ export const StudentEdit = () => {
 
   const validate = (): boolean => {
     // ABOUT ME
-    if (aboutMe.fullName.length <= 0) {
-      toast.error('Wpisz swoje imię i nazwisko');
+    if (about.firstName.length <= 0) {
+      toast.error('Wpisz swoje imię');
       return false;
     }
 
-    if (aboutMe.email.length <= 0) {
+    if (about.lastName.length <= 0) {
+      toast.error('Wpisz swoje nazwisko');
+      return false;
+    }
+
+    if (about.email.length <= 0) {
       toast.error('Wpisz swój email');
       return false;
     }
 
-    if (aboutMe.phone.length <= 0) {
+    if (about.tel.length <= 0) {
       toast.error('Wpisz swój telefon');
       return false;
     }
 
-    if (aboutMe.password.length > 0 && !validationPassword(aboutMe.password)) {
+    if (about.password.length > 0 && !validationPassword(about.password)) {
       toast.error(
         'Hasło musi zawierać min. 5 znaków, przynajmniej jedną cyfrę oraz jedną wielką literę'
       );
       return false;
     }
 
-    if (aboutMe.password.length > 0) {
-      if (aboutMe.password !== aboutMe.passwordRepeat) {
+    if (about.password.length > 0) {
+      if (about.password !== about.passwordRepeat) {
         toast.error('Podane hasła różnią się');
         return false;
       }
     }
 
-    if (!validationEmail(aboutMe.email)) {
+    if (!validationEmail(about.email)) {
       toast.error('Niepoprawny adres email');
       return false;
     }
 
     // EMPLOYMENT
-    if (employment.workplace.length <= 0) {
+    if (employment.expectedTypeWork.length <= 0) {
       toast.error('Zaznacz preferowane miejsce pracy');
       return false;
     }
 
-    if (employment.contract.length <= 0) {
+    if (employment.expectedContractType.length <= 0) {
       toast.error('Zaznacz typ kontraktu');
       return false;
     }
 
-    if (employment.experience < 0) {
+    if (employment.monthsOfCommercialExp < 0) {
       toast.error('Wpisz swoje doświadczenie komercyjne w programowaniu');
       return false;
     }
 
-    if (employment.city.length <= 0) {
+    if (employment.targetWorkCity.length <= 0) {
       toast.error('Wpisz miasto w którym chcesz pracować');
       return false;
     }
 
-    if (employment.salary <= 0) {
+    if (employment.expectedSalary <= 0) {
       toast.error('Wpisz oczekiwane wynagrodzenie netto');
       return false;
     }
 
-    if (employment.workplace.length <= 0) {
-      toast.error('Zaznacz czy chcesz odbyć bezpłatne praktyki/staż');
-      return false;
-    }
-
     // PORTFOLIO URL
-    if (!validationArrayUrl(linkPortfolio, setLinkPortfolio)) {
+    if (!validationArrayUrl(portfolioUrls, setPortfolioUrls)) {
       toast.error(
         `Wpisz poprawne adresy url w portfolio np. https://nazwa.com`
       );
@@ -140,13 +142,13 @@ export const StudentEdit = () => {
     }
 
     // SCRUM URL
-    if (!validationArrayUrl(linkScrum, setLinkScrum)) {
+    if (!validationArrayUrl(scrumUrls, setScrumUrls)) {
       toast.error(`Wpisz poprawne adresy url w Scrum np. https://nazwa.com`);
       return false;
     }
 
     // PROJECT URL
-    if (!validationArrayUrl(linkProject, setLinkProject)) {
+    if (!validationArrayUrl(projectUrls, setProjectUrls)) {
       toast.error(
         `Wpisz poprawne adresy url w projekcie na zaliczenie np. https://nazwa.com`
       );
@@ -157,21 +159,22 @@ export const StudentEdit = () => {
   };
 
   return (
-    <Form onSubmit={handleForm}>
+    <>
       <Header />
+      <Form onSubmit={handleForm}>
+        <About state={about} setState={setAbout} />
+        <Employment state={employment} setState={setEmployment} />
+        <Education state={education} setState={setEducation} />
+        <Courses state={courses} setState={setCourses} />
+        <Experience state={workExperience} setState={setWorkExperience} />
+        <Portfolio state={portfolioUrls} setState={setPortfolioUrls} />
+        <Scrum state={scrumUrls} setState={setScrumUrls} />
+        <Project state={projectUrls} setState={setProjectUrls} />
 
-      <AboutMe state={aboutMe} setState={setAboutMe} />
-      <Employment state={employment} setState={setEmployment} />
-      <Education state={education} setState={setEducation} />
-      <Courses state={course} setState={setCourse} />
-      <Experience state={experience} setState={setExperience} />
-      <Portfolio state={linkPortfolio} setState={setLinkPortfolio} />
-      <Scrum state={linkScrum} setState={setLinkScrum} />
-      <Project state={linkProject} setState={setLinkProject} />
-
-      <ButtonContainer>
-        <Button text="Zapisz" type="submit" />
-      </ButtonContainer>
-    </Form>
+        <ButtonContainer>
+          <Button text="Zapisz" type="submit" />
+        </ButtonContainer>
+      </Form>
+    </>
   );
 };

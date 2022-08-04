@@ -12,7 +12,8 @@ export const HrEditForm = () => {
   const [form, setForm] = useState<HrEditFormInterface>({
     company: '',
     email: '',
-    fullName: '',
+    firstName: '',
+    lastName: '',
     password: '',
     passwordRepeat: '',
   });
@@ -25,41 +26,73 @@ export const HrEditForm = () => {
   const handleForm = (e: FormEvent) => {
     e.preventDefault();
 
-    if (form.fullName.length === 0 || form.company.length === 0) {
-      toast.error('Proszę uzupełnić pola Imię i nazwisko oraz Firma');
-      return;
+    if (!valid()) return false;
+
+    console.log(form);
+  };
+
+  const valid = (): boolean => {
+    if (form.firstName.length === 0) {
+      toast.error('Proszę uzupełnić pole Imię');
+      return false;
     }
+
+    if (form.lastName.length === 0) {
+      toast.error('Proszę uzupełnić pole Nazwisko');
+      return false;
+    }
+
+    if (form.company.length === 0) {
+      toast.error('Proszę uzupełnić pole Firma');
+      return false;
+    }
+
     if (form.password.length > 0 && !validationPassword(form.password)) {
       toast.error(
         'Hasło musi zawierać min. 5 znaków, przynajmniej jedną cyfrę oraz jedną wielką literę'
       );
-      return;
+      return false;
     }
+
     if (form.password.length > 0) {
       if (form.password !== form.passwordRepeat) {
         toast.error('Podane hasła różnią się');
-        return;
+        return false;
       }
     }
+
     if (!validationEmail(form.email)) {
       toast.error('Niepoprawny adres email');
-      return;
+      return false;
     }
 
-    console.log(form);
+    return true;
   };
 
   return (
     <FormAccount onSubmit={handleForm}>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="fullName">Imię i nazwisko:</label>
+          <label htmlFor="firstName">Imię:</label>
         </div>
         <Input
           type="text"
-          id="fullName"
-          name="fullName"
-          value={form.fullName}
+          id="firstName"
+          name="firstName"
+          value={form.firstName}
+          onChange={changeValue}
+          required
+        />
+      </InputWrapper>
+      <InputWrapper>
+        <div className="label-box">
+          <label htmlFor="lastName">Nazwisko:</label>
+        </div>
+        <Input
+          type="text"
+          id="lastName"
+          name="lastName"
+          value={form.lastName}
           onChange={changeValue}
           required
         />
@@ -95,7 +128,7 @@ export const HrEditForm = () => {
           <label htmlFor="password">Hasło:</label>
         </div>
         <Input
-          type="text"
+          type="password"
           id="password"
           name="password"
           value={form.password}
@@ -107,7 +140,7 @@ export const HrEditForm = () => {
           <label htmlFor="passwordRepeat">Powtórz hasło:</label>
         </div>
         <Input
-          type="text"
+          type="password"
           id="passwordRepeat"
           name="passwordRepeat"
           value={form.passwordRepeat}

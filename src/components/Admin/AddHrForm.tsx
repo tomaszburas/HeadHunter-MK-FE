@@ -6,13 +6,15 @@ import {ChangeEvent, FormEvent, useState} from 'react';
 import {AddHrInterface} from '../../types/interfaces/Admin/AddHrInterface';
 import {toast} from 'react-toastify';
 import {validationEmail} from '../../utils/validationEmail';
+import {API_URL} from '../../config';
 
 export const AddHrForm = () => {
   const [form, setForm] = useState<AddHrInterface>({
     email: '',
-    fullName: '',
+    firstName: '',
+    lastName: '',
     company: '',
-    maxStudents: '',
+    maxStudents: 0,
   });
 
   const changeValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -20,43 +22,78 @@ export const AddHrForm = () => {
     setForm({...value, [`${e.target.name}`]: e.target.value});
   };
 
-  const handleForm = (e: FormEvent) => {
+  const handleForm = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (form.fullName.length === 0) {
-      toast.error('Proszę uzupełnić pole Imię i nazwisko');
-      return;
+    if (!valid()) return;
+
+    const res = await fetch(`${API_URL}/admin/add/hr`, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      toast.success('Hr został dodany');
+    } else {
+      toast.error('Hr nie został dodany');
+    }
+  };
+
+  const valid = (): boolean => {
+    if (form.firstName.length === 0) {
+      toast.error('Proszę uzupełnić pole Imię');
+      return false;
+    }
+
+    if (form.lastName.length === 0) {
+      toast.error('Proszę uzupełnić pole Nazwisko');
+      return false;
     }
 
     if (!validationEmail(form.email)) {
       toast.error('Niepoprawny adres email');
-      return;
+      return false;
     }
 
     if (form.company.length === 0) {
       toast.error('Proszę uzupełnić pole Firma');
-      return;
+      return false;
     }
 
-    if (form.fullName === '') {
-      toast.error('Proszę uzupełnić pole Liczba osób do rezerwacji');
-      return;
-    }
-
-    console.log(form);
+    return true;
   };
 
   return (
     <FormAccount onSubmit={handleForm}>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="fullname">Imię i nazwisko:</label>
+          <label htmlFor="firstname">Imię:</label>
         </div>
         <Input
           type="text"
-          id="fullname"
-          name="fullName"
-          value={form.fullName}
+          id="firstname"
+          name="firstName"
+          value={form.firstName}
+          onChange={changeValue}
+          required
+        />
+      </InputWrapper>
+      <InputWrapper>
+        <div className="label-box">
+          <label htmlFor="lastname">Nazwisko:</label>
+        </div>
+        <Input
+          type="text"
+          id="lastname"
+          name="lastName"
+          value={form.lastName}
           onChange={changeValue}
           required
         />
@@ -66,7 +103,7 @@ export const AddHrForm = () => {
           <label htmlFor="email">Email:</label>
         </div>
         <Input
-          type="text"
+          type="email"
           id="email"
           name="email"
           value={form.email}
@@ -101,7 +138,7 @@ export const AddHrForm = () => {
         />
       </InputWrapper>
       <div className="btn-box">
-        <Button text="Zapisz" type="submit" />
+        <Button text="Dodaj" type="submit" />
       </div>
     </FormAccount>
   );

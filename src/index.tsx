@@ -6,18 +6,22 @@ import GlobalCSS from './global.css';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {StrictMode} from 'react';
+import {store} from './redux';
+import {Provider} from 'react-redux';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <StrictMode>
-    <BrowserRouter>
-      <Theme>
-        <GlobalCSS />
-        <ToastContainer position="top-center" />
-        <App />
-      </Theme>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Theme>
+          <GlobalCSS />
+          <ToastContainer position="top-center" />
+          <App />
+        </Theme>
+      </BrowserRouter>
+    </Provider>
   </StrictMode>
 );

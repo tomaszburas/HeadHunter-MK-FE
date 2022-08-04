@@ -1,4 +1,4 @@
-import {Header} from '../../components/Header';
+import {Header} from '../../components/Header/Header';
 import {NavHr} from '../../components/Hr/NavHr';
 import {NavigationHr} from '../../types/enums/NavigationHr';
 import {UtilsHr} from '../../components/Hr/UtilsHr';

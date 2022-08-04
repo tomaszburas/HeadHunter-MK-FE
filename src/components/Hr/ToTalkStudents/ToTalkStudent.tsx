@@ -14,7 +14,7 @@ export const ToTalkStudent = () => {
       <Wrapper>
         <div className="student-info">
           <div className="student-reservation">
-            <p className="student-reservation-title">Rezerwacja do</p>
+            <p className="student-reservation-title">Rezerwacja do:</p>
             <p className="student-reservation-date">11.09.2022 r.</p>
           </div>
           <div className="student-data">
@@ -23,13 +23,15 @@ export const ToTalkStudent = () => {
           </div>
         </div>
         <div className="student-nav">
-          <Link to="/hr/cv">
-            <Button text="Pokaż CV" />
-          </Link>
-          <div className="btn-container">
-            <Button text="Brak zainteresowania" />
+          <div className="student-nav-buttons">
+            <Link to="/hr/cv">
+              <Button text="Pokaż CV" />
+            </Link>
+            <div className="btn-container">
+              <Button text="Brak zainteresowania" />
+            </div>
+            <Button text="Zatrudniony" />
           </div>
-          <Button text="Zatrudniony" />
           {!isOpen ? (
             <i
               className="bx bx-chevron-down"
@@ -93,8 +95,12 @@ const Wrapper = styled.div`
     display: flex;
     align-items: center;
 
-    .btn-container {
-      margin: 0 ${(props) => props.theme.marginSize.base};
+    .student-nav-buttons {
+      display: flex;
+
+      .btn-container {
+        margin: 0 ${(props) => props.theme.marginSize.base};
+      }
     }
 
     .bx-chevron-up,
@@ -102,6 +108,35 @@ const Wrapper = styled.div`
       padding: 0 ${(props) => props.theme.paddingSize.sm};
       font-size: ${(props) => props.theme.fontSize.base};
       cursor: pointer;
+    }
+  }
+
+  @media only screen and (max-width: 750px) {
+    .student-nav {
+      margin-left: ${(props) => props.theme.marginSize.sm};
+      .student-nav-buttons {
+        flex-direction: column;
+
+        .btn-container {
+          margin: ${(props) => props.theme.marginSize.sm} 0;
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 550px) {
+    .student-info {
+      flex-direction: column-reverse;
+
+      .student-reservation {
+        align-items: flex-start;
+        margin-right: 0;
+        margin-top: ${(props) => props.theme.marginSize.base};
+
+        .student-reservation-date {
+          margin-top: ${(props) => props.theme.marginSize.m};
+        }
+      }
     }
   }
 `;

@@ -59,4 +59,8 @@ const Text = styled.h1`
   color: ${(props) => props.theme.colors.white};
   font-size: ${(props) => props.theme.fontSize.base};
   margin-bottom: ${(props) => props.theme.marginSize.sm};
+
+  @media only screen and (max-width: 400px) {
+    font-size: ${(props) => props.theme.fontSize.sm};
+  }
 `;

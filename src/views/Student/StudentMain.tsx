@@ -1,10 +1,14 @@
-import {Header} from '../../components/Header';
+import {Header} from '../../components/Header/Header';
 import avatar from '../../assets/images/avatar.png';
 import {Button} from '../../components/Button';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {handleLogout} from '../../utils/handleLogout';
 
 export const StudentMain = () => {
+  const dispatch = useDispatch();
+
   return (
     <>
       <Header />
@@ -18,7 +22,11 @@ export const StudentMain = () => {
           <Link to="/student/hired" className="btn-box">
             <Button text="Zatrudniony 🔥" />
           </Link>
-          <Link to="/student/logout" className="btn-box">
+          <Link
+            to="/"
+            onClick={() => handleLogout(dispatch)}
+            className="btn-box"
+          >
             <Button text="Wyloguj" />
           </Link>
         </div>
@@ -41,6 +49,7 @@ const Container = styled.div`
 
     img {
       width: 60%;
+      max-width: 200px;
       margin: ${(props) => props.theme.marginSize.base} 0;
     }
 
@@ -50,6 +59,12 @@ const Container = styled.div`
 
     .btn-box {
       width: 100%;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .box {
+      width: 70%;
     }
   }
 `;

@@ -1,13 +1,13 @@
 import {Select} from '../../../assets/styled/Select';
-import {Workplace} from '../../../types/enums/Workplace';
-import {Contract} from '../../../types/enums/Contract';
+import {WorkType} from '../../../types/enums/WorkType';
+import {ContractType} from '../../../types/enums/ContractType';
 import {Input} from '../../../assets/styled/Input';
 import {Wrapper} from '../../../assets/styled/StudentAccountEdit/Wrapper';
 import {Title} from '../../../assets/styled/StudentAccountEdit/Title';
 import {InputWrapper} from '../../../assets/styled/StudentAccountEdit/InputContainer';
-import {Internships} from '../../../types/enums/Internships';
 import {EmploymentInterface} from '../../../types/interfaces/Student/EmploymentInterface';
 import {ChangeEvent} from 'react';
+import {Internships} from '../../../types/enums/Internships';
 
 interface Props {
   state: EmploymentInterface;
@@ -15,7 +15,13 @@ interface Props {
 }
 
 export const Employment = ({state, setState}: Props) => {
-  const {workplace, contract, experience, city, salary} = state;
+  const {
+    expectedTypeWork,
+    expectedContractType,
+    monthsOfCommercialExp,
+    targetWorkCity,
+    expectedSalary,
+  } = state;
 
   const changeValue = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -29,76 +35,81 @@ export const Employment = ({state, setState}: Props) => {
       <Title>Oczekiwania w stosunku do zatrudnienia</Title>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="workplace">Preferowane miejsce pracy:</label>
+          <label htmlFor="expectedTypeWork">Preferowane miejsce pracy:</label>
         </div>
         <Select
-          id="workplace"
-          name="workplace"
-          value={workplace}
+          id="expectedTypeWork"
+          name="expectedTypeWork"
+          value={expectedTypeWork}
           onChange={changeValue}
         >
-          <option value={Workplace.OFFICE}>{Workplace.OFFICE}</option>
-          <option value={Workplace.REMOTE}>{Workplace.REMOTE}</option>
+          <option value={WorkType.WHATEVER}>{WorkType.WHATEVER}</option>
+          <option value={WorkType.REMOTE}>{WorkType.REMOTE}</option>
+          <option value={WorkType.STAY}>{WorkType.STAY}</option>
+          <option value={WorkType.MOVE}>{WorkType.MOVE}</option>
+          <option value={WorkType.HYBRID}>{WorkType.HYBRID}</option>
         </Select>
       </InputWrapper>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="contract">Oczekiwany typ kontraktu:</label>
+          <label htmlFor="expectedContractType">
+            Oczekiwany typ kontraktu:
+          </label>
         </div>
         <Select
-          id="contract"
-          name="contract"
-          value={contract}
+          id="expectedContractType"
+          name="expectedContractType"
+          value={expectedContractType}
           onChange={changeValue}
         >
-          <option value={Contract.PERMANENT}>{Contract.PERMANENT}</option>
-          <option value={Contract.CONTRACT_WORK}>
-            {Contract.CONTRACT_WORK}
-          </option>
-          <option value={Contract.B2B}>{Contract.B2B}</option>
+          <option value={ContractType.WHATEVER}>{ContractType.WHATEVER}</option>
+          <option value={ContractType.UOP}>{ContractType.UOP}</option>
+          <option value={ContractType.B2B}>{ContractType.B2B}</option>
+          <option value={ContractType.UZ}>{ContractType.UZ}</option>
+          <option value={ContractType.UOD}>{ContractType.UOD}</option>
         </Select>
       </InputWrapper>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="experience">
+          <label htmlFor="monthsOfCommercialExp">
             Doświadczenie komercyjne w programowaniu (miesiące):
           </label>
         </div>
         <Input
           type="number"
-          id="experience"
-          name="experience"
-          value={experience}
+          id="monthsOfCommercialExp"
+          name="monthsOfCommercialExp"
+          value={monthsOfCommercialExp}
           onChange={changeValue}
           required
         />
       </InputWrapper>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="city">
+          <label htmlFor="targetWorkCity">
             Docelowe miasto gdzie chce pracować kandydat:
           </label>
         </div>
         <Input
           type="text"
-          id="city"
-          name="city"
-          value={city}
+          id="targetWorkCity"
+          name="targetWorkCity"
+          value={targetWorkCity}
           onChange={changeValue}
           required
         />
       </InputWrapper>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="salary">
+          <label htmlFor="expectedSalary">
             Oczekiwane miesięczne wynagrodzenie netto:
           </label>
         </div>
         <Input
           type="number"
-          id="salary"
-          name="salary"
-          value={salary}
+          id="expectedSalary"
+          name="expectedSalary"
+          value={expectedSalary}
           onChange={changeValue}
           required
         />

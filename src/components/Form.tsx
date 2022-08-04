@@ -1,4 +1,4 @@
-import {Header} from './Header';
+import {Header} from './Header/Header';
 import styled from 'styled-components';
 import {ReactNode} from 'react';
 
@@ -22,6 +22,10 @@ export const Form = ({title, children}: Props) => {
 const Wrapper = styled.div`
   font-size: ${(props) => props.theme.fontSize.sm};
   margin: ${(props) => props.theme.marginSize.base} 0;
+
+  @media only screen and (max-width: 1200px) {
+    margin: ${(props) => props.theme.marginSize.base};
+  }
 `;
 
 const Title = styled.h1`

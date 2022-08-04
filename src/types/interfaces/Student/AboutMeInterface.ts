@@ -1,9 +1,10 @@
 export interface AboutMeInterface {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   passwordRepeat: string;
-  phone: string;
-  usernameGh: string;
-  aboutMe: string;
+  tel: string;
+  githubUsername: string;
+  bio: string;
 }

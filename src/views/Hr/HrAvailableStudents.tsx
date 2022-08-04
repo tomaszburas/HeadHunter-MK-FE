@@ -1,4 +1,4 @@
-import {Header} from '../../components/Header';
+import {Header} from '../../components/Header/Header';
 import {NavHr} from '../../components/Hr/NavHr';
 import {AvailableStudents} from '../../components/Hr/AvailableStudents/AvailableStudents';
 import {UtilsHr} from '../../components/Hr/UtilsHr';

@@ -1,15 +1,19 @@
-import {Header} from '../../components/Header';
+import {Header} from '../../components/Header/Header';
 import {Link} from 'react-router-dom';
 import {Button} from '../../components/Button';
 import styled from 'styled-components';
+import {handleLogout} from '../../utils/handleLogout';
+import {useDispatch} from 'react-redux';
 
 export const AdminMain = () => {
+  const dispatch = useDispatch();
+
   return (
     <>
       <Header />
       <Container>
         <div className="box">
-          <h1>Cześć Jan Kowalski 👋</h1>
+          <h1>Cześć admin 👋</h1>
           <Link to="/admin/account-edit" className="btn-box">
             <Button text="Edytuj konto" />
           </Link>
@@ -19,7 +23,11 @@ export const AdminMain = () => {
           <Link to="/admin/add-hr" className="btn-box">
             <Button text="Dodaj hr" />
           </Link>
-          <Link to="/admin/logout" className="btn-box">
+          <Link
+            to="/"
+            onClick={() => handleLogout(dispatch)}
+            className="btn-box"
+          >
             <Button text="Wyloguj" />
           </Link>
         </div>
@@ -50,6 +58,12 @@ const Container = styled.div`
 
     .btn-box {
       width: 100%;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .box {
+      width: 70%;
     }
   }
 `;

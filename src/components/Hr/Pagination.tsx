@@ -37,4 +37,7 @@ const Container = styled.div`
     font-size: ${(props) => props.theme.fontSize.base};
     cursor: pointer;
   }
+  @media only screen and (max-width: 1200px) {
+    margin-right: ${(props) => props.theme.marginSize.base};
+  }
 `;

@@ -16,4 +16,14 @@ export const InputWrapper = styled.div`
   label {
     cursor: pointer;
   }
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+    margin: ${(props) => props.theme.marginSize.base} 0;
+
+    .label-box {
+      width: 100%;
+      margin-bottom: ${(props) => props.theme.marginSize.sm};
+    }
+  }
 `;

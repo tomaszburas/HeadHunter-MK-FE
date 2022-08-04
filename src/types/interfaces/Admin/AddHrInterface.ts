@@ -1,6 +1,7 @@
 export interface AddHrInterface {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   company: string;
   email: string;
-  maxStudents: '' | number;
+  maxStudents: number;
 }

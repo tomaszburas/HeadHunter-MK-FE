@@ -4,15 +4,56 @@ import {Button} from '../Button';
 import {useCSVReader} from 'react-papaparse';
 import styled from 'styled-components';
 import {FormEvent, useState} from 'react';
+import {configPapaparse} from '../../config-papaparse';
+import {AddStudentInterface} from '../../types/interfaces/Admin/AddStudentInterface';
+import {toast} from 'react-toastify';
+import {API_URL} from '../../config';
 
 export const AddStudentsForm = () => {
   const {CSVReader} = useCSVReader();
-  const [file, setFile] = useState();
+  const [file, setFile] = useState<AddStudentInterface[] | null>(null);
 
-  const handleForm = (e: FormEvent) => {
+  const handleForm = async (e: FormEvent) => {
     e.preventDefault();
 
-    console.log(file);
+    if (file) {
+      const resFile = file.map((obj) => {
+        const bonusProjectUrls = [];
+        for (const property in obj) {
+          if (/^bonusProjectUrls/.test(property)) {
+            bonusProjectUrls.push(`${obj[property]}`);
+          }
+        }
+
+        return {
+          id: obj.id,
+          email: obj.email,
+          courseCompletion: obj.courseCompletion,
+          courseEngagement: obj.courseEngagement,
+          projectDegree: obj.projectDegree,
+          teamProjectDegree: obj.teamProjectDegree,
+          bonusProjectUrls,
+        };
+      });
+
+      const res = await fetch(`${API_URL}/admin/upload`, {
+        method: 'POST',
+        credentials: 'include',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(resFile),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        toast.success('Kursanci zostali dodani');
+      } else {
+        toast.error('Plik nie został dodany');
+      }
+    }
   };
 
   return (
@@ -25,6 +66,7 @@ export const AddStudentsForm = () => {
           onUploadAccepted={(results: any) => {
             setFile(results.data);
           }}
+          config={configPapaparse}
         >
           {({getRootProps, acceptedFile, ProgressBar}: any) => (
             <Container>
@@ -38,7 +80,7 @@ export const AddStudentsForm = () => {
         </CSVReader>
       </InputWrapper>
       <div className="btn-box">
-        <Button text="Zapisz" type="submit" />
+        <Button text="Dodaj" type="submit" />
       </div>
     </FormAccount>
   );
@@ -62,4 +104,8 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   width: 55%;
+
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
 `;

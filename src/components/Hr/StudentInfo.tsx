@@ -95,5 +95,29 @@ const Container = styled.div<{isOpen: Boolean}>`
     }
   }
 
+  @media only screen and (max-width: 850px) {
+    flex-direction: column;
+    font-size: ${(props) => props.theme.fontSize.sm};
+
+    .info-wrapper {
+      flex-direction: row;
+      align-items: center;
+
+      &:not(:first-child) {
+        margin-top: ${(props) => props.theme.marginSize.sm};
+      }
+
+      .info-data {
+        padding-top: 0;
+        margin-left: ${(props) => props.theme.marginSize.sm};
+        white-space: nowrap;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    font-size: ${(props) => props.theme.fontSize.m};
+  }
+
   ${({isOpen}) => !isOpen && `display: none;`}
 `;

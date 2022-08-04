@@ -6,8 +6,8 @@ import {ActivityGrade} from './ActivityGrade';
 import {CodeGrade} from './CodeGrade';
 import {ScrumGrade} from './ScrumGrade';
 import {WorkplaceForm} from './WorkplaceForm';
-import {Workplace} from '../../../types/enums/Workplace';
-import {Contract} from '../../../types/enums/Contract';
+import {WorkType} from '../../../types/enums/WorkType';
+import {ContractType} from '../../../types/enums/ContractType';
 import {ContractForm} from './ContractForm';
 import {Internships} from '../../../types/enums/Internships';
 
@@ -20,9 +20,9 @@ export const Filtration = ({setOpenFiltration}: Props) => {
   const [activityGrade, setActivityGrade] = useState<Stars[]>([]);
   const [codeGrade, setCodeGrade] = useState<Stars[]>([]);
   const [scrumGrade, setScrumGrade] = useState<Stars[]>([]);
-  const [workplace, setWorkplace] = useState<Workplace[]>([]);
-  const [contract, setContract] = useState<Contract[]>([]);
-  const [internships, setInternships] = useState<Internships | null>(null);
+  const [workplace, setWorkplace] = useState<WorkType[]>([]);
+  const [contract, setContract] = useState<ContractType[]>([]);
+  const [internships, setInternships] = useState<Internships>(Internships.YES);
   const [experience, setExperience] = useState('');
   const [salary, setSalary] = useState<{
     from: string;
@@ -40,7 +40,7 @@ export const Filtration = ({setOpenFiltration}: Props) => {
     setScrumGrade([]);
     setWorkplace([]);
     setContract([]);
-    setInternships(null);
+    setInternships(Internships.YES);
     setExperience('');
     setSalary({from: '', to: ''});
 
@@ -298,6 +298,7 @@ const Container = styled.div`
 
         .input-box {
           display: flex;
+          gap: ${(props) => props.theme.marginSize.sm};
 
           .filtration-btn {
             display: flex;
@@ -318,10 +319,6 @@ const Container = styled.div`
             background-color: ${(props) => props.theme.colors.darkBlue};
           }
 
-          .filtration-btn:not(:last-child) {
-            margin-right: ${(props) => props.theme.marginSize.sm};
-          }
-
           .input-container:first-child {
             margin-right: ${(props) => props.theme.marginSize.base};
           }
@@ -329,6 +326,7 @@ const Container = styled.div`
           .input-title {
             font-size: ${(props) => props.theme.fontSize.sm};
             margin-right: ${(props) => props.theme.marginSize.sm};
+            cursor: pointer;
           }
 
           input[type='number'] {
@@ -353,6 +351,18 @@ const Container = styled.div`
     .footer-box {
       display: flex;
       justify-content: flex-end;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .filtration {
+      width: 90%;
+      max-height: 90vh;
+
+      form {
+        .input-wrapper {
+          .input-box {
+            flex-wrap: wrap;
     }
   }
 `;

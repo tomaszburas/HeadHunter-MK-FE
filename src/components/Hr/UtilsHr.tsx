@@ -81,4 +81,16 @@ const Utils = styled.div`
       padding-right: ${(props) => props.theme.paddingSize.sm};
     }
   }
+
+  @media only screen and (max-width: 1000px) {
+    .input-wrapper {
+      width: 40%;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .input-wrapper {
+      width: 60%;
+    }
+  }
 `;
