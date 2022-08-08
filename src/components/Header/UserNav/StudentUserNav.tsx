@@ -1,5 +1,5 @@
-import avatar from '../../../assets/images/avatar.png';
-import {useState} from 'react';
+import defaultAvatar from '../../../assets/images/avatar.png';
+import {useEffect, useState} from 'react';
 import {
   Avatar,
   MenuNav,
@@ -8,17 +8,38 @@ import {
 } from '../../../assets/styled/UserNavHeader';
 import {Link} from 'react-router-dom';
 import {handleLogout} from '../../../utils/handleLogout';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../redux';
+import {checkGithub} from '../../../utils/checkGithub';
 
 export const StudentUserNav = () => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen((prev) => !prev);
+  const {firstName, lastName, githubUsername} = useSelector(
+    (store: RootState) => store.student
+  );
+  const [isAvatar, setIsAvatar] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      if (githubUsername !== '') {
+        await checkGithub(githubUsername, setIsAvatar);
+      }
+    })();
+  }, [githubUsername]);
 
   return (
     <UserNav>
-      <Avatar src={avatar} onClick={toggleMenu} />
-      <Name onClick={toggleMenu}>Jan Kowalski</Name>
+      <Avatar
+        src={
+          isAvatar ? `https://github.com/${githubUsername}.png` : defaultAvatar
+        }
+        onClick={toggleMenu}
+      />
+      <Name onClick={toggleMenu}>
+        {firstName} {lastName}
+      </Name>
       {isOpen ? (
         <>
           <i className="bx bxs-up-arrow" onClick={toggleMenu} />

@@ -36,6 +36,7 @@ export const MenuNav = styled.div`
 
 export const Avatar = styled.img`
   height: 2rem;
+  border-radius: 50%;
   cursor: pointer;
   margin-right: ${(props) => props.theme.marginSize.base};
 

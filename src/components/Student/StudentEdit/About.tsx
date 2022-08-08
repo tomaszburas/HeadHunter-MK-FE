@@ -35,7 +35,7 @@ export const About = ({state, setState}: Props) => {
       <Title>O mnie</Title>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="firstName">Imię:</label>
+          <label htmlFor="firstName">Imię*:</label>
         </div>
         <Input
           type="text"
@@ -48,7 +48,7 @@ export const About = ({state, setState}: Props) => {
       </InputWrapper>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="lastName">Nazwisko:</label>
+          <label htmlFor="lastName">Nazwisko*:</label>
         </div>
         <Input
           type="text"
@@ -61,7 +61,7 @@ export const About = ({state, setState}: Props) => {
       </InputWrapper>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">Email*:</label>
         </div>
         <Input
           type="email"
@@ -98,7 +98,7 @@ export const About = ({state, setState}: Props) => {
       </InputWrapper>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="tel">Telefon:</label>
+          <label htmlFor="tel">Nr. tel*:</label>
         </div>
         <Input
           type="phone"

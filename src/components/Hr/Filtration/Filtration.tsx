@@ -177,27 +177,27 @@ export const Filtration = ({setOpenFiltration}: Props) => {
               <div className="input-container">
                 <input
                   type="radio"
-                  id={Internships.YES}
+                  id="yes"
                   name="internships"
                   value={Internships.YES}
                   checked={internships === Internships.YES}
                   onChange={() => setInternships(Internships.YES)}
                 />
-                <label htmlFor={Internships.YES} className="input-title">
-                  {Internships.YES}
+                <label htmlFor="yes" className="input-title">
+                  Tak
                 </label>
               </div>
               <div className="input-container">
                 <input
                   type="radio"
-                  id={Internships.NO}
+                  id="no"
                   name="internships"
                   value={Internships.NO}
                   checked={internships === Internships.NO}
                   onChange={() => setInternships(Internships.NO)}
                 />
-                <label htmlFor={Internships.NO} className="input-title">
-                  {Internships.NO}
+                <label htmlFor="no" className="input-title">
+                  Nie
                 </label>
               </div>
             </div>

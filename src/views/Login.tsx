@@ -12,15 +12,18 @@ import {API_URL} from '../config';
 import {toast} from 'react-toastify';
 import {setAdmin} from '../redux/features/adminSlice';
 import {useNavigate} from 'react-router-dom';
+import {setStudent} from '../redux/features/studentSlice';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [load, setLoad] = useState(false);
 
   const handleForm = async (e: FormEvent) => {
     e.preventDefault();
+    setLoad(true);
 
     const res = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
@@ -41,18 +44,32 @@ export const Login = () => {
       if (data.user.role === Role.ADMIN) {
         dispatch(
           setAdmin({
-            email: data.user.email,
-            id: data.user.id,
+            ...data.user,
           })
         );
       }
+      if (data.user.role === Role.STUDENT) {
+        dispatch(
+          setStudent({
+            ...data.user,
+          })
+        );
+      }
+      // if (data.user.role === Role.HR) {
+      //   dispatch(
+      //       setAdmin({
+      //         ...data.user
+      //       })
+      //   );
+      // }
 
-      dispatch(setAuth({isAuth: true, role: data.user.role}));
+      dispatch(setAuth({isAuth: true, role: data.user.role, id: data.user.id}));
       navigate(data.user.role, {replace: true});
     } else {
       toast.error('Podano zły adres email lub hasło');
-      return;
     }
+
+    setLoad(false);
   };
 
   return (
@@ -75,7 +92,7 @@ export const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <Button type="submit" text="Zaloguj" />
+        <Button type="submit" text="Zaloguj" load={load} />
       </LoginForm>
     </CenterContainer>
   );

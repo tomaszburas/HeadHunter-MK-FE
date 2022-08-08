@@ -17,6 +17,7 @@ import {RequireAuth} from './components/RequireAuth';
 import {Role} from './types/enums/Role';
 import {CheckAuth} from './components/CheckAuth';
 import {Auth} from './components/Auth';
+import {FirstLogin} from './components/Student/FirstLogin';
 
 export const App = () => {
   return (
@@ -33,11 +34,11 @@ export const App = () => {
         </Route>
 
         <Route
-          path={`/activation/hr/:id`}
+          path={`/activation/hr/:id/:registerToken`}
           element={<AccountActivation role={Role.HR} />}
         />
         <Route
-          path={`/activation/student/:id`}
+          path={`/activation/student/:id/:registerToken`}
           element={<AccountActivation role={Role.STUDENT} />}
         />
 
@@ -49,7 +50,9 @@ export const App = () => {
             </Auth>
           }
         >
-          <Route path={`/student`} element={<StudentMain />} />
+          <Route element={<FirstLogin />}>
+            <Route path={`/student`} element={<StudentMain />} />
+          </Route>
           <Route path={`/student/account-edit`} element={<StudentEdit />} />
           <Route path={`/student/*`} element={<Navigate to={'/student'} />} />
         </Route>

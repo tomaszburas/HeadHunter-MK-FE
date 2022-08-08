@@ -16,45 +16,70 @@ import {validationPassword} from '../../utils/validationPassword';
 import {toast} from 'react-toastify';
 import {validationEmail} from '../../utils/validationEmail';
 import {EmploymentInterface} from '../../types/interfaces/Student/EmploymentInterface';
-import {ContractType} from '../../types/enums/ContractType';
-import {WorkType} from '../../types/enums/WorkType';
 import {validationArrayUrl} from '../../utils/validationUrl';
-import {Internships} from '../../types/enums/Internships';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../redux';
+import {API_URL} from '../../config';
+import {useNavigate} from 'react-router-dom';
+import {setFirstLogin, setStudent} from '../../redux/features/studentSlice';
 
 export const StudentEdit = () => {
+  const state = useSelector((store: RootState) => store.student);
+  const [load, setLoad] = useState(false);
+  const {id} = useSelector((store: RootState) => store.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [internships, setInternships] = useState(state.canTakeApprenticeship);
+  const {firstLogin} = useSelector((store: RootState) => store.student);
+
   const [about, setAbout] = useState<AboutMeInterface>({
-    bio: '',
-    email: '',
-    firstName: '',
-    lastName: '',
+    bio: state.bio,
+    email: state.email,
+    firstName: state.firstName,
+    lastName: state.lastName,
     password: '',
     passwordRepeat: '',
-    tel: '',
-    githubUsername: '',
+    tel: state.tel,
+    githubUsername: state.githubUsername,
   });
   const [employment, setEmployment] = useState<EmploymentInterface>({
-    targetWorkCity: '',
-    expectedContractType: ContractType.WHATEVER,
-    monthsOfCommercialExp: 0,
-    canTakeApprenticeship: Internships.YES,
-    expectedSalary: 0,
-    expectedTypeWork: WorkType.WHATEVER,
+    targetWorkCity: state.targetWorkCity,
+    expectedContractType: state.expectedContractType,
+    monthsOfCommercialExp: state.monthsOfCommercialExp,
+    canTakeApprenticeship: state.canTakeApprenticeship,
+    expectedSalary: state.expectedSalary,
+    expectedTypeWork: state.expectedTypeWork,
   });
-  const [education, setEducation] = useState('');
-  const [courses, setCourses] = useState('');
-  const [workExperience, setWorkExperience] = useState('');
-  const [portfolioUrls, setPortfolioUrls] = useState<string[]>(['']);
-  const [scrumUrls, setScrumUrls] = useState<string[]>(['']);
-  const [projectUrls, setProjectUrls] = useState<string[]>(['']);
+  const [education, setEducation] = useState(state.education);
+  const [courses, setCourses] = useState(state.courses);
+  const [workExperience, setWorkExperience] = useState(state.workExperience);
+  const [portfolioUrls, setPortfolioUrls] = useState<string[]>(
+    state.portfolioUrls.length === 0 ? [''] : state.portfolioUrls
+  );
+  const [scrumUrls, setScrumUrls] = useState<string[]>(
+    state.scrumUrls.length === 0 ? [''] : state.scrumUrls
+  );
+  const [projectUrls, setProjectUrls] = useState<string[]>(
+    state.projectUrls.length === 0 ? [''] : state.projectUrls
+  );
 
   const handleForm = async (e: FormEvent) => {
     e.preventDefault();
+    setLoad(true);
 
-    if (!validate()) return;
+    if (!validate()) {
+      setLoad(false);
+      return;
+    }
 
     const obj = {
       ...about,
-      ...employment,
+      targetWorkCity: employment.targetWorkCity,
+      expectedContractType: employment.expectedContractType,
+      monthsOfCommercialExp: Number(employment.monthsOfCommercialExp),
+      canTakeApprenticeship: Number(internships),
+      expectedSalary: Number(employment.expectedSalary),
+      expectedTypeWork: employment.expectedTypeWork,
       education,
       courses,
       workExperience,
@@ -63,7 +88,33 @@ export const StudentEdit = () => {
       projectUrls: projectUrls.filter((el) => el !== ''),
     };
 
-    console.log(obj);
+    const res = await fetch(`${API_URL}/user/update/${id}`, {
+      method: 'PATCH',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(obj),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      toast.success('Zmiany zostały zapisane');
+
+      if (firstLogin) {
+        dispatch(setFirstLogin({firstLogin: false}));
+      }
+
+      dispatch(setStudent({...data.user}));
+
+      navigate('/student', {replace: true});
+    } else {
+      toast.success(data.message);
+    }
+
+    setLoad(false);
   };
 
   const validate = (): boolean => {
@@ -163,7 +214,12 @@ export const StudentEdit = () => {
       <Header />
       <Form onSubmit={handleForm}>
         <About state={about} setState={setAbout} />
-        <Employment state={employment} setState={setEmployment} />
+        <Employment
+          state={employment}
+          setState={setEmployment}
+          internships={internships}
+          setInternships={setInternships}
+        />
         <Education state={education} setState={setEducation} />
         <Courses state={courses} setState={setCourses} />
         <Experience state={workExperience} setState={setWorkExperience} />
@@ -172,7 +228,7 @@ export const StudentEdit = () => {
         <Project state={projectUrls} setState={setProjectUrls} />
 
         <ButtonContainer>
-          <Button text="Zapisz" type="submit" />
+          <Button text="Zapisz" type="submit" load={load} />
         </ButtonContainer>
       </Form>
     </>

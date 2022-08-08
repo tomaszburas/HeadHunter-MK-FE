@@ -12,9 +12,16 @@ import {Internships} from '../../../types/enums/Internships';
 interface Props {
   state: EmploymentInterface;
   setState: (param: EmploymentInterface) => void;
+  internships: Internships;
+  setInternships: (param: Internships) => void;
 }
 
-export const Employment = ({state, setState}: Props) => {
+export const Employment = ({
+  state,
+  setState,
+  internships,
+  setInternships,
+}: Props) => {
   const {
     expectedTypeWork,
     expectedContractType,
@@ -27,6 +34,7 @@ export const Employment = ({state, setState}: Props) => {
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const value = {...state};
+    console.log(e.target.value);
     setState({...value, [`${e.target.name}`]: e.target.value});
   };
 
@@ -35,13 +43,14 @@ export const Employment = ({state, setState}: Props) => {
       <Title>Oczekiwania w stosunku do zatrudnienia</Title>
       <InputWrapper>
         <div className="label-box">
-          <label htmlFor="expectedTypeWork">Preferowane miejsce pracy:</label>
+          <label htmlFor="expectedTypeWork">Preferowane miejsce pracy*:</label>
         </div>
         <Select
           id="expectedTypeWork"
           name="expectedTypeWork"
           value={expectedTypeWork}
           onChange={changeValue}
+          required
         >
           <option value={WorkType.WHATEVER}>{WorkType.WHATEVER}</option>
           <option value={WorkType.REMOTE}>{WorkType.REMOTE}</option>
@@ -53,7 +62,7 @@ export const Employment = ({state, setState}: Props) => {
       <InputWrapper>
         <div className="label-box">
           <label htmlFor="expectedContractType">
-            Oczekiwany typ kontraktu:
+            Oczekiwany typ kontraktu*:
           </label>
         </div>
         <Select
@@ -61,6 +70,7 @@ export const Employment = ({state, setState}: Props) => {
           name="expectedContractType"
           value={expectedContractType}
           onChange={changeValue}
+          required
         >
           <option value={ContractType.WHATEVER}>{ContractType.WHATEVER}</option>
           <option value={ContractType.UOP}>{ContractType.UOP}</option>
@@ -72,7 +82,7 @@ export const Employment = ({state, setState}: Props) => {
       <InputWrapper>
         <div className="label-box">
           <label htmlFor="monthsOfCommercialExp">
-            Doświadczenie komercyjne w programowaniu (miesiące):
+            Doświadczenie komercyjne w programowaniu (miesiące)*:
           </label>
         </div>
         <Input
@@ -87,7 +97,7 @@ export const Employment = ({state, setState}: Props) => {
       <InputWrapper>
         <div className="label-box">
           <label htmlFor="targetWorkCity">
-            Docelowe miasto gdzie chce pracować kandydat:
+            Docelowe miasto gdzie chce pracować kandydat*:
           </label>
         </div>
         <Input
@@ -102,7 +112,7 @@ export const Employment = ({state, setState}: Props) => {
       <InputWrapper>
         <div className="label-box">
           <label htmlFor="expectedSalary">
-            Oczekiwane miesięczne wynagrodzenie netto:
+            Oczekiwane miesięczne wynagrodzenie netto*:
           </label>
         </div>
         <Input
@@ -116,30 +126,32 @@ export const Employment = ({state, setState}: Props) => {
       </InputWrapper>
       <InputWrapper>
         <div className="label-box">
-          <p>Zgoda na odbycie bezpłatnych praktyk/stażu na początek:</p>
+          <p>Zgoda na odbycie bezpłatnych praktyk/stażu na początek*:</p>
         </div>
         <div className="input-box">
           <div className="box">
             <input
               type="radio"
-              id={Internships.YES}
+              id="yes"
               value={Internships.YES}
-              onChange={changeValue}
-              name="internships"
+              onChange={(e) => setInternships(Number(e.target.value))}
+              name="canTakeApprenticeship"
+              checked={internships === Internships.YES}
               required
             />
-            <label htmlFor={Internships.YES}>{Internships.YES}</label>
+            <label htmlFor="yes">Tak</label>
           </div>
           <div className="box">
             <input
               type="radio"
-              id={Internships.NO}
+              id="no"
               value={Internships.NO}
-              onChange={changeValue}
-              name="internships"
+              onChange={(e) => setInternships(Number(e.target.value))}
+              name="canTakeApprenticeship"
+              checked={internships === Internships.NO}
               required
             />
-            <label htmlFor={Internships.NO}>{Internships.NO}</label>
+            <label htmlFor="no">Nie</label>
           </div>
         </div>
       </InputWrapper>

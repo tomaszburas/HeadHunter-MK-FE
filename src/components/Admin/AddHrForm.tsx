@@ -16,6 +16,7 @@ export const AddHrForm = () => {
     company: '',
     maxStudents: 0,
   });
+  const [load, setLoad] = useState(false);
 
   const changeValue = (e: ChangeEvent<HTMLInputElement>) => {
     const value = {...form};
@@ -24,8 +25,12 @@ export const AddHrForm = () => {
 
   const handleForm = async (e: FormEvent) => {
     e.preventDefault();
+    setLoad(true);
 
-    if (!valid()) return;
+    if (!valid()) {
+      setLoad(false);
+      return;
+    }
 
     const res = await fetch(`${API_URL}/admin/add/hr`, {
       method: 'POST',
@@ -51,6 +56,8 @@ export const AddHrForm = () => {
     } else {
       toast.error('Hr nie został dodany');
     }
+
+    setLoad(false);
   };
 
   const valid = (): boolean => {
@@ -145,7 +152,7 @@ export const AddHrForm = () => {
         />
       </InputWrapper>
       <div className="btn-box">
-        <Button text="Dodaj" type="submit" />
+        <Button text={load ? 'dsds' : 'Dodaj'} load={load} type="submit" />
       </div>
     </FormAccount>
   );

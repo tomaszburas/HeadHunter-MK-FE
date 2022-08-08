@@ -11,6 +11,6 @@ export const handleLogout = async (dispatch: Dispatch<any>) => {
   const data = await res.json();
 
   if (data.success) {
-    dispatch(setAuth({isAuth: false, role: null}));
+    dispatch(setAuth({isAuth: false, role: null, id: null}));
   }
 };
