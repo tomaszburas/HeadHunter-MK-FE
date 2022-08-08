@@ -20,6 +20,7 @@ export const AdminEditForm = () => {
     password: '',
     passwordRepeat: '',
   });
+  const [load, setLoad] = useState(false);
 
   const changeValue = (e: ChangeEvent<HTMLInputElement>) => {
     const value = {...form};
@@ -28,7 +29,12 @@ export const AdminEditForm = () => {
 
   const handleForm = async (e: FormEvent) => {
     e.preventDefault();
-    if (!valid()) return;
+    setLoad(true);
+
+    if (!valid()) {
+      setLoad(false);
+      return;
+    }
 
     const res = await fetch(`${API_URL}/admin/update/${id}`, {
       method: 'PUT',
@@ -49,6 +55,8 @@ export const AdminEditForm = () => {
     } else {
       toast.error('Zmiany nie zostały zapisane');
     }
+
+    setLoad(false);
   };
 
   const valid = (): boolean => {
@@ -121,7 +129,7 @@ export const AdminEditForm = () => {
         />
       </InputWrapper>
       <div className="btn-box">
-        <Button text="Zapisz" type="submit" />
+        <Button text="Zapisz" type="submit" load={load} />
       </div>
     </FormAccount>
   );

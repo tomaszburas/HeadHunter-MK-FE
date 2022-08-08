@@ -1,13 +1,19 @@
 import {ReactNode} from 'react';
 import styled from 'styled-components';
+import {MiniLoader} from './MiniLoader';
 
 interface Props {
   text: string | ReactNode;
   type?: 'button' | 'submit' | 'reset';
+  load?: boolean;
 }
 
-export const Button = ({text, type = 'button'}: Props) => {
-  return <Btn type={type}>{text}</Btn>;
+export const Button = ({text, load, type = 'button'}: Props) => {
+  return (
+    <Btn type={type} disabled={load}>
+      {load ? <MiniLoader /> : text}
+    </Btn>
+  );
 };
 
 const Btn = styled.button`

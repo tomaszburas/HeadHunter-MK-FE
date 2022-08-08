@@ -12,9 +12,11 @@ import {API_URL} from '../../config';
 export const AddStudentsForm = () => {
   const {CSVReader} = useCSVReader();
   const [file, setFile] = useState<AddStudentInterface[] | null>(null);
+  const [load, setLoad] = useState(false);
 
   const handleForm = async (e: FormEvent) => {
     e.preventDefault();
+    setLoad(true);
 
     if (file) {
       const resFile = file.map((obj) => {
@@ -54,6 +56,8 @@ export const AddStudentsForm = () => {
         toast.error('Plik nie został dodany');
       }
     }
+
+    setLoad(false);
   };
 
   return (
@@ -80,7 +84,7 @@ export const AddStudentsForm = () => {
         </CSVReader>
       </InputWrapper>
       <div className="btn-box">
-        <Button text="Dodaj" type="submit" />
+        <Button text="Dodaj" type="submit" load={load} />
       </div>
     </FormAccount>
   );

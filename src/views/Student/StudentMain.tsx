@@ -1,21 +1,45 @@
 import {Header} from '../../components/Header/Header';
-import avatar from '../../assets/images/avatar.png';
 import {Button} from '../../components/Button';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {handleLogout} from '../../utils/handleLogout';
+import {RootState} from '../../redux';
+import {useEffect, useState} from 'react';
+import {checkGithub} from '../../utils/checkGithub';
+import defaultAvatar from '../../assets/images/avatar.png';
 
 export const StudentMain = () => {
   const dispatch = useDispatch();
+  const {firstName, lastName, githubUsername} = useSelector(
+    (store: RootState) => store.student
+  );
+  const [isAvatar, setIsAvatar] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      if (githubUsername !== '') {
+        await checkGithub(githubUsername, setIsAvatar);
+      }
+    })();
+  }, [githubUsername]);
 
   return (
     <>
       <Header />
       <Container>
         <div className="box">
-          <h1>Cześć Jan Kowalski 👋</h1>
-          <img src={avatar} alt="avatar" />
+          <h1>
+            Cześć {firstName} {lastName} 👋
+          </h1>
+          <img
+            src={
+              isAvatar
+                ? `https://github.com/${githubUsername}.png`
+                : defaultAvatar
+            }
+            alt="avatar"
+          />
           <Link to="/student/account-edit" className="btn-box">
             <Button text="Edytuj konto" />
           </Link>
@@ -49,6 +73,7 @@ const Container = styled.div`
 
     img {
       width: 60%;
+      border-radius: 50%;
       max-width: 200px;
       margin: ${(props) => props.theme.marginSize.base} 0;
     }
