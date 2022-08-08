@@ -1,20 +1,50 @@
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {Select} from '../../assets/styled/Select';
+import {RootState} from "../../redux";
+import {setPage, setPagination} from "../../redux/features/paginationSlice";
+import {useEffect} from "react";
+
+
 
 export const Pagination = () => {
+    const itemsOnPage = useSelector((state: RootState) => state.pagination.itemsOnPage);
+    const page = useSelector((state: RootState) => state.pagination.page);
+    const pages = useSelector((state: RootState) => state.pagination.totalPages);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if(page === 0 || page < 0) {
+            dispatch(setPage({page: 1}))
+        }
+        if(pages === page) {
+            dispatch(setPage({page: pages}))
+        }
+    }, [page])
+
+    const click = () => {
+        if(page === pages) {
+            return;
+        } else {
+            dispatch(setPage({page: page + 1}));
+        }
+
+    }
+    console.log(pages, page)
+
   return (
     <Container>
       <p className="pagination-title">Ilość elementów:</p>
       <div className="select-box">
-        <Select name="perPage">
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="30">30</option>
+        <Select onChange={(e) => dispatch(setPagination({pagination: e.target.value}))} name="perPage">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
         </Select>
       </div>
-      <p className="pagination-info">10 z 90</p>
-      <i className="bx bxs-left-arrow-square" />
-      <i className="bx bxs-right-arrow-square" />
+      <p className="pagination-info">{page} z {pages}</p>
+      <i className="bx bxs-left-arrow-square" onClick={() => dispatch(setPage({page: page - 1}))}/>
+      <i className="bx bxs-right-arrow-square"  onClick={() => click()}/>
     </Container>
   );
 };

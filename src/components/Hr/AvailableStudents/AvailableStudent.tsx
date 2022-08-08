@@ -3,14 +3,14 @@ import {Button} from '../../Button';
 import {useState} from 'react';
 import {StudentInfo} from '../StudentInfo';
 import {UnderlineHr} from '../../../assets/styled/Hr/UnderlineHr';
+import {AllAvailableUsers} from "../../../types/interfaces/Student/EmploymentInterface";
 
-export const AvailableStudent = () => {
+export const AvailableStudent = (user: AllAvailableUsers) => {
   const [isOpen, setIsOpen] = useState(false);
-
   return (
     <>
       <Wrapper>
-        <p className="student-name">Jan K.</p>
+        <p className="student-name">{`${user.name} ${user.lastName.slice(0, 1)}.`}</p>
         <div className="student-nav">
           <Button text="Zarezerwuj rozmowę" />
           {!isOpen ? (
@@ -26,7 +26,7 @@ export const AvailableStudent = () => {
           )}
         </div>
       </Wrapper>
-      <StudentInfo isOpen={isOpen} />
+      <StudentInfo isOpen={isOpen} user={user}/>
       <UnderlineHr />
     </>
   );

@@ -2,15 +2,18 @@ import styled from 'styled-components';
 import {Input} from '../../assets/styled/Input';
 import {useState} from 'react';
 import {Filtration} from './Filtration/Filtration';
+import {useDispatch} from "react-redux";
+import {searchName} from "../../redux/features/searchBarSlice";
 
 export const UtilsHr = () => {
   const [openFiltration, setOpenFiltration] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <>
       <Utils>
         <div className="input-wrapper">
-          <Input type="search" placeholder="Szukaj" id="search" />
+          <Input onChange={(e) => dispatch(searchName({name: e.target.value.toLowerCase()}))} type="search"  placeholder="Szukaj" id="search" />
           <label htmlFor="search">
             <i className="bx bx-search" />
           </label>

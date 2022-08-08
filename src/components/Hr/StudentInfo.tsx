@@ -1,40 +1,44 @@
 import styled from 'styled-components';
+import {AllAvailableUsers} from "../../types/interfaces/Student/EmploymentInterface";
 
 interface Props {
   isOpen: boolean;
+  user?: AllAvailableUsers;
 }
 
-export const StudentInfo = ({isOpen}: Props) => {
+
+
+export const StudentInfo = ({isOpen, user}: Props) => {
   return (
     <Container isOpen={isOpen}>
       <div className="info-wrapper">
         <p className="info-title">Ocena przejścia kursu</p>
         <p className="info-data">
-          <span>5</span> /5
+          <span>{user?.courseCompletion}</span> /5
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Ocena aktywności i zaangażowania na kursie</p>
         <p className="info-data">
-          <span>5</span> /5
+          <span>{user?.courseEngagment}</span> /5
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Ocena kodu w projekcie własnym</p>
         <p className="info-data">
-          <span>5</span> /5
+          <span>{user?.projectDegree}</span> /5
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Ocena pacy w zespole Scrum</p>
         <p className="info-data">
-          <span>5</span> /5
+          <span>{user?.teamProjectDegree}</span> /5
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Preferowane miejsce pracy</p>
         <p className="info-data">
-          <span>Biuro</span>
+          <span>{user?.expectedTypeWork}</span>
         </p>
       </div>
       <div className="info-wrapper">
@@ -42,31 +46,31 @@ export const StudentInfo = ({isOpen}: Props) => {
           Docelowe miasto gdzie chce pracować kandydat
         </p>
         <p className="info-data">
-          <span>Warszawa</span>
+          <span>{user?.targetWorkCity}</span>
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Oczekiwany typ kontraktu</p>
         <p className="info-data">
-          <span>UoP</span>
+          <span>{user?.expectedContractType}</span>
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Oczekiwane wynagrodzenie miesięczne netto</p>
         <p className="info-data">
-          <span>8000 zł</span>
+          <span>{user?.expectedSalary} zł</span>
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Zgoda na odbycie bezpłatnych praktyk/stażu</p>
         <p className="info-data">
-          <span>TAK</span>
+          <span>{user?.canTakeApprenticeship ? 'TAK' : 'NIE'}</span>
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Komercyjne doświadczenie w programowaniu</p>
         <p className="info-data">
-          <span>6 miesięcy</span>
+          <span>{user?.monthsOfCommercialExp === 0 ? 'Brak' : user?.monthsOfCommercialExp + ' miesięcy'}</span>
         </p>
       </div>
     </Container>
