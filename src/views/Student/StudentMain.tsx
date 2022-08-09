@@ -28,6 +28,8 @@ export const StudentMain = () => {
     (async () => {
       if (githubUsername !== '') {
         await checkGithub(githubUsername, setIsAvatar);
+      } else {
+        setIsAvatar(false);
       }
     })();
   }, [githubUsername]);
@@ -69,7 +71,9 @@ export const StudentMain = () => {
           </h1>
 
           {isAvatar === null ? (
-            <MiniLoader />
+            <div className="loader-box">
+              <MiniLoader height={40} width={40} />
+            </div>
           ) : (
             <img
               src={
@@ -190,6 +194,10 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     width: 50%;
+
+    .loader-box {
+      padding: ${(props) => props.theme.paddingSize.base} 0;
+    }
 
     img {
       width: 60%;

@@ -26,6 +26,8 @@ export const StudentUserNav = () => {
     (async () => {
       if (githubUsername !== '') {
         await checkGithub(githubUsername, setIsAvatar);
+      } else {
+        setIsAvatar(false);
       }
     })();
   }, [githubUsername]);
