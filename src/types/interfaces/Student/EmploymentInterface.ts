@@ -16,13 +16,13 @@ export interface AllAvailableUsers extends EmploymentInterface {
   firstName: string;
   lastName: string;
   courseCompletion: number;
-  courseEngagment: number;
+  courseEngagement: number;
   projectDegree: number;
   teamProjectDegree: number;
   date?: Date;
 }
 
-export interface Users  {
+export interface Users {
   users: AllAvailableUsers[];
   pages?: number;
 }

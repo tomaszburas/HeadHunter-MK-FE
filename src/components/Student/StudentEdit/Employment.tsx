@@ -86,6 +86,8 @@ export const Employment = ({
         </div>
         <Input
           type="number"
+          max={12}
+          min={0}
           id="monthsOfCommercialExp"
           name="monthsOfCommercialExp"
           value={monthsOfCommercialExp}

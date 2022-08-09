@@ -4,10 +4,11 @@ import {StudentInfo} from '../StudentInfo';
 import styled from 'styled-components';
 import {UnderlineHr} from '../../../assets/styled/Hr/UnderlineHr';
 import {Link} from 'react-router-dom';
-import defaultAvatar from "../../../assets/images/avatar.png";
-import {API_URL} from "../../../config";
-import {useDispatch} from "react-redux";
-import {getObject} from "../../../redux/features/usersAddedByHr";
+import defaultAvatar from '../../../assets/images/avatar.png';
+import {API_URL} from '../../../config';
+import {useDispatch, useSelector} from 'react-redux';
+import {getObject} from '../../../redux/features/usersAddedByHr';
+import {RootState} from '../../../redux';
 
 interface User {
   id: string;
@@ -17,19 +18,34 @@ interface User {
   addedDate: Date;
 }
 
-export const ToTalkStudent = ({addedDate, githubUsername, firstName, lastName, id}: User) => {
+export const ToTalkStudent = ({
+  addedDate,
+  githubUsername,
+  firstName,
+  lastName,
+  id,
+}: User) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const {id: hrId} = useSelector((store: RootState) => store.auth);
 
-  const date = addedDate.toString().split('-');
-  const day = date[2].split('T')[0];
-  const expiredDate = new Date(Number(date[0]), Number(date[1]), +day + 10);
+  // const date = addedDate.toString().split('-');
+  // const day = date[2].split('T')[0];
+  // const expiredDate = new Date(Number(date[0]), Number(date[1]), +day + 10);
 
   const showCv = async () => {
     const res = await fetch(`${API_URL}/user/details/${id}`);
     const data = await res.json();
-    return dispatch(getObject(data))
-  }
+    return dispatch(getObject(data));
+  };
+
+  const handleRemoveStudent = async () => {
+    await fetch(`${API_URL}/hr/not-interested/${hrId}/${id}`, {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'cors',
+    });
+  };
 
   return (
     <>
@@ -37,10 +53,20 @@ export const ToTalkStudent = ({addedDate, githubUsername, firstName, lastName, i
         <div className="student-info">
           <div className="student-reservation">
             <p className="student-reservation-title">Rezerwacja do:</p>
-            <p className="student-reservation-date">{expiredDate.toLocaleDateString().slice(0, 12)}</p>
+            <p className="student-reservation-date">
+              {/*{expiredDate.toLocaleDateString().slice(0, 12)}*/}
+            </p>
           </div>
           <div className="student-data">
-            <img src={githubUsername !== '' ? (`https://github.com/${githubUsername}.png` as string) : defaultAvatar} alt="avatar" className="student-img" />
+            <img
+              src={
+                githubUsername !== ''
+                  ? (`https://github.com/${githubUsername}.png` as string)
+                  : defaultAvatar
+              }
+              alt="avatar"
+              className="student-img"
+            />
             <p className="student-name">{`${firstName} ${lastName}`}</p>
           </div>
         </div>
@@ -50,7 +76,10 @@ export const ToTalkStudent = ({addedDate, githubUsername, firstName, lastName, i
               <Button onClick={() => showCv()} text="Pokaż CV" />
             </Link>
             <div className="btn-container">
-              <Button text="Brak zainteresowania" />
+              <Button
+                text="Brak zainteresowania"
+                onClick={handleRemoveStudent}
+              />
             </div>
             <Button text="Zatrudniony" />
           </div>

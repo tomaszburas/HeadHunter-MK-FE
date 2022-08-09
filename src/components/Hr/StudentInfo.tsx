@@ -1,12 +1,10 @@
 import styled from 'styled-components';
-import {AllAvailableUsers} from "../../types/interfaces/Student/EmploymentInterface";
+import {AllAvailableUsers} from '../../types/interfaces/Student/EmploymentInterface';
 
 interface Props {
   isOpen: boolean;
   user?: AllAvailableUsers;
 }
-
-
 
 export const StudentInfo = ({isOpen, user}: Props) => {
   return (
@@ -20,7 +18,7 @@ export const StudentInfo = ({isOpen, user}: Props) => {
       <div className="info-wrapper">
         <p className="info-title">Ocena aktywności i zaangażowania na kursie</p>
         <p className="info-data">
-          <span>{user?.courseEngagment}</span> /5
+          <span>{user?.courseEngagement}</span> /5
         </p>
       </div>
       <div className="info-wrapper">
@@ -70,7 +68,18 @@ export const StudentInfo = ({isOpen, user}: Props) => {
       <div className="info-wrapper">
         <p className="info-title">Komercyjne doświadczenie w programowaniu</p>
         <p className="info-data">
-          <span>{user?.monthsOfCommercialExp === 0 ? 'Brak' : user?.monthsOfCommercialExp + ' miesięcy'}</span>
+          <span>
+            {user?.monthsOfCommercialExp === 0 && 'Brak'}
+            {user?.monthsOfCommercialExp === 1 &&
+              `${user.monthsOfCommercialExp} miesiąc`}
+            {user &&
+              user.monthsOfCommercialExp >= 2 &&
+              user.monthsOfCommercialExp <= 4 &&
+              `${user.monthsOfCommercialExp} miesiące`}
+            {user &&
+              user.monthsOfCommercialExp >= 5 &&
+              `${user.monthsOfCommercialExp} miesięcy`}
+          </span>
         </p>
       </div>
     </Container>

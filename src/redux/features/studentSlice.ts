@@ -30,7 +30,7 @@ export interface StudentState {
   firstLogin: boolean;
   dateAdded?: Date;
   avatarUrl?: string;
-  bonusProjectUrls?: string[],
+  bonusProjectUrls?: string[];
   _id?: string;
 }
 
