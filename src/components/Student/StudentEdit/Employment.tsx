@@ -34,7 +34,6 @@ export const Employment = ({
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const value = {...state};
-    console.log(e.target.value);
     setState({...value, [`${e.target.name}`]: e.target.value});
   };
 
