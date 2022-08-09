@@ -17,8 +17,11 @@ export const HrAvailableStudents = () => {
     const itemsOnPage = useSelector((state: RootState) => state.pagination.itemsOnPage);
     const page = useSelector((state: RootState) => state.pagination.page);
     const pages = useSelector((state: RootState) => state.pagination.totalPages);
+    const addedToTalk = useSelector((state: RootState) => state.users);
     const dispatch = useDispatch();
 
+
+    console.log(addedToTalk)
 
     useEffect(() => {
         (async () => {
@@ -27,7 +30,7 @@ export const HrAvailableStudents = () => {
             dispatch(setTotalPages({pages: all.pages}))
 
         })();
-    }, [page, itemsOnPage, pages]);
+    }, [page, itemsOnPage, pages, addedToTalk]);
 
 
      return (

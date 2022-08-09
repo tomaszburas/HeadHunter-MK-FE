@@ -25,9 +25,6 @@ export const hrSlice = createSlice({
       state.email = action.payload.email;
       state.id = action.payload.id;
     },
-    setUsers: () => {
-
-    }
   },
 });
 

@@ -4,8 +4,38 @@ import styled from 'styled-components';
 import avatar from '../../assets/images/avatar.png';
 import {Button} from '../../components/Button';
 import {Link} from 'react-router-dom';
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux";
+import {StudentState} from "../../redux/features/studentSlice";
 
 export const HrStudentCv = () => {
+  const {
+    email,
+    firstName,
+    githubUsername,
+    lastName,
+    tel,
+      bio,
+      courseCompletion,
+      courseEngagement,
+      monthsOfCommercialExp,
+      courses,
+      scrumUrls,
+      education,
+      expectedContractType,
+      bonusProjectUrls,
+      canTakeApprenticeship,
+      portfolioUrls,
+      targetWorkCity,
+      workExperience,
+      expectedSalary,
+      projectDegree,
+      avatarUrl,
+      projectUrls,
+      expectedTypeWork,
+      teamProjectDegree
+  } = useSelector(({users}: RootState) => users.user) as StudentState;
+
   return (
     <>
       <Header />
@@ -18,11 +48,11 @@ export const HrStudentCv = () => {
                 Wróć
               </button>
             </Link>
-            <img src={avatar} alt="avatar" className="student-img" />
-            <p className="student-name">Jan Kowalski</p>
-            <a href="https://github.com/" target="_blank" rel="noreferrer">
+            <img src={avatarUrl} alt="avatar" className="student-img" />
+            <p className="student-name">{firstName} {lastName}</p>
+            <a href={`https://github.com/${githubUsername}`} target="_blank" rel="noreferrer">
               <p className="student-github">
-                <i className="bx bxl-github" /> jankowalski
+                <i className="bx bxl-github" /> {githubUsername}
               </p>
             </a>
             <div className="student-contact">
@@ -31,7 +61,7 @@ export const HrStudentCv = () => {
                   <i className="bx bxs-phone" />
                 </span>
                 <p className="contact-txt">
-                  <a href="tel:123-456-444">+48 333 444 555</a>
+                  <a href="tel:123-456-444">+48 {tel}</a>
                 </p>
               </div>
               <div className="student-contact-box">
@@ -39,17 +69,14 @@ export const HrStudentCv = () => {
                   <i className="bx bxs-envelope" />
                 </span>
                 <p className="contact-txt">
-                  <a href="mailto:name@email.com">jankowalski@gmail.com</a>
+                  <a href={`mailto:${email}`}>{email}</a>
                 </p>
               </div>
             </div>
             <div className="student-description">
               <p className="student-description-title">O mnie</p>
               <p className="student-description-txt">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
-                cumque eligendi laboriosam magnam, maxime nisi omnis porro
-                quisquam reiciendis temporibus. Accusantium blanditiis dolorum
-                excepturi id illum ipsa, magni quam voluptatibus.
+                {bio}
               </p>
             </div>
             <div className="button-container">
@@ -67,7 +94,7 @@ export const HrStudentCv = () => {
                   <p className="content-box-title">Ocena przejścia kursu</p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">3</span> /5
+                      <span className="txt-data--white">{courseCompletion}</span> /5
                     </p>
                     <div className="data">
                       <span className="stars-data--active">
@@ -90,7 +117,7 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">3</span> /5
+                      <span className="txt-data--white">{courseEngagement}</span> /5
                     </p>
                     <div className="data">
                       <span className="stars-data--active">
@@ -113,7 +140,7 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">3</span> /5
+                      <span className="txt-data--white">{projectDegree}</span> /5
                     </p>
                     <div className="data">
                       <span className="stars-data--active">
@@ -136,7 +163,7 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">3</span> /5
+                      <span className="txt-data--white">{teamProjectDegree}</span> /5
                     </p>
                     <div className="data">
                       <span className="stars-data--active">
@@ -163,7 +190,7 @@ export const HrStudentCv = () => {
                   <p className="content-box-title">Preferowane miejsce pracy</p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">Biuro</span>
+                      <span className="txt-data--white">{expectedTypeWork}</span>
                     </p>
                   </div>
                 </div>
@@ -173,7 +200,7 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">Warszawa</span>
+                      <span className="txt-data--white">{targetWorkCity}</span>
                     </p>
                   </div>
                 </div>
@@ -181,7 +208,7 @@ export const HrStudentCv = () => {
                   <p className="content-box-title">Oczekiwany typ kontraktu</p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">UoP</span>
+                      <span className="txt-data--white">{expectedContractType}</span>
                     </p>
                   </div>
                 </div>
@@ -191,7 +218,7 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">8000zł</span>
+                      <span className="txt-data--white">{expectedSalary} zł</span>
                     </p>
                   </div>
                 </div>
@@ -201,7 +228,7 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">TAK</span>
+                      <span className="txt-data--white">{canTakeApprenticeship ? 'TAK' : "NIE"}</span>
                     </p>
                   </div>
                 </div>
@@ -211,7 +238,7 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">6 miesięcy</span>
+                      <span className="txt-data--white">{monthsOfCommercialExp === 0 ? 'BRAK' : `${monthsOfCommercialExp} miesięcy`}</span>
                     </p>
                   </div>
                 </div>
@@ -221,30 +248,21 @@ export const HrStudentCv = () => {
             <div className="data-wrapper">
               <p className="title">Edukacja</p>
               <div className="content line-height">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Adipisci alias animi architecto commodi consectetur deserunt
-                ducimus fugit, harum illo iste labore libero magnam minima natus
-                numquam quia ratione sapiente sed.
+                {education}
               </div>
             </div>
 
             <div className="data-wrapper">
               <p className="title">Kursy</p>
               <div className="content line-height">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Adipisci alias animi architecto commodi consectetur deserunt
-                ducimus fugit, harum illo iste labore libero magnam minima natus
-                numquam quia ratione sapiente sed.
+                {courses}
               </div>
             </div>
 
             <div className="data-wrapper">
               <p className="title">Doświadczenie zawodowe</p>
               <div className="content line-height">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Adipisci alias animi architecto commodi consectetur deserunt
-                ducimus fugit, harum illo iste labore libero magnam minima natus
-                numquam quia ratione sapiente sed.
+                {workExperience}
               </div>
             </div>
 
@@ -254,14 +272,16 @@ export const HrStudentCv = () => {
                 <div className="link-container">
                   <div className="link-box">
                     <i className="bx bx-link-alt" />
-                    <a
-                      href="https://github.com"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="link"
-                    >
-                      https://github.com
-                    </a>
+                    {portfolioUrls?.map((item) => (
+                        <a
+                            href={`${item}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="link"
+                        >
+                          {item}
+                        </a>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -273,25 +293,29 @@ export const HrStudentCv = () => {
                 <div className="link-container">
                   <div className="link-box">
                     <i className="bx bx-link-alt" />
-                    <a
-                      href="https://github.com"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="link"
-                    >
-                      https://github.com
-                    </a>
+                    {projectUrls?.map((item) => (
+                        <a
+                            href="https://github.com"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="link"
+                        >
+                          {item}
+                        </a>
+                    ))}
                   </div>
                   <div className="link-box">
                     <i className="bx bx-link-alt" />
-                    <a
-                      href="https://github.com"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="link"
-                    >
-                      https://github.com
-                    </a>
+                    {scrumUrls?.map((item) => (
+                        <a
+                            href="https://github.com"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="link"
+                        >
+                          {item}
+                        </a>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -303,25 +327,16 @@ export const HrStudentCv = () => {
                 <div className="link-container">
                   <div className="link-box">
                     <i className="bx bx-link-alt" />
-                    <a
-                      href="https://github.com"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="link"
-                    >
-                      https://github.com
-                    </a>
-                  </div>
-                  <div className="link-box">
-                    <i className="bx bx-link-alt" />
-                    <a
-                      href="https://github.com"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="link"
-                    >
-                      https://github.com
-                    </a>
+                    {bonusProjectUrls?.map((item) => (
+                        <a
+                            href="https://github.com"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="link"
+                        >
+                          {item}
+                        </a>
+                    ))}
                   </div>
                 </div>
               </div>

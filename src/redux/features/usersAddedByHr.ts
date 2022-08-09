@@ -2,11 +2,13 @@ import { createSlice } from "@reduxjs/toolkit"
 import { AllAvailableUsers } from "../../types/interfaces/Student/EmploymentInterface"
 
 export interface Users {
-    users: AllAvailableUsers[]
+    users: AllAvailableUsers[],
+    user: any
 }
 
 const initialState = {
-    users: []
+    users: [],
+    user: {},
 }
 
 export interface Actions {
@@ -21,8 +23,11 @@ export const usersAddedByHr = createSlice({
     reducers: {
         addStudent: (state: Users , actions: Actions ) => {
            state.users.push(actions.payload.user)
+        },
+        getObject: (state: Users , actions: Actions ) => {
+            state.user = actions.payload.user;
         }
     }
 })
 
-export const {addStudent} = usersAddedByHr.actions;
+export const {addStudent, getObject} = usersAddedByHr.actions;

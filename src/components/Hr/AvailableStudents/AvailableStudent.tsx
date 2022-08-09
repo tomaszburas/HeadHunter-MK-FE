@@ -5,7 +5,9 @@ import {StudentInfo} from '../StudentInfo';
 import {UnderlineHr} from '../../../assets/styled/Hr/UnderlineHr';
 import {AllAvailableUsers} from "../../../types/interfaces/Student/EmploymentInterface";
 import {API_URL} from "../../../config";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {addStudent} from "../../../redux/features/usersAddedByHr";
+import {RootState} from "../../../redux";
 
 export const AvailableStudent = (user: AllAvailableUsers) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -17,9 +19,9 @@ export const AvailableStudent = (user: AllAvailableUsers) => {
             credentials: 'include',
             mode: 'cors',
         });
-        await res.json();
+        const user = await res.json();
+        return dispatch(addStudent({user: user.user}))
     }
-
 
     return (
         <>

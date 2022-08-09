@@ -5,8 +5,7 @@ import {useEffect, useState} from "react";
 import {API_URL} from "../../../config";
 
 export const ToTalkStudents = () => {
-  const [users, setUsers] = useState([]);
-
+  const [users, setUsers] = useState<StudentState[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -19,13 +18,10 @@ export const ToTalkStudents = () => {
     })();
   }, [])
 
-
-  console.log(users)
-
   return (
     <ContainerHrStudents>
-        {users.map((user: StudentState) =>
-            <ToTalkStudent firstName={user.firstName} githubUsername={user.githubUsername as string} lastName={user.lastName} addedDate={user.dateAdded as Date}/>
+        {users.map((user) =>
+            <ToTalkStudent key={user._id} id={user._id as string} firstName={user.firstName} githubUsername={user.githubUsername as string} lastName={user.lastName} addedDate={user.dateAdded as Date}/>
         )}
     </ContainerHrStudents>
   );
