@@ -13,12 +13,13 @@ export interface EmploymentInterface {
 
 export interface AllAvailableUsers extends EmploymentInterface {
   id: string;
-  name: string;
+  firstName: string;
   lastName: string;
   courseCompletion: number;
   courseEngagment: number;
   projectDegree: number;
   teamProjectDegree: number;
+  date?: Date;
 }
 
 export interface Users  {

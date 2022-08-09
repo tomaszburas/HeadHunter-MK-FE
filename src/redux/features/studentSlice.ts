@@ -28,6 +28,8 @@ export interface StudentState {
   scrumUrls: string[];
   projectUrls: string[];
   firstLogin: boolean;
+  dateAdded?: Date;
+  avatarUrl?: string;
 }
 
 const initialState: StudentState = {

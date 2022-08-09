@@ -19,6 +19,7 @@ export const HrAvailableStudents = () => {
     const pages = useSelector((state: RootState) => state.pagination.totalPages);
     const dispatch = useDispatch();
 
+
     useEffect(() => {
         (async () => {
             const all = await fetchAllAvailableUsers(+itemsOnPage, page);
@@ -26,7 +27,7 @@ export const HrAvailableStudents = () => {
             dispatch(setTotalPages({pages: all.pages}))
 
         })();
-    }, [page, itemsOnPage]);
+    }, [page, itemsOnPage, pages]);
 
 
      return (
