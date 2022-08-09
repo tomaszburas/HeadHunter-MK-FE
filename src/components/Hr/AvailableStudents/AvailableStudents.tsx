@@ -9,7 +9,7 @@ export const AvailableStudents = (users: Users) => {
   const {name} = useSelector((state: RootState) => state.name);
   return (
     <ContainerHrStudents>
-        {users.users?.filter((item) => (item.name.toLowerCase()).includes(name.trim()))
+        {users.users?.filter((item) => (item.firstName.toLowerCase()).includes(name))
           .map((item) => (
             <AvailableStudent key={item.id}
                               id={item.id}
@@ -17,7 +17,7 @@ export const AvailableStudents = (users: Users) => {
                               expectedContractType={item.expectedContractType}
                               expectedSalary={item.expectedSalary}
                               expectedTypeWork={item.expectedTypeWork}
-                              name={item.name}
+                              firstName={item.firstName}
                               lastName={item.lastName}
                               monthsOfCommercialExp={item.monthsOfCommercialExp}
                               targetWorkCity={item.targetWorkCity}

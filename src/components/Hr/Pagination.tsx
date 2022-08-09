@@ -30,8 +30,6 @@ export const Pagination = () => {
         }
 
     }
-    console.log(pages, page)
-
   return (
     <Container>
       <p className="pagination-title">Ilość elementów:</p>

@@ -3,11 +3,19 @@ import {Button} from '../../Button';
 import {StudentInfo} from '../StudentInfo';
 import styled from 'styled-components';
 import {UnderlineHr} from '../../../assets/styled/Hr/UnderlineHr';
-import avatar from '../../../assets/images/avatar.png';
 import {Link} from 'react-router-dom';
+import defaultAvatar from "../../../assets/images/avatar.png";
 
-export const ToTalkStudent = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface User {
+  firstName: string;
+  lastName: string;
+  githubUsername: string;
+  addedDate: Date;
+}
+
+export const ToTalkStudent = ({addedDate, githubUsername, firstName, lastName}: User) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const result = addedDate.setDate(addedDate.getDate() + 10);
 
   return (
     <>
@@ -15,11 +23,11 @@ export const ToTalkStudent = () => {
         <div className="student-info">
           <div className="student-reservation">
             <p className="student-reservation-title">Rezerwacja do:</p>
-            <p className="student-reservation-date">11.09.2022 r.</p>
+            <p className="student-reservation-date">{result.toString().slice(0, 10)}</p>
           </div>
           <div className="student-data">
-            <img src={avatar} alt="avatar" className="student-img" />
-            <p className="student-name">Jan Kowalski</p>
+            <img src={githubUsername !== '' ? (`https://github.com/${githubUsername}.png` as string) : defaultAvatar} alt="avatar" className="student-img" />
+            <p className="student-name">{`${firstName} ${lastName}`}</p>
           </div>
         </div>
         <div className="student-nav">
