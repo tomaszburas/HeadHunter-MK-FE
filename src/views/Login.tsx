@@ -13,6 +13,7 @@ import {toast} from 'react-toastify';
 import {setAdmin} from '../redux/features/adminSlice';
 import {useNavigate} from 'react-router-dom';
 import {setStudent} from '../redux/features/studentSlice';
+import {setHr} from '../redux/features/hrSlice';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -57,7 +58,7 @@ export const Login = () => {
       }
       if (data.user.role === Role.HR) {
         dispatch(
-          setStudent({
+          setHr({
             ...data.user,
           })
         );

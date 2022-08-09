@@ -7,6 +7,7 @@ import {Loader} from '../views/Loader';
 import {Role} from '../types/enums/Role';
 import {setAdmin} from '../redux/features/adminSlice';
 import {setStudent} from '../redux/features/studentSlice';
+import {setHr} from '../redux/features/hrSlice';
 
 interface Props {
   children: ReactNode;
@@ -44,6 +45,13 @@ export const Auth = ({children}: Props) => {
       if (data.role === Role.STUDENT) {
         dispatch(
           setStudent({
+            ...data.user,
+          })
+        );
+      }
+      if (data.role === Role.HR) {
+        dispatch(
+          setHr({
             ...data.user,
           })
         );
