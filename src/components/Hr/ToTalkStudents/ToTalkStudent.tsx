@@ -15,7 +15,9 @@ interface User {
 
 export const ToTalkStudent = ({addedDate, githubUsername, firstName, lastName}: User) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const result = addedDate.setDate(addedDate.getDate() + 10);
+  const [isAvatar, setIsAvatar] = useState<boolean>(false);
+
+  console.log(githubUsername)
 
   return (
     <>
@@ -23,10 +25,10 @@ export const ToTalkStudent = ({addedDate, githubUsername, firstName, lastName}: 
         <div className="student-info">
           <div className="student-reservation">
             <p className="student-reservation-title">Rezerwacja do:</p>
-            <p className="student-reservation-date">{result.toString().slice(0, 10)}</p>
+            <p className="student-reservation-date">{addedDate.toString().slice(0, 10)}</p>
           </div>
           <div className="student-data">
-            <img src={githubUsername !== '' ? (`https://github.com/${githubUsername}.png` as string) : defaultAvatar} alt="avatar" className="student-img" />
+            <img src={ githubUsername !== '' ? (`https://github.com/${githubUsername}.png` as string) : defaultAvatar} alt="avatar" className="student-img" />
             <p className="student-name">{`${firstName} ${lastName}`}</p>
           </div>
         </div>
