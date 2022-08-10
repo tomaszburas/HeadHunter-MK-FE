@@ -28,7 +28,6 @@ export const AddStudentsForm = () => {
         }
 
         return {
-          id: obj.id,
           email: obj.email,
           courseCompletion: obj.courseCompletion,
           courseEngagement: obj.courseEngagement,
