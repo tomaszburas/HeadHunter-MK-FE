@@ -9,6 +9,7 @@ import {API_URL} from '../../../config';
 import {useDispatch, useSelector} from 'react-redux';
 import {getObject} from '../../../redux/features/usersAddedByHr';
 import {RootState} from '../../../redux';
+import {AllAvailableUsers, EmploymentInterface} from "../../../types/interfaces/Student/EmploymentInterface";
 
 interface User {
   id: string;
@@ -16,6 +17,7 @@ interface User {
   lastName: string;
   githubUsername: string;
   addedDate: Date;
+  user?: AllAvailableUsers,
 }
 
 export const ToTalkStudent = ({
@@ -24,6 +26,7 @@ export const ToTalkStudent = ({
   firstName,
   lastName,
   id,
+    user
 }: User) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -36,10 +39,6 @@ export const ToTalkStudent = ({
     const expiredDate = new Date(Number(date[0]), Number(date[1]), +day + 10);
     setDate(expiredDate.toLocaleDateString())
   }, [dateState])
-
-
-
-
 
   const showCv = async () => {
     const res = await fetch(`${API_URL}/user/details/${id}`);
@@ -54,6 +53,7 @@ export const ToTalkStudent = ({
       mode: 'cors',
     });
   };
+
 
   return (
     <>
@@ -104,7 +104,7 @@ export const ToTalkStudent = ({
           )}
         </div>
       </Wrapper>
-      <StudentInfo isOpen={isOpen} />
+      <StudentInfo isOpen={isOpen} user={user as AllAvailableUsers} />
       <UnderlineHr />
     </>
   );

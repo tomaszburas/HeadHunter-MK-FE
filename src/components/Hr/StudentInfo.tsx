@@ -18,7 +18,7 @@ export const StudentInfo = ({isOpen, user}: Props) => {
       <div className="info-wrapper">
         <p className="info-title">Ocena aktywności i zaangażowania na kursie</p>
         <p className="info-data">
-          <span>{user?.courseEngagment}</span> /5
+          <span>{user?.courseEngagement}</span> /5
         </p>
       </div>
       <div className="info-wrapper">

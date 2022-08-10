@@ -1,7 +1,6 @@
 import {Header} from '../../components/Header/Header';
 import {WrapperHr} from '../../assets/styled/Hr/WrapperHr';
 import styled from 'styled-components';
-import avatar from '../../assets/images/avatar.png';
 import {Button} from '../../components/Button';
 import {Link} from 'react-router-dom';
 import {useSelector} from "react-redux";
@@ -17,7 +16,7 @@ export const HrStudentCv = () => {
     tel,
       bio,
       courseCompletion,
-      courseEngagement,
+    courseEngagement,
       monthsOfCommercialExp,
       courses,
       scrumUrls,
@@ -270,8 +269,8 @@ export const HrStudentCv = () => {
               <p className="title">Portfolio</p>
               <div className="content">
                 <div className="link-container">
-                  {portfolioUrls?.map((item) => (
-                      <div className="link-box">
+                  {portfolioUrls?.map((item, index) => (
+                      <div key={index} className="link-box">
                         <i className="bx bx-link-alt" />
                         <a
                             href={`${item}`}
@@ -290,8 +289,8 @@ export const HrStudentCv = () => {
               <p className="title">Projekt w zespole Scrumowym</p>
               <div className="content">
                 <div className="link-container">
-                  {scrumUrls.length === 0 ? 'Nie podano tej informacji.' : scrumUrls?.map((item) => (
-                      <div className="link-box">
+                  {scrumUrls && scrumUrls.length !== 0 ? scrumUrls?.map((item, index) => (
+                      <div key={index} className="link-box">
                         <i className="bx bx-link-alt" />
                         <a
                             href="https://github.com"
@@ -299,10 +298,10 @@ export const HrStudentCv = () => {
                             rel="noreferrer"
                             className="link"
                         >
-                          elo
+                          {item}
                         </a>
                       </div>
-                  ))}
+                  )) : 'Brak danych.'}
                 </div>
               </div>
             </div>
@@ -311,8 +310,8 @@ export const HrStudentCv = () => {
               <p className="title">Projekt na zaliczenie</p>
               <div className="content">
                 <div className="link-container">
-                  {bonusProjectUrls?.map((item) => (
-                      <div className="link-box">
+                  {bonusProjectUrls?.map((item, index) => (
+                      <div key={index} className="link-box">
                         <i className="bx bx-link-alt" />
                         <a
                             href={item}

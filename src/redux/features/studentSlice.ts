@@ -35,6 +35,7 @@ export interface StudentState {
 }
 
 const initialState: StudentState = {
+  courseEngagement: 0,
   id: '',
   firstName: '',
   lastName: '',
@@ -43,7 +44,6 @@ const initialState: StudentState = {
   githubUsername: '',
   bio: '',
   courseCompletion: 0,
-  courseEngagement: 0,
   projectDegree: 0,
   teamProjectDegree: 0,
   expectedTypeWork: WorkType.WHATEVER,
@@ -58,7 +58,7 @@ const initialState: StudentState = {
   portfolioUrls: [''],
   scrumUrls: [''],
   projectUrls: [''],
-  firstLogin: true,
+  firstLogin: true
 };
 
 interface SetStudent {

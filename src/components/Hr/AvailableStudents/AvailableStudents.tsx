@@ -34,7 +34,7 @@ export const AvailableStudents = ({students}: Props) => {
                 monthsOfCommercialExp={item.monthsOfCommercialExp}
                 targetWorkCity={item.targetWorkCity}
                 courseCompletion={item.courseCompletion}
-                courseEngagment={item.courseEngagement}
+                courseEngagement={item.courseEngagement}
                 projectDegree={item.projectDegree}
                 teamProjectDegree={item.teamProjectDegree}
               />

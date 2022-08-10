@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import {MiniLoader} from '../../MiniLoader';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux';
+import {AllAvailableUsers} from "../../../types/interfaces/Student/EmploymentInterface";
 
 interface Props {
   students: StudentState[] | null;
@@ -29,6 +30,7 @@ export const ToTalkStudents = ({students}: Props) => {
                 githubUsername={user.githubUsername}
                 lastName={user.lastName}
                 addedDate={user.dateAdded as Date}
+                user={user as AllAvailableUsers}
               />
             ))
         )
