@@ -361,10 +361,33 @@ export const HrStudentCv = () => {
               </div>
             )}
 
+            {student?.projectUrls && student?.projectUrls.length !== 0 && (
+              <div className="data-wrapper">
+                <p className="title">Projekt zaliczeniowy</p>
+                <div className="content">
+                  <div className="link-container">
+                    {student?.projectUrls?.map((item, index) => (
+                      <div key={index} className="link-box">
+                        <i className="bx bx-link-alt" />
+                        <a
+                          href={item}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="link"
+                        >
+                          {item}
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
             {student?.bonusProjectUrls &&
               student?.bonusProjectUrls.length !== 0 && (
                 <div className="data-wrapper">
-                  <p className="title">Projekt na zaliczenie</p>
+                  <p className="title">Projekt z etapu bonusowego</p>
                   <div className="content">
                     <div className="link-container">
                       {student?.bonusProjectUrls?.map((item, index) => (
