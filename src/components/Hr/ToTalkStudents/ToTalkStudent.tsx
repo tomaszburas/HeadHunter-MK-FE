@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Button} from '../../Button';
 import {StudentInfo} from '../StudentInfo';
 import styled from 'styled-components';
@@ -28,10 +28,18 @@ export const ToTalkStudent = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
   const {id: hrId} = useSelector((store: RootState) => store.auth);
+  const [dateState, setDate] = useState<string>('');
 
-  // const date = addedDate.toString().split('-');
-  // const day = date[2].split('T')[0];
-  // const expiredDate = new Date(Number(date[0]), Number(date[1]), +day + 10);
+  useEffect(() => {
+    const date = addedDate.toString().split('-');
+    const day = date[2].split('T')[0];
+    const expiredDate = new Date(Number(date[0]), Number(date[1]), +day + 10);
+    setDate(expiredDate.toLocaleDateString())
+  }, [dateState])
+
+
+
+
 
   const showCv = async () => {
     const res = await fetch(`${API_URL}/user/details/${id}`);
@@ -54,7 +62,7 @@ export const ToTalkStudent = ({
           <div className="student-reservation">
             <p className="student-reservation-title">Rezerwacja do:</p>
             <p className="student-reservation-date">
-              {/*{expiredDate.toLocaleDateString().slice(0, 12)}*/}
+              {dateState}
             </p>
           </div>
           <div className="student-data">

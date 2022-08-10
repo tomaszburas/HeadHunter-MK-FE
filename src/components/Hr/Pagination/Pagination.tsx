@@ -25,7 +25,7 @@ export const Pagination = ({
     if (pages === page) {
       setPage(pages);
     }
-  }, [page]);
+  }, [page, pages]);
 
   const clickUp = () => {
     if (page === pages) {
@@ -47,6 +47,7 @@ export const Pagination = ({
     setPage(1);
     setItemsOnPage(Number(e.target.value));
   };
+
 
   return (
     <Container>

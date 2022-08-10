@@ -12,6 +12,8 @@ export const AvailableStudent = (user: AllAvailableUsers) => {
   const [isOpen, setIsOpen] = useState(false);
   const {id} = useSelector((store: RootState) => store.auth);
 
+  //useCallback?
+
   const addToTalk = async () => {
     await fetch(`${API_URL}/hr/addToTalk/${id}/${user.id}`, {
       credentials: 'include',

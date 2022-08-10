@@ -16,7 +16,7 @@ export interface AllAvailableUsers extends EmploymentInterface {
   firstName: string;
   lastName: string;
   courseCompletion: number;
-  courseEngagement: number;
+  courseEngagment: number;
   projectDegree: number;
   teamProjectDegree: number;
   date?: Date;

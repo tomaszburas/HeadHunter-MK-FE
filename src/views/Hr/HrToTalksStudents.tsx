@@ -22,7 +22,6 @@ export const HrTTStudents = () => {
   useEffect(() => {
     (async () => {
       const data = await fetchAllToTalkUsers(+itemsOnPage, page, id as string);
-
       if (data.success) {
         setStudents(data.users);
         setPages(data.pages);
@@ -31,6 +30,7 @@ export const HrTTStudents = () => {
       }
     })();
   }, [page, itemsOnPage, pages, students]);
+
 
   return (
     <>

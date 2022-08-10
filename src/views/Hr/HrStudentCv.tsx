@@ -270,9 +270,9 @@ export const HrStudentCv = () => {
               <p className="title">Portfolio</p>
               <div className="content">
                 <div className="link-container">
-                  <div className="link-box">
-                    <i className="bx bx-link-alt" />
-                    {portfolioUrls?.map((item) => (
+                  {portfolioUrls?.map((item) => (
+                      <div className="link-box">
+                        <i className="bx bx-link-alt" />
                         <a
                             href={`${item}`}
                             target="_blank"
@@ -281,42 +281,28 @@ export const HrStudentCv = () => {
                         >
                           {item}
                         </a>
-                    ))}
-                  </div>
+                      </div>
+                  ))}
                 </div>
               </div>
             </div>
-
             <div className="data-wrapper">
               <p className="title">Projekt w zespole Scrumowym</p>
               <div className="content">
                 <div className="link-container">
-                  <div className="link-box">
-                    <i className="bx bx-link-alt" />
-                    {projectUrls?.map((item) => (
+                  {scrumUrls.length === 0 ? 'Nie podano tej informacji.' : scrumUrls?.map((item) => (
+                      <div className="link-box">
+                        <i className="bx bx-link-alt" />
                         <a
                             href="https://github.com"
                             target="_blank"
                             rel="noreferrer"
                             className="link"
                         >
-                          {item}
+                          elo
                         </a>
-                    ))}
-                  </div>
-                  <div className="link-box">
-                    <i className="bx bx-link-alt" />
-                    {scrumUrls?.map((item) => (
-                        <a
-                            href="https://github.com"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="link"
-                        >
-                          {item}
-                        </a>
-                    ))}
-                  </div>
+                      </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -325,19 +311,19 @@ export const HrStudentCv = () => {
               <p className="title">Projekt na zaliczenie</p>
               <div className="content">
                 <div className="link-container">
-                  <div className="link-box">
-                    <i className="bx bx-link-alt" />
-                    {bonusProjectUrls?.map((item) => (
+                  {bonusProjectUrls?.map((item) => (
+                      <div className="link-box">
+                        <i className="bx bx-link-alt" />
                         <a
-                            href="https://github.com"
+                            href={item}
                             target="_blank"
                             rel="noreferrer"
                             className="link"
                         >
                           {item}
                         </a>
-                    ))}
-                  </div>
+                      </div>
+                  ))}
                 </div>
               </div>
             </div>

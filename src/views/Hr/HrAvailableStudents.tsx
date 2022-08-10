@@ -5,7 +5,7 @@ import {UtilsHr} from '../../components/Hr/UtilsHr';
 import {Pagination} from '../../components/Hr/Pagination/Pagination';
 import {NavigationHr} from '../../types/enums/NavigationHr';
 import {WrapperHr} from '../../assets/styled/Hr/WrapperHr';
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {fetchAllAvailableUsers} from '../../utils/fetch/fetchAllAvailableUsers';
 import {ItemsOnPageEnum} from '../../types/enums/ItemsOnPageEnum';
 import {StudentState} from '../../redux/features/studentSlice';
@@ -30,7 +30,7 @@ export const HrAvailableStudents = () => {
   }, [page, itemsOnPage, pages, students]);
 
   return (
-    <>
+    <>q
       <Header />
       <WrapperHr>
         <NavHr activeLink={NavigationHr.AVAILABLE_STUDENTS} />
