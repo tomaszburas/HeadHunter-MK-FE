@@ -2,15 +2,29 @@ import {Header} from '../../components/Header/Header';
 import {WrapperHr} from '../../assets/styled/Hr/WrapperHr';
 import styled from 'styled-components';
 import {Button} from '../../components/Button';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useEffect, useState} from "react";
 import {API_URL} from "../../config";
 import {StudentState} from "../../redux/features/studentSlice";
 import {v4 as uuid} from "uuid";
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux";
 
 export const HrStudentCv = () => {
   const [student, setStudent] = useState<StudentState | null>(null);
+  const {id: hrId} = useSelector((store: RootState) => store.auth);
   const {id} = useParams();
+  const navigate = useNavigate()
+
+
+  const handleRemoveStudent = async () => {
+    await fetch(`${API_URL}/hr/not-interested/${hrId}/${id}`, {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'cors',
+    });
+    navigate('/hr/to-talk', {replace: true});
+  };
 
   useEffect(() => {
     const showCv = async () => {
@@ -19,7 +33,7 @@ export const HrStudentCv = () => {
       setStudent(data.user);
     };
     showCv();
-  }, [])
+  }, [id, student])
 
   const stars = (star: number) => {
     const arr = [];
@@ -82,7 +96,7 @@ export const HrStudentCv = () => {
             </div>
             <div className="button-container">
               <div className="button-box">
-                <Button text="Brak zainteresowania" />
+                <Button onClick={() => handleRemoveStudent()} text="Brak zainteresowania"/>
               </div>
               <Button text="Zatrudniony 🔥" />
             </div>

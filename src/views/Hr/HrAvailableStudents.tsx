@@ -19,7 +19,6 @@ export const HrAvailableStudents = () => {
   useEffect(() => {
     (async () => {
       const data = await fetchAllAvailableUsers(+itemsOnPage, page);
-
       if (data.success) {
         setStudents(data.users);
         setPages(data.pages);
