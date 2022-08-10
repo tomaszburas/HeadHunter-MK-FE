@@ -9,9 +9,10 @@ import {AllAvailableUsers} from "../../../types/interfaces/Student/EmploymentInt
 
 interface Props {
   students: StudentState[] | null;
+  setStudents: any;
 }
 
-export const ToTalkStudents = ({students}: Props) => {
+export const ToTalkStudents = ({students, setStudents}: Props) => {
   const {name} = useSelector((state: RootState) => state.name);
 
   return (
@@ -30,6 +31,7 @@ export const ToTalkStudents = ({students}: Props) => {
                 githubUsername={user.githubUsername}
                 lastName={user.lastName}
                 addedDate={user.dateAdded as Date}
+                setStudents={setStudents}
                 user={user as AllAvailableUsers}
               />
             ))

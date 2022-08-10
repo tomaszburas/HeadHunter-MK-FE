@@ -8,7 +8,9 @@ import defaultAvatar from '../../../assets/images/avatar.png';
 import {API_URL} from '../../../config';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux';
-import {AllAvailableUsers} from "../../../types/interfaces/Student/EmploymentInterface";
+import {StudentState} from '../../../redux/features/studentSlice';
+import {toast} from 'react-toastify';
+import {AllAvailableUsers} from '../../../types/interfaces/Student/EmploymentInterface';
 
 interface User {
   id: string;
@@ -16,7 +18,8 @@ interface User {
   lastName: string;
   githubUsername: string;
   addedDate: Date;
-  user?: AllAvailableUsers,
+  user?: AllAvailableUsers;
+  setStudents: any;
 }
 
 export const ToTalkStudent = ({
@@ -25,7 +28,8 @@ export const ToTalkStudent = ({
   firstName,
   lastName,
   id,
-    user
+  setStudents,
+  user,
 }: User) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const {id: hrId} = useSelector((store: RootState) => store.auth);
@@ -35,16 +39,26 @@ export const ToTalkStudent = ({
     const date = addedDate.toString().split('-');
     const day = date[2].split('T')[0];
     const expiredDate = new Date(Number(date[0]), Number(date[1]), +day + 10);
-    setDate(expiredDate.toLocaleDateString())
-  }, [dateState])
-
+    setDate(expiredDate.toLocaleDateString());
+  }, [dateState]);
 
   const handleRemoveStudent = async () => {
-    await fetch(`${API_URL}/hr/not-interested/${hrId}/${id}`, {
+    const res = await fetch(`${API_URL}/hr/not-interested/${hrId}/${id}`, {
       method: 'GET',
       credentials: 'include',
       mode: 'cors',
     });
+
+    const data = await res.json();
+
+    if (data.success) {
+      setStudents((prev: StudentState[]) => {
+        console.log(prev);
+        return [...prev].filter((el) => el.id !== id);
+      });
+    } else {
+      toast.error(data.message);
+    }
   };
 
   return (
@@ -53,9 +67,7 @@ export const ToTalkStudent = ({
         <div className="student-info">
           <div className="student-reservation">
             <p className="student-reservation-title">Rezerwacja do:</p>
-            <p className="student-reservation-date">
-              {dateState}
-            </p>
+            <p className="student-reservation-date">{dateState}</p>
           </div>
           <div className="student-data">
             <img
@@ -73,15 +85,15 @@ export const ToTalkStudent = ({
         <div className="student-nav">
           <div className="student-nav-buttons">
             <Link to={`/hr/cv/${id}`}>
-              <Button text="Pokaż CV"/>
+              <Button text="Pokaż CV" />
             </Link>
             <div className="btn-container">
               <Button
-                  text="Brak zainteresowania"
-                  onClick={handleRemoveStudent}
+                text="Brak zainteresowania"
+                onClick={handleRemoveStudent}
               />
             </div>
-            <Button text="Zatrudniony"/>
+            <Button text="Zatrudniony" />
           </div>
           {!isOpen ? (
             <i

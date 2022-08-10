@@ -3,19 +3,21 @@ import {WrapperHr} from '../../assets/styled/Hr/WrapperHr';
 import styled from 'styled-components';
 import {Button} from '../../components/Button';
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import {useEffect, useState} from "react";
-import {API_URL} from "../../config";
-import {StudentState} from "../../redux/features/studentSlice";
-import {v4 as uuid} from "uuid";
-import {useSelector} from "react-redux";
-import {RootState} from "../../redux";
+import {useEffect, useState} from 'react';
+import {API_URL} from '../../config';
+import {StudentState} from '../../redux/features/studentSlice';
+import {v4 as uuid} from 'uuid';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux';
+import {checkGithub} from '../../utils/checkGithub';
+import defaultAvatar from '../../assets/images/avatar.png';
 
 export const HrStudentCv = () => {
   const [student, setStudent] = useState<StudentState | null>(null);
   const {id: hrId} = useSelector((store: RootState) => store.auth);
   const {id} = useParams();
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
+  const [isAvatar, setIsAvatar] = useState<null | boolean>(null);
 
   const handleRemoveStudent = async () => {
     await fetch(`${API_URL}/hr/not-interested/${hrId}/${id}`, {
@@ -33,50 +35,76 @@ export const HrStudentCv = () => {
       setStudent(data.user);
     };
     showCv();
-  }, [id, student])
+  }, [id, student]);
+
+  useEffect(() => {
+    (async () => {
+      if (student && student.githubUsername !== '') {
+        await checkGithub(student.githubUsername, setIsAvatar);
+      } else {
+        setIsAvatar(false);
+      }
+    })();
+  }, [student?.githubUsername]);
 
   const stars = (star: number) => {
     const arr = [];
     for (let i = 0; i < 5; i++) {
       if (star > 0) {
         arr.push(
-            <span className="stars-data--active" key={uuid()}>
-            <i className="bx bxs-star"/>
+          <span className="stars-data--active" key={uuid()}>
+            <i className="bx bxs-star" />
           </span>
         );
         star--;
       } else {
-        arr.push(<i className="bx bxs-star" key={uuid()}/>);
+        arr.push(<i className="bx bxs-star" key={uuid()} />);
       }
     }
     return arr;
   };
   return (
-      <>
-        <Header/>
-        <WrapperHr>
-          <Wrapper>
-            <div className="student-info-container">
-              <Link to="/hr/to-talk">
-                <button className="back-btn">
-                  <i className="bx bx-chevrons-left"/>
-                  Wróć
-                </button>
-              </Link>
-              <img src={student?.avatarUrl} alt="avatar" className="student-img"/>
-              <p className="student-name">{student?.firstName} {student?.lastName}</p>
-              <a href={`https://github.com/${student?.githubUsername}`} target="_blank" rel="noreferrer">
+    <>
+      <Header />
+      <WrapperHr>
+        <Wrapper>
+          <div className="student-info-container">
+            <Link to="/hr/to-talk">
+              <button className="back-btn">
+                <i className="bx bx-chevrons-left" />
+                Wróć
+              </button>
+            </Link>
+            <img
+              src={
+                isAvatar
+                  ? `https://github.com/${student?.githubUsername}.png`
+                  : defaultAvatar
+              }
+              alt="avatar"
+              className="student-img"
+            />
+            <p className="student-name">
+              {student?.firstName} {student?.lastName}
+            </p>
+            {student?.githubUsername && (
+              <a
+                href={`https://github.com/${student?.githubUsername}`}
+                target="_blank"
+                rel="noreferrer"
+              >
                 <p className="student-github">
-                  <i className="bx bxl-github"/> {student?.githubUsername}
+                  <i className="bx bxl-github" /> {student?.githubUsername}
                 </p>
               </a>
-              <div className="student-contact">
-                <div className="student-contact-box">
+            )}
+            <div className="student-contact">
+              <div className="student-contact-box">
                 <span className="contact-icon">
-                  <i className="bx bxs-phone"/>
+                  <i className="bx bxs-phone" />
                 </span>
-                  <p className="contact-txt">
-                    <a href={`tel:${student?.tel}`}>+48 {student?.tel}</a>
+                <p className="contact-txt">
+                  <a href={`tel:${student?.tel}`}>+48 {student?.tel}</a>
                 </p>
               </div>
               <div className="student-contact-box">
@@ -88,15 +116,18 @@ export const HrStudentCv = () => {
                 </p>
               </div>
             </div>
-            <div className="student-description">
-              <p className="student-description-title">O mnie</p>
-              <p className="student-description-txt">
-                {student?.bio}
-              </p>
-            </div>
+            {student?.bio && (
+              <div className="student-description">
+                <p className="student-description-title">O mnie</p>
+                <p className="student-description-txt">{student?.bio}</p>
+              </div>
+            )}
             <div className="button-container">
               <div className="button-box">
-                <Button onClick={() => handleRemoveStudent()} text="Brak zainteresowania"/>
+                <Button
+                  onClick={() => handleRemoveStudent()}
+                  text="Brak zainteresowania"
+                />
               </div>
               <Button text="Zatrudniony 🔥" />
             </div>
@@ -109,10 +140,15 @@ export const HrStudentCv = () => {
                   <p className="content-box-title">Ocena przejścia kursu</p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{student?.courseCompletion}</span> /5
+                      <span className="txt-data--white">
+                        {student?.courseCompletion}
+                      </span>{' '}
+                      /5
                     </p>
                     <div className="data">
-                      {stars(student?.courseCompletion as number).map((el) => el)}
+                      {stars(student?.courseCompletion as number).map(
+                        (el) => el
+                      )}
                     </div>
                   </div>
                 </div>
@@ -122,10 +158,15 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{student?.courseEngagement}</span> /5
+                      <span className="txt-data--white">
+                        {student?.courseEngagement}
+                      </span>{' '}
+                      /5
                     </p>
                     <div className="data">
-                      {stars(student?.courseEngagement as number).map((el) => el)}
+                      {stars(student?.courseEngagement as number).map(
+                        (el) => el
+                      )}
                     </div>
                   </div>
                 </div>
@@ -135,7 +176,10 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{student?.projectDegree}</span> /5
+                      <span className="txt-data--white">
+                        {student?.projectDegree}
+                      </span>{' '}
+                      /5
                     </p>
                     <div className="data">
                       {stars(student?.projectDegree as number).map((el) => el)}
@@ -148,10 +192,15 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{student?.teamProjectDegree}</span> /5
+                      <span className="txt-data--white">
+                        {student?.teamProjectDegree}
+                      </span>{' '}
+                      /5
                     </p>
                     <div className="data">
-                      {stars(student?.teamProjectDegree as number).map((el) => el)}
+                      {stars(student?.teamProjectDegree as number).map(
+                        (el) => el
+                      )}
                     </div>
                   </div>
                 </div>
@@ -165,7 +214,9 @@ export const HrStudentCv = () => {
                   <p className="content-box-title">Preferowane miejsce pracy</p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{student?.expectedTypeWork}</span>
+                      <span className="txt-data--white">
+                        {student?.expectedTypeWork}
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -175,7 +226,9 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{student?.targetWorkCity}</span>
+                      <span className="txt-data--white">
+                        {student?.targetWorkCity}
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -183,7 +236,9 @@ export const HrStudentCv = () => {
                   <p className="content-box-title">Oczekiwany typ kontraktu</p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{student?.expectedContractType}</span>
+                      <span className="txt-data--white">
+                        {student?.expectedContractType}
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -193,7 +248,9 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{student?.expectedSalary} zł</span>
+                      <span className="txt-data--white">
+                        {student?.expectedSalary} zł
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -203,7 +260,9 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{student?.canTakeApprenticeship ? 'TAK' : "NIE"}</span>
+                      <span className="txt-data--white">
+                        {student?.canTakeApprenticeship ? 'TAK' : 'NIE'}
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -213,96 +272,109 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span
-                          className="txt-data--white">{student?.monthsOfCommercialExp === 0 ? 'BRAK' : `${student?.monthsOfCommercialExp} miesięcy`}</span>
+                      <span className="txt-data--white">
+                        {student?.monthsOfCommercialExp === 0
+                          ? 'BRAK'
+                          : `${student?.monthsOfCommercialExp} miesięcy`}
+                      </span>
                     </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="data-wrapper">
-              <p className="title">Edukacja</p>
-              <div className="content line-height">
-                {student?.education}
+            {student?.education && (
+              <div className="data-wrapper">
+                <p className="title">Edukacja</p>
+                <div className="content line-height">{student?.education}</div>
               </div>
-            </div>
+            )}
 
-            <div className="data-wrapper">
-              <p className="title">Kursy</p>
-              <div className="content line-height">
-                {student?.courses}
+            {student?.courses && (
+              <div className="data-wrapper">
+                <p className="title">Kursy</p>
+                <div className="content line-height">{student?.courses}</div>
               </div>
-            </div>
+            )}
 
-            <div className="data-wrapper">
-              <p className="title">Doświadczenie zawodowe</p>
-              <div className="content line-height">
-                {student?.workExperience}
+            {student?.workExperience && (
+              <div className="data-wrapper">
+                <p className="title">Doświadczenie zawodowe</p>
+                <div className="content line-height">
+                  {student?.workExperience}
+                </div>
               </div>
-            </div>
+            )}
 
-            <div className="data-wrapper">
-              <p className="title">Portfolio</p>
-              <div className="content">
-                <div className="link-container">
-                  {student?.portfolioUrls?.map((item, index) => (
+            {student?.portfolioUrls && student.portfolioUrls.length !== 0 && (
+              <div className="data-wrapper">
+                <p className="title">Portfolio</p>
+                <div className="content">
+                  <div className="link-container">
+                    {student?.portfolioUrls?.map((item, index) => (
                       <div key={index} className="link-box">
-                        <i className="bx bx-link-alt"/>
+                        <i className="bx bx-link-alt" />
                         <a
-                            href={`${item}`}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="link"
+                          href={`${item}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="link"
                         >
                           {item}
                         </a>
                       </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="data-wrapper">
-              <p className="title">Projekt w zespole Scrumowym</p>
-              <div className="content">
-                <div className="link-container">
-                  {student?.scrumUrls && student?.scrumUrls.length !== 0 ? student?.scrumUrls?.map((item, index) => (
+            )}
+
+            {student?.scrumUrls && student?.scrumUrls.length !== 0 && (
+              <div className="data-wrapper">
+                <p className="title">Projekt w zespole Scrumowym</p>
+                <div className="content">
+                  <div className="link-container">
+                    {student?.scrumUrls?.map((item, index) => (
                       <div key={index} className="link-box">
-                        <i className="bx bx-link-alt"/>
+                        <i className="bx bx-link-alt" />
                         <a
-                            href="https://github.com"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="link"
+                          href="https://github.com"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="link"
                         >
                           {item}
                         </a>
                       </div>
-                  )) : 'Brak danych.'}
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
-            <div className="data-wrapper">
-              <p className="title">Projekt na zaliczenie</p>
-              <div className="content">
-                <div className="link-container">
-                  {student?.bonusProjectUrls?.map((item, index) => (
-                      <div key={index} className="link-box">
-                        <i className="bx bx-link-alt"/>
-                        <a
+            {student?.bonusProjectUrls &&
+              student?.bonusProjectUrls.length !== 0 && (
+                <div className="data-wrapper">
+                  <p className="title">Projekt na zaliczenie</p>
+                  <div className="content">
+                    <div className="link-container">
+                      {student?.bonusProjectUrls?.map((item, index) => (
+                        <div key={index} className="link-box">
+                          <i className="bx bx-link-alt" />
+                          <a
                             href={item}
                             target="_blank"
                             rel="noreferrer"
                             className="link"
-                        >
-                          {item}
-                        </a>
-                      </div>
-                  ))}
+                          >
+                            {item}
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              )}
           </div>
         </Wrapper>
       </WrapperHr>
@@ -342,13 +414,13 @@ const Wrapper = styled.div`
     .student-name {
       font-size: ${(props) => props.theme.fontSize.base};
       color: ${(props) => props.theme.colors.white};
+      margin-bottom: ${(props) => props.theme.marginSize.base};
     }
 
     .student-github {
       color: ${(props) => props.theme.colors.blue};
       display: flex;
       align-items: center;
-      margin-top: ${(props) => props.theme.marginSize.sm};
       margin-bottom: ${(props) => props.theme.marginSize.base};
       cursor: pointer;
 

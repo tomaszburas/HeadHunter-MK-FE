@@ -7,6 +7,8 @@ import {AllAvailableUsers} from '../../../types/interfaces/Student/EmploymentInt
 import {API_URL} from '../../../config';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux';
+import {toast} from 'react-toastify';
+import {StudentState} from '../../../redux/features/studentSlice';
 
 export const AvailableStudent = (user: AllAvailableUsers) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,10 +16,21 @@ export const AvailableStudent = (user: AllAvailableUsers) => {
 
 
   const addToTalk = async () => {
-    await fetch(`${API_URL}/hr/addToTalk/${id}/${user.id}`, {
+    const res = await fetch(`${API_URL}/hr/addToTalk/${id}/${user.id}`, {
       credentials: 'include',
       mode: 'cors',
     });
+
+    const data = await res.json();
+
+    if (data.success) {
+      user.setStudents((prev: StudentState[]) => {
+        console.log(prev);
+        return [...prev].filter((el) => el.id !== user.id);
+      });
+    } else {
+      toast.error(data.message);
+    }
   };
 
   return (

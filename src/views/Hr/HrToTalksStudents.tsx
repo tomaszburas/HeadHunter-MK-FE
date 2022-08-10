@@ -29,8 +29,7 @@ export const HrTTStudents = () => {
         setStudents([]);
       }
     })();
-  }, [page, itemsOnPage, pages, students]);
-
+  }, [page, itemsOnPage, pages]);
 
   return (
     <>
@@ -38,7 +37,7 @@ export const HrTTStudents = () => {
       <WrapperHr>
         <NavHr activeLink={NavigationHr.TO_TALK_STUDENTS} />
         <UtilsHr />
-        <ToTalkStudents students={students} />
+        <ToTalkStudents students={students} setStudents={setStudents} />
       </WrapperHr>
       {pages !== 0 && (
         <Pagination

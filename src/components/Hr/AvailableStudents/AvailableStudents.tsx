@@ -8,9 +8,10 @@ import {StudentState} from '../../../redux/features/studentSlice';
 
 interface Props {
   students: StudentState[] | null;
+  setStudents: any;
 }
 
-export const AvailableStudents = ({students}: Props) => {
+export const AvailableStudents = ({students, setStudents}: Props) => {
   const {name} = useSelector((state: RootState) => state.name);
 
   return (
@@ -37,6 +38,7 @@ export const AvailableStudents = ({students}: Props) => {
                 courseEngagement={item.courseEngagement}
                 projectDegree={item.projectDegree}
                 teamProjectDegree={item.teamProjectDegree}
+                setStudents={setStudents}
               />
             ))
         )

@@ -9,8 +9,11 @@ import {useEffect, useState} from 'react';
 import {fetchAllAvailableUsers} from '../../utils/fetch/fetchAllAvailableUsers';
 import {ItemsOnPageEnum} from '../../types/enums/ItemsOnPageEnum';
 import {StudentState} from '../../redux/features/studentSlice';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux';
 
 export const HrAvailableStudents = () => {
+  const {id} = useSelector((store: RootState) => store.auth);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(0);
   const [itemsOnPage, setItemsOnPage] = useState(ItemsOnPageEnum.ONE);
@@ -18,7 +21,11 @@ export const HrAvailableStudents = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await fetchAllAvailableUsers(+itemsOnPage, page);
+      const data = await fetchAllAvailableUsers(
+        +itemsOnPage,
+        page,
+        id as string
+      );
       if (data.success) {
         setStudents(data.users);
         setPages(data.pages);
@@ -26,7 +33,9 @@ export const HrAvailableStudents = () => {
         setStudents([]);
       }
     })();
-  }, [page, itemsOnPage, pages, students]);
+  }, [page, itemsOnPage, pages]);
+
+  console.log('ss.log');
 
   return (
     <>
@@ -34,7 +43,7 @@ export const HrAvailableStudents = () => {
       <WrapperHr>
         <NavHr activeLink={NavigationHr.AVAILABLE_STUDENTS} />
         <UtilsHr />
-        <AvailableStudents students={students} />
+        <AvailableStudents students={students} setStudents={setStudents} />
       </WrapperHr>
       {pages !== 0 && (
         <Pagination

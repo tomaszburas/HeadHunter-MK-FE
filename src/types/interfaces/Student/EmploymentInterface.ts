@@ -20,6 +20,7 @@ export interface AllAvailableUsers extends EmploymentInterface {
   projectDegree: number;
   teamProjectDegree: number;
   date?: Date;
+  setStudents?: any;
 }
 
 export interface Users {
