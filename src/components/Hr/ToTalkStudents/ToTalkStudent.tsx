@@ -33,8 +33,9 @@ export const ToTalkStudent = ({
 
   useEffect(() => {
     const date = addedDate.toString().split('-');
+    console.log(+date[1])
     const day = date[2].split('T')[0];
-    const expiredDate = new Date(Number(date[0]), Number(date[1]), +day + 10);
+    const expiredDate = new Date(`${Number(date[0])}, 0${Number(date[1])}, ${+day + 10}`);
     setDate(expiredDate.toLocaleDateString())
   }, [dateState])
 
