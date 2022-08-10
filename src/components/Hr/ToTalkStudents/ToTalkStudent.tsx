@@ -6,10 +6,9 @@ import {UnderlineHr} from '../../../assets/styled/Hr/UnderlineHr';
 import {Link} from 'react-router-dom';
 import defaultAvatar from '../../../assets/images/avatar.png';
 import {API_URL} from '../../../config';
-import {useDispatch, useSelector} from 'react-redux';
-import {getObject} from '../../../redux/features/usersAddedByHr';
+import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux';
-import {AllAvailableUsers, EmploymentInterface} from "../../../types/interfaces/Student/EmploymentInterface";
+import {AllAvailableUsers} from "../../../types/interfaces/Student/EmploymentInterface";
 
 interface User {
   id: string;
@@ -29,7 +28,6 @@ export const ToTalkStudent = ({
     user
 }: User) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const dispatch = useDispatch();
   const {id: hrId} = useSelector((store: RootState) => store.auth);
   const [dateState, setDate] = useState<string>('');
 
@@ -40,11 +38,6 @@ export const ToTalkStudent = ({
     setDate(expiredDate.toLocaleDateString())
   }, [dateState])
 
-  const showCv = async () => {
-    const res = await fetch(`${API_URL}/user/details/${id}`);
-    const data = await res.json();
-    return dispatch(getObject(data));
-  };
 
   const handleRemoveStudent = async () => {
     await fetch(`${API_URL}/hr/not-interested/${hrId}/${id}`, {
@@ -53,7 +46,6 @@ export const ToTalkStudent = ({
       mode: 'cors',
     });
   };
-
 
   return (
     <>
@@ -80,16 +72,16 @@ export const ToTalkStudent = ({
         </div>
         <div className="student-nav">
           <div className="student-nav-buttons">
-            <Link to="/hr/cv">
-              <Button onClick={() => showCv()} text="Pokaż CV" />
+            <Link to={`/hr/cv/${id}`}>
+              <Button text="Pokaż CV"/>
             </Link>
             <div className="btn-container">
               <Button
-                text="Brak zainteresowania"
-                onClick={handleRemoveStudent}
+                  text="Brak zainteresowania"
+                  onClick={handleRemoveStudent}
               />
             </div>
-            <Button text="Zatrudniony" />
+            <Button text="Zatrudniony"/>
           </div>
           {!isOpen ? (
             <i

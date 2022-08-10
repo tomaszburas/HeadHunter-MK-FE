@@ -92,11 +92,11 @@ export const App = () => {
           }
         >
           <Route path={`/hr/available`} element={<HrAvailableStudents />} />
-          <Route path={`/hr/to-talk`} element={<HrTTStudents />} />
-          <Route path={`/hr/cv`} element={<HrStudentCv />} />
+          <Route path={`/hr/to-talk`} element={<HrTTStudents/>}/>
+          <Route path={`/hr/cv/:id`} element={<HrStudentCv/>}/>
           <Route
-            path={`/hr/account-edit`}
-            element={<Form title="Edycja konta" children={<HrEditForm />} />}
+              path={`/hr/account-edit`}
+              element={<Form title="Edycja konta" children={<HrEditForm/>}/>}
           />
           <Route path={`/hr/*`} element={<Navigate to={'/hr/available'} />} />
         </Route>

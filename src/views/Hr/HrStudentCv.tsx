@@ -2,65 +2,67 @@ import {Header} from '../../components/Header/Header';
 import {WrapperHr} from '../../assets/styled/Hr/WrapperHr';
 import styled from 'styled-components';
 import {Button} from '../../components/Button';
-import {Link} from 'react-router-dom';
-import {useSelector} from "react-redux";
-import {RootState} from "../../redux";
+import {Link, useParams} from 'react-router-dom';
+import {useEffect, useState} from "react";
+import {API_URL} from "../../config";
 import {StudentState} from "../../redux/features/studentSlice";
+import {v4 as uuid} from "uuid";
 
 export const HrStudentCv = () => {
-  const {
-    email,
-    firstName,
-    githubUsername,
-    lastName,
-    tel,
-      bio,
-      courseCompletion,
-    courseEngagement,
-      monthsOfCommercialExp,
-      courses,
-      scrumUrls,
-      education,
-      expectedContractType,
-      bonusProjectUrls,
-      canTakeApprenticeship,
-      portfolioUrls,
-      targetWorkCity,
-      workExperience,
-      expectedSalary,
-      projectDegree,
-      avatarUrl,
-      projectUrls,
-      expectedTypeWork,
-      teamProjectDegree
-  } = useSelector(({users}: RootState) => users.user) as StudentState;
+  const [student, setStudent] = useState<StudentState | null>(null);
+  const {id} = useParams();
 
+  useEffect(() => {
+    const showCv = async () => {
+      const res = await fetch(`${API_URL}/user/details/${id}`);
+      const data = await res.json();
+      setStudent(data.user);
+    };
+    showCv();
+  }, [])
+
+  const stars = (star: number) => {
+    const arr = [];
+    for (let i = 0; i < 5; i++) {
+      if (star > 0) {
+        arr.push(
+            <span className="stars-data--active" key={uuid()}>
+            <i className="bx bxs-star"/>
+          </span>
+        );
+        star--;
+      } else {
+        arr.push(<i className="bx bxs-star" key={uuid()}/>);
+      }
+    }
+    return arr;
+  };
   return (
-    <>
-      <Header />
-      <WrapperHr>
-        <Wrapper>
-          <div className="student-info-container">
-            <Link to="/hr/to-talk">
-              <button className="back-btn">
-                <i className="bx bx-chevrons-left" />
-                Wróć
-              </button>
-            </Link>
-            <img src={avatarUrl} alt="avatar" className="student-img" />
-            <p className="student-name">{firstName} {lastName}</p>
-            <a href={`https://github.com/${githubUsername}`} target="_blank" rel="noreferrer">
-              <p className="student-github">
-                <i className="bx bxl-github" /> {githubUsername}
-              </p>
-            </a>
-            <div className="student-contact">
-              <div className="student-contact-box">
+      <>
+        <Header/>
+        <WrapperHr>
+          <Wrapper>
+            <div className="student-info-container">
+              <Link to="/hr/to-talk">
+                <button className="back-btn">
+                  <i className="bx bx-chevrons-left"/>
+                  Wróć
+                </button>
+              </Link>
+              <img src={student?.avatarUrl} alt="avatar" className="student-img"/>
+              <p className="student-name">{student?.firstName} {student?.lastName}</p>
+              <a href={`https://github.com/${student?.githubUsername}`} target="_blank" rel="noreferrer">
+                <p className="student-github">
+                  <i className="bx bxl-github"/> {student?.githubUsername}
+                </p>
+              </a>
+              <div className="student-contact">
+                <div className="student-contact-box">
                 <span className="contact-icon">
-                  <i className="bx bxs-phone" />
+                  <i className="bx bxs-phone"/>
                 </span>
-                <p className="contact-txt">
-                  <a href="tel:123-456-444">+48 {tel}</a>
+                  <p className="contact-txt">
+                    <a href={`tel:${student?.tel}`}>+48 {student?.tel}</a>
                 </p>
               </div>
               <div className="student-contact-box">
@@ -68,14 +70,14 @@ export const HrStudentCv = () => {
                   <i className="bx bxs-envelope" />
                 </span>
                 <p className="contact-txt">
-                  <a href={`mailto:${email}`}>{email}</a>
+                  <a href={`mailto:${student?.email}`}>{student?.email}</a>
                 </p>
               </div>
             </div>
             <div className="student-description">
               <p className="student-description-title">O mnie</p>
               <p className="student-description-txt">
-                {bio}
+                {student?.bio}
               </p>
             </div>
             <div className="button-container">
@@ -93,20 +95,10 @@ export const HrStudentCv = () => {
                   <p className="content-box-title">Ocena przejścia kursu</p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{courseCompletion}</span> /5
+                      <span className="txt-data--white">{student?.courseCompletion}</span> /5
                     </p>
                     <div className="data">
-                      <span className="stars-data--active">
-                        <i className="bx bxs-star" />
-                      </span>
-                      <span className="stars-data--active">
-                        <i className="bx bxs-star" />
-                      </span>
-                      <span className="stars-data--active">
-                        <i className="bx bxs-star" />
-                      </span>
-                      <i className="bx bxs-star" />
-                      <i className="bx bxs-star" />
+                      {stars(student?.courseCompletion as number).map((el) => el)}
                     </div>
                   </div>
                 </div>
@@ -116,20 +108,10 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{courseEngagement}</span> /5
+                      <span className="txt-data--white">{student?.courseEngagement}</span> /5
                     </p>
                     <div className="data">
-                      <span className="stars-data--active">
-                        <i className="bx bxs-star" />
-                      </span>
-                      <span className="stars-data--active">
-                        <i className="bx bxs-star" />
-                      </span>
-                      <span className="stars-data--active">
-                        <i className="bx bxs-star" />
-                      </span>
-                      <i className="bx bxs-star" />
-                      <i className="bx bxs-star" />
+                      {stars(student?.courseEngagement as number).map((el) => el)}
                     </div>
                   </div>
                 </div>
@@ -139,20 +121,10 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{projectDegree}</span> /5
+                      <span className="txt-data--white">{student?.projectDegree}</span> /5
                     </p>
                     <div className="data">
-                      <span className="stars-data--active">
-                        <i className="bx bxs-star" />
-                      </span>
-                      <span className="stars-data--active">
-                        <i className="bx bxs-star" />
-                      </span>
-                      <span className="stars-data--active">
-                        <i className="bx bxs-star" />
-                      </span>
-                      <i className="bx bxs-star" />
-                      <i className="bx bxs-star" />
+                      {stars(student?.projectDegree as number).map((el) => el)}
                     </div>
                   </div>
                 </div>
@@ -162,20 +134,10 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{teamProjectDegree}</span> /5
+                      <span className="txt-data--white">{student?.teamProjectDegree}</span> /5
                     </p>
                     <div className="data">
-                      <span className="stars-data--active">
-                        <i className="bx bxs-star" />
-                      </span>
-                      <span className="stars-data--active">
-                        <i className="bx bxs-star" />
-                      </span>
-                      <span className="stars-data--active">
-                        <i className="bx bxs-star" />
-                      </span>
-                      <i className="bx bxs-star" />
-                      <i className="bx bxs-star" />
+                      {stars(student?.teamProjectDegree as number).map((el) => el)}
                     </div>
                   </div>
                 </div>
@@ -189,7 +151,7 @@ export const HrStudentCv = () => {
                   <p className="content-box-title">Preferowane miejsce pracy</p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{expectedTypeWork}</span>
+                      <span className="txt-data--white">{student?.expectedTypeWork}</span>
                     </p>
                   </div>
                 </div>
@@ -199,7 +161,7 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{targetWorkCity}</span>
+                      <span className="txt-data--white">{student?.targetWorkCity}</span>
                     </p>
                   </div>
                 </div>
@@ -207,7 +169,7 @@ export const HrStudentCv = () => {
                   <p className="content-box-title">Oczekiwany typ kontraktu</p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{expectedContractType}</span>
+                      <span className="txt-data--white">{student?.expectedContractType}</span>
                     </p>
                   </div>
                 </div>
@@ -217,7 +179,7 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{expectedSalary} zł</span>
+                      <span className="txt-data--white">{student?.expectedSalary} zł</span>
                     </p>
                   </div>
                 </div>
@@ -227,7 +189,7 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{canTakeApprenticeship ? 'TAK' : "NIE"}</span>
+                      <span className="txt-data--white">{student?.canTakeApprenticeship ? 'TAK' : "NIE"}</span>
                     </p>
                   </div>
                 </div>
@@ -237,7 +199,8 @@ export const HrStudentCv = () => {
                   </p>
                   <div className="data-box">
                     <p className="txt-data">
-                      <span className="txt-data--white">{monthsOfCommercialExp === 0 ? 'BRAK' : `${monthsOfCommercialExp} miesięcy`}</span>
+                      <span
+                          className="txt-data--white">{student?.monthsOfCommercialExp === 0 ? 'BRAK' : `${student?.monthsOfCommercialExp} miesięcy`}</span>
                     </p>
                   </div>
                 </div>
@@ -247,21 +210,21 @@ export const HrStudentCv = () => {
             <div className="data-wrapper">
               <p className="title">Edukacja</p>
               <div className="content line-height">
-                {education}
+                {student?.education}
               </div>
             </div>
 
             <div className="data-wrapper">
               <p className="title">Kursy</p>
               <div className="content line-height">
-                {courses}
+                {student?.courses}
               </div>
             </div>
 
             <div className="data-wrapper">
               <p className="title">Doświadczenie zawodowe</p>
               <div className="content line-height">
-                {workExperience}
+                {student?.workExperience}
               </div>
             </div>
 
@@ -269,9 +232,9 @@ export const HrStudentCv = () => {
               <p className="title">Portfolio</p>
               <div className="content">
                 <div className="link-container">
-                  {portfolioUrls?.map((item, index) => (
+                  {student?.portfolioUrls?.map((item, index) => (
                       <div key={index} className="link-box">
-                        <i className="bx bx-link-alt" />
+                        <i className="bx bx-link-alt"/>
                         <a
                             href={`${item}`}
                             target="_blank"
@@ -289,9 +252,9 @@ export const HrStudentCv = () => {
               <p className="title">Projekt w zespole Scrumowym</p>
               <div className="content">
                 <div className="link-container">
-                  {scrumUrls && scrumUrls.length !== 0 ? scrumUrls?.map((item, index) => (
+                  {student?.scrumUrls && student?.scrumUrls.length !== 0 ? student?.scrumUrls?.map((item, index) => (
                       <div key={index} className="link-box">
-                        <i className="bx bx-link-alt" />
+                        <i className="bx bx-link-alt"/>
                         <a
                             href="https://github.com"
                             target="_blank"
@@ -310,9 +273,9 @@ export const HrStudentCv = () => {
               <p className="title">Projekt na zaliczenie</p>
               <div className="content">
                 <div className="link-container">
-                  {bonusProjectUrls?.map((item, index) => (
+                  {student?.bonusProjectUrls?.map((item, index) => (
                       <div key={index} className="link-box">
-                        <i className="bx bx-link-alt" />
+                        <i className="bx bx-link-alt"/>
                         <a
                             href={item}
                             target="_blank"
