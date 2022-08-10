@@ -11,6 +11,8 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../redux';
 import {checkGithub} from '../../utils/checkGithub';
 import defaultAvatar from '../../assets/images/avatar.png';
+import {toast} from 'react-toastify';
+import {MiniLoader} from '../../components/MiniLoader';
 
 export const HrStudentCv = () => {
   const [student, setStudent] = useState<StudentState | null>(null);
@@ -18,6 +20,26 @@ export const HrStudentCv = () => {
   const {id} = useParams();
   const navigate = useNavigate();
   const [isAvatar, setIsAvatar] = useState<null | boolean>(null);
+  const [load, setLoad] = useState(false);
+  const [hiredPopup, setHiredPopup] = useState(false);
+
+  const handleHiredPopup = async () => {
+    setLoad(true);
+    const res = await fetch(`${API_URL}/hr/hired/${id}`, {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'cors',
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      navigate('/hr', {replace: true});
+    } else {
+      toast.error(data.message);
+    }
+    setLoad(false);
+  };
 
   const handleRemoveStudent = async () => {
     await fetch(`${API_URL}/hr/not-interested/${hrId}/${id}`, {
@@ -131,7 +153,10 @@ export const HrStudentCv = () => {
                   text="Brak zainteresowania"
                 />
               </div>
-              <Button text="Zatrudniony 🔥" />
+              <Button
+                text="Zatrudniony 🔥"
+                onClick={() => setHiredPopup(true)}
+              />
             </div>
           </div>
           <div className="student-data-container">
@@ -410,9 +435,88 @@ export const HrStudentCv = () => {
           </div>
         </Wrapper>
       </WrapperHr>
+      {hiredPopup && (
+        <HiredPopup>
+          <div className="bg" onClick={() => setHiredPopup(false)} />
+          <div className="popup">
+            <p className="title">
+              Potwierdź zatrudnienie. Konto {student?.firstName}{' '}
+              {student?.lastName} od tej chwili będzie dezaktywowane.
+            </p>
+            <div className="btn-box">
+              {load ? (
+                <MiniLoader width={22} height={22} />
+              ) : (
+                <>
+                  <button className="hired" onClick={handleHiredPopup}>
+                    Zatrudniony
+                  </button>
+                  <button
+                    className="no-hired"
+                    onClick={() => setHiredPopup(false)}
+                  >
+                    Nie zatrudniony
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </HiredPopup>
+      )}
     </>
   );
 };
+
+const HiredPopup = styled.div`
+  .bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(34, 35, 36, 0.8);
+    backdrop-filter: blur(4px);
+  }
+
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: ${(props) => props.theme.colors.black};
+    padding: ${(props) => props.theme.paddingSize.base};
+    z-index: 11;
+    color: ${(props) => props.theme.colors.white};
+    max-height: 80vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .title {
+      margin-bottom: ${(props) => props.theme.marginSize.base};
+    }
+
+    .btn-box {
+      button {
+        color: ${(props) => props.theme.colors.white};
+        padding: ${(props) => props.theme.paddingSize.sm};
+        border: none;
+        cursor: pointer;
+      }
+
+      .hired {
+        background-color: ${(props) => props.theme.colors.red};
+        margin-right: ${(props) => props.theme.marginSize.base};
+      }
+
+      .no-hired {
+        background-color: ${(props) => props.theme.colors.darkBlue};
+      }
+    }
+  }
+`;
 
 const Wrapper = styled.div`
   display: flex;
