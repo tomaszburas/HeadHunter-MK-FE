@@ -103,12 +103,10 @@ export const StudentEdit = () => {
     if (data.success) {
       toast.success('Zmiany zostały zapisane');
 
+      dispatch(setStudent({...data.user}));
       if (firstLogin) {
         dispatch(setFirstLogin({firstLogin: false}));
       }
-
-      dispatch(setStudent({...data.user}));
-
       navigate('/student', {replace: true});
     } else {
       toast.success(data.message);
