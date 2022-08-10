@@ -117,9 +117,11 @@ export const HrStudentCv = () => {
               </div>
             </div>
             {student?.bio && (
-              <div className="student-description">
-                <p className="student-description-title">O mnie</p>
-                <p className="student-description-txt">{student?.bio}</p>
+              <div className="student-description-box">
+                <div className="student-description">
+                  <p className="student-description-title">O mnie</p>
+                  <p className="student-description-txt">{student?.bio}</p>
+                </div>
               </div>
             )}
             <div className="button-container">
@@ -273,9 +275,16 @@ export const HrStudentCv = () => {
                   <div className="data-box">
                     <p className="txt-data">
                       <span className="txt-data--white">
-                        {student?.monthsOfCommercialExp === 0
-                          ? 'BRAK'
-                          : `${student?.monthsOfCommercialExp} miesięcy`}
+                        {student?.monthsOfCommercialExp === 0 && 'Brak'}
+                        {student?.monthsOfCommercialExp === 1 &&
+                          `${student.monthsOfCommercialExp} miesiąc`}
+                        {student &&
+                          student.monthsOfCommercialExp >= 2 &&
+                          student.monthsOfCommercialExp <= 4 &&
+                          `${student.monthsOfCommercialExp} miesiące`}
+                        {student &&
+                          student.monthsOfCommercialExp >= 5 &&
+                          `${student.monthsOfCommercialExp} miesięcy`}
                       </span>
                     </p>
                   </div>
@@ -409,6 +418,7 @@ const Wrapper = styled.div`
     .student-img {
       width: 70%;
       margin: ${(props) => props.theme.marginSize.base} 0;
+      border-radius: 50%;
     }
 
     .student-name {
@@ -448,16 +458,19 @@ const Wrapper = styled.div`
       }
     }
 
-    .student-description {
-      margin-bottom: ${(props) => props.theme.marginSize.base};
+    .student-description-box {
+      width: 100%;
+      .student-description {
+        margin-bottom: ${(props) => props.theme.marginSize.base};
 
-      .student-description-title {
-        color: ${(props) => props.theme.colors.gray};
-      }
+        .student-description-title {
+          color: ${(props) => props.theme.colors.gray};
+        }
 
-      .student-description-txt {
-        color: ${(props) => props.theme.colors.lightGray};
-        line-height: 1.2;
+        .student-description-txt {
+          color: ${(props) => props.theme.colors.lightGray};
+          line-height: 1.2;
+        }
       }
     }
 
@@ -467,6 +480,8 @@ const Wrapper = styled.div`
         margin-bottom: ${(props) => props.theme.marginSize.sm};
       }
     }
+  }
+
   }
 
   .student-data-container {

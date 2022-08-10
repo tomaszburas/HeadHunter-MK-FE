@@ -85,15 +85,15 @@ export const ToTalkStudent = ({
         <div className="student-nav">
           <div className="student-nav-buttons">
             <Link to={`/hr/cv/${id}`}>
-              <Button text="Pokaż CV"/>
+              <Button text="Pokaż CV" />
             </Link>
             <div className="btn-container">
               <Button
-                  text="Brak zainteresowania"
-                  onClick={handleRemoveStudent}
+                text="Brak zainteresowania"
+                onClick={handleRemoveStudent}
               />
             </div>
-            <Button text="Zatrudniony"/>
+            <Button text="Zatrudniony" />
           </div>
           {!isOpen ? (
             <i
@@ -145,6 +145,7 @@ const Wrapper = styled.div`
 
       .student-img {
         height: 2rem;
+        border-radius: 50%;
       }
 
       .student-name {
