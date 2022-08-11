@@ -48,7 +48,6 @@ export const Pagination = ({
     setItemsOnPage(Number(e.target.value));
   };
 
-
   return (
     <Container>
       <p className="pagination-title">Ilość elementów:</p>
@@ -64,7 +63,7 @@ export const Pagination = ({
         </Select>
       </div>
       <p className="pagination-info">
-        {page} z {pages}
+        {page} z {pages === 0 ? '1' : pages}
       </p>
       <i className="bx bxs-left-arrow-square" onClick={clickDown} />
       <i className="bx bxs-right-arrow-square" onClick={clickUp} />

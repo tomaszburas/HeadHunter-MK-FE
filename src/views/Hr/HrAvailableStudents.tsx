@@ -49,7 +49,7 @@ export const HrAvailableStudents = () => {
           setMovedStudent={setMovedStudent}
         />
       </WrapperHr>
-      {pages !== 0 && (
+      {students?.length !== 0 && (
         <Pagination
           page={page}
           pages={pages}
