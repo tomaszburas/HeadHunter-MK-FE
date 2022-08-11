@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {Button} from '../../Button';
 import {StudentInfo} from '../StudentInfo';
 import styled from 'styled-components';
@@ -17,14 +17,14 @@ interface User {
   firstName: string;
   lastName: string;
   githubUsername: string;
-  addedDate: Date;
+  // addedDate: Date;
   user?: AllAvailableUsers;
   setStudents: any;
   setMovedStudent: (value: (prev: boolean) => boolean) => void;
 }
 
 export const ToTalkStudent = ({
-  addedDate,
+  // addedDate,
   githubUsername,
   firstName,
   lastName,
@@ -35,14 +35,14 @@ export const ToTalkStudent = ({
 }: User) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const {id: hrId} = useSelector((store: RootState) => store.auth);
-  const [dateState, setDate] = useState<string>('');
+  // const [dateState, setDate] = useState<string>('');
 
-  useEffect(() => {
-    const date = addedDate.toString().split('-');
-    const day = date[2].split('T')[0];
-    const expiredDate = new Date(Number(date[0]), Number(date[1]), +day + 10);
-    setDate(expiredDate.toLocaleDateString());
-  }, [dateState]);
+  // useEffect(() => {
+  //   const date = addedDate.toString().split('-');
+  //   const day = date[2].split('T')[0];
+  //   const expiredDate = new Date(Number(date[0]), Number(date[1]), +day + 10);
+  //   setDate(expiredDate.toLocaleDateString());
+  // }, [dateState]);
 
   const handleRemoveStudent = async () => {
     const res = await fetch(`${API_URL}/hr/not-interested/${hrId}/${id}`, {
@@ -67,10 +67,10 @@ export const ToTalkStudent = ({
     <>
       <Wrapper>
         <div className="student-info">
-          <div className="student-reservation">
-            <p className="student-reservation-title">Rezerwacja do:</p>
-            <p className="student-reservation-date">{dateState}</p>
-          </div>
+          {/*<div className="student-reservation">*/}
+          {/*  <p className="student-reservation-title">Rezerwacja do:</p>*/}
+          {/*  <p className="student-reservation-date">{dateState}</p>*/}
+          {/*</div>*/}
           <div className="student-data">
             <img
               src={

@@ -19,7 +19,7 @@ export interface AllAvailableUsers extends EmploymentInterface {
   courseEngagement: number;
   projectDegree: number;
   teamProjectDegree: number;
-  date?: Date;
+  // date?: Date;
   setStudents?: any;
   setMovedStudent?: (value: (prev: boolean) => boolean) => void;
 }
