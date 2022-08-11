@@ -87,6 +87,44 @@ export const StudentInfo = ({isOpen, user}: Props) => {
 };
 
 const Container = styled.div<{isOpen: Boolean}>`
+  @-webkit-keyframes SHOW-BOX {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @-moz-keyframes SHOW-BOX {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @-o-keyframes SHOW-BOX {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes SHOW-BOX {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  -webkit-animation: SHOW-BOX 1s ease;
+  -moz-animation: SHOW-BOX 1s ease;
+  -o-animation: SHOW-BOX 1s ease;
+  animation: SHOW-BOX 1s ease;
+
   background-color: ${(props) => props.theme.colors.background};
   padding: ${(props) => props.theme.paddingSize.sm};
   font-size: ${(props) => props.theme.fontSize.m};
