@@ -11,13 +11,15 @@ import {ContractType} from '../../../types/enums/ContractType';
 import {ContractForm} from './ContractForm';
 import {Internships} from '../../../types/enums/Internships';
 import {NavigationHr} from '../../../types/enums/NavigationHr';
+import {StudentState} from '../../../redux/features/studentSlice';
 
 interface Props {
   setOpenFiltration: (param: boolean) => void;
   by: NavigationHr;
+  setStudents: (value: StudentState[]) => void;
 }
 
-export const Filtration = ({setOpenFiltration, by}: Props) => {
+export const Filtration = ({setOpenFiltration, by, setStudents}: Props) => {
   const [courseGrade, setCourseGrade] = useState<Stars[]>([]);
   const [activityGrade, setActivityGrade] = useState<Stars[]>([]);
   const [codeGrade, setCodeGrade] = useState<Stars[]>([]);

@@ -5,12 +5,14 @@ import {Filtration} from './Filtration/Filtration';
 import {useDispatch} from 'react-redux';
 import {searchName} from '../../redux/features/searchBarSlice';
 import {NavigationHr} from '../../types/enums/NavigationHr';
+import {StudentState} from '../../redux/features/studentSlice';
 
 interface Props {
   by: NavigationHr;
+  setStudents: (value: StudentState[]) => void;
 }
 
-export const UtilsHr = ({by}: Props) => {
+export const UtilsHr = ({by, setStudents}: Props) => {
   const [openFiltration, setOpenFiltration] = useState(false);
   const dispatch = useDispatch();
 
@@ -35,7 +37,11 @@ export const UtilsHr = ({by}: Props) => {
         </button>
       </Utils>
       {openFiltration && (
-        <Filtration setOpenFiltration={setOpenFiltration} by={by} />
+        <Filtration
+          setOpenFiltration={setOpenFiltration}
+          by={by}
+          setStudents={setStudents}
+        />
       )}
     </>
   );

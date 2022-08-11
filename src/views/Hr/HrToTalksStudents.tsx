@@ -37,7 +37,7 @@ export const HrTTStudents = () => {
       <Header />
       <WrapperHr>
         <NavHr activeLink={NavigationHr.TO_TALK_STUDENTS} />
-        <UtilsHr by={NavigationHr.TO_TALK_STUDENTS} />
+        <UtilsHr by={NavigationHr.TO_TALK_STUDENTS} setStudents={setStudents} />
         <ToTalkStudents
           students={students}
           setStudents={setStudents}

@@ -42,7 +42,10 @@ export const HrAvailableStudents = () => {
       <Header />
       <WrapperHr>
         <NavHr activeLink={NavigationHr.AVAILABLE_STUDENTS} />
-        <UtilsHr by={NavigationHr.AVAILABLE_STUDENTS} />
+        <UtilsHr
+          by={NavigationHr.AVAILABLE_STUDENTS}
+          setStudents={setStudents}
+        />
         <AvailableStudents
           students={students}
           setStudents={setStudents}
