@@ -10,12 +10,14 @@ import {WorkType} from '../../../types/enums/WorkType';
 import {ContractType} from '../../../types/enums/ContractType';
 import {ContractForm} from './ContractForm';
 import {Internships} from '../../../types/enums/Internships';
+import {NavigationHr} from '../../../types/enums/NavigationHr';
 
 interface Props {
   setOpenFiltration: (param: boolean) => void;
+  by: NavigationHr;
 }
 
-export const Filtration = ({setOpenFiltration}: Props) => {
+export const Filtration = ({setOpenFiltration, by}: Props) => {
   const [courseGrade, setCourseGrade] = useState<Stars[]>([]);
   const [activityGrade, setActivityGrade] = useState<Stars[]>([]);
   const [codeGrade, setCodeGrade] = useState<Stars[]>([]);
@@ -57,6 +59,14 @@ export const Filtration = ({setOpenFiltration}: Props) => {
     console.log(`internships ${internships}`);
     console.log(`salary from:${salary.from} to:${salary.to}`);
     console.log(`experience ${experience}`);
+
+    if (by === NavigationHr.AVAILABLE_STUDENTS) {
+      // FILTRATION BY AVAILABLE STUDENTS
+    }
+
+    if (by === NavigationHr.TO_TALK_STUDENTS) {
+      // FILTRATION BY TO TALKS STUDENTS
+    }
   };
 
   const toggleBtn = (

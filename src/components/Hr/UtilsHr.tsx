@@ -2,10 +2,15 @@ import styled from 'styled-components';
 import {Input} from '../../assets/styled/Input';
 import {useState} from 'react';
 import {Filtration} from './Filtration/Filtration';
-import {useDispatch} from "react-redux";
-import {searchName} from "../../redux/features/searchBarSlice";
+import {useDispatch} from 'react-redux';
+import {searchName} from '../../redux/features/searchBarSlice';
+import {NavigationHr} from '../../types/enums/NavigationHr';
 
-export const UtilsHr = () => {
+interface Props {
+  by: NavigationHr;
+}
+
+export const UtilsHr = ({by}: Props) => {
   const [openFiltration, setOpenFiltration] = useState(false);
   const dispatch = useDispatch();
 
@@ -13,7 +18,14 @@ export const UtilsHr = () => {
     <>
       <Utils>
         <div className="input-wrapper">
-          <Input onChange={(e) => dispatch(searchName({name: e.target.value.toLowerCase()}))} type="search"  placeholder="Szukaj" id="search" />
+          <Input
+            onChange={(e) =>
+              dispatch(searchName({name: e.target.value.toLowerCase()}))
+            }
+            type="search"
+            placeholder="Szukaj"
+            id="search"
+          />
           <label htmlFor="search">
             <i className="bx bx-search" />
           </label>
@@ -22,7 +34,9 @@ export const UtilsHr = () => {
           <i className="bx bx-filter" /> Filtrowanie
         </button>
       </Utils>
-      {openFiltration && <Filtration setOpenFiltration={setOpenFiltration} />}
+      {openFiltration && (
+        <Filtration setOpenFiltration={setOpenFiltration} by={by} />
+      )}
     </>
   );
 };
