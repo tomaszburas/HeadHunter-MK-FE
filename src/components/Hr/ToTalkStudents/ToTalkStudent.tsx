@@ -3,7 +3,7 @@ import {Button} from '../../Button';
 import {StudentInfo} from '../StudentInfo';
 import styled from 'styled-components';
 import {UnderlineHr} from '../../../assets/styled/Hr/UnderlineHr';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import defaultAvatar from '../../../assets/images/avatar.png';
 import {API_URL} from '../../../config';
 import {useSelector} from 'react-redux';
@@ -11,6 +11,7 @@ import {RootState} from '../../../redux';
 import {StudentState} from '../../../redux/features/studentSlice';
 import {toast} from 'react-toastify';
 import {AllAvailableUsers} from '../../../types/interfaces/Student/EmploymentInterface';
+import {MiniLoader} from '../../MiniLoader';
 
 interface User {
   id: string;
@@ -35,6 +36,9 @@ export const ToTalkStudent = ({
 }: User) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const {id: hrId} = useSelector((store: RootState) => store.auth);
+  const [load, setLoad] = useState(false);
+  const [hiredPopup, setHiredPopup] = useState(false);
+  const navigate = useNavigate();
   // const [dateState, setDate] = useState<string>('');
 
   // useEffect(() => {
@@ -61,6 +65,27 @@ export const ToTalkStudent = ({
     } else {
       toast.error(data.message);
     }
+  };
+
+  const handleHiredPopup = async () => {
+    setLoad(true);
+    const res = await fetch(`${API_URL}/hr/hired/${id}`, {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'cors',
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      navigate('/hr/to-talk', {replace: true});
+    } else {
+      toast.error(data.message);
+    }
+
+    setMovedStudent((prev: boolean) => !prev);
+    setHiredPopup(false);
+    setLoad(false);
   };
 
   return (
@@ -95,7 +120,7 @@ export const ToTalkStudent = ({
                 onClick={handleRemoveStudent}
               />
             </div>
-            <Button text="Zatrudniony" />
+            <Button text="Zatrudniony" onClick={() => setHiredPopup(true)} />
           </div>
           {!isOpen ? (
             <i
@@ -112,9 +137,88 @@ export const ToTalkStudent = ({
       </Wrapper>
       <StudentInfo isOpen={isOpen} user={user as AllAvailableUsers} />
       <UnderlineHr />
+      {hiredPopup && (
+        <HiredPopup>
+          <div className="bg" onClick={() => setHiredPopup(false)} />
+          <div className="popup">
+            <p className="title">
+              Potwierdź zatrudnienie. Konto {firstName} {lastName} od tej chwili
+              będzie dezaktywowane.
+            </p>
+            <div className="btn-box">
+              {load ? (
+                <MiniLoader width={22} height={22} />
+              ) : (
+                <>
+                  <button className="hired" onClick={handleHiredPopup}>
+                    Zatrudniony
+                  </button>
+                  <button
+                    className="no-hired"
+                    onClick={() => setHiredPopup(false)}
+                  >
+                    Nie zatrudniony
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </HiredPopup>
+      )}
     </>
   );
 };
+
+const HiredPopup = styled.div`
+  .bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(34, 35, 36, 0.8);
+    backdrop-filter: blur(4px);
+  }
+
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: ${(props) => props.theme.colors.black};
+    padding: ${(props) => props.theme.paddingSize.base};
+    z-index: 11;
+    color: ${(props) => props.theme.colors.white};
+    max-height: 80vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .title {
+      margin-bottom: ${(props) => props.theme.marginSize.base};
+    }
+
+    .btn-box {
+      button {
+        color: ${(props) => props.theme.colors.white};
+        padding: ${(props) => props.theme.paddingSize.sm};
+        border: none;
+        cursor: pointer;
+      }
+
+      .hired {
+        background-color: ${(props) => props.theme.colors.red};
+        margin-right: ${(props) => props.theme.marginSize.base};
+      }
+
+      .no-hired {
+        background-color: ${(props) => props.theme.colors.darkBlue};
+      }
+    }
+  }
+`;
 
 const Wrapper = styled.div`
   display: flex;

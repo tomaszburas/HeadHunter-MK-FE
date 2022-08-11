@@ -34,7 +34,7 @@ export const HrStudentCv = () => {
     const data = await res.json();
 
     if (data.success) {
-      navigate('/hr', {replace: true});
+      navigate('/hr/to-talk', {replace: true});
     } else {
       toast.error(data.message);
     }
