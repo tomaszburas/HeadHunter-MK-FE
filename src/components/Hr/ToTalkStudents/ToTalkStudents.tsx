@@ -5,14 +5,21 @@ import styled from 'styled-components';
 import {MiniLoader} from '../../MiniLoader';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux';
-import {AllAvailableUsers} from "../../../types/interfaces/Student/EmploymentInterface";
+import {AllAvailableUsers} from '../../../types/interfaces/Student/EmploymentInterface';
 
 interface Props {
   students: StudentState[] | null;
-  setStudents: any;
+  setStudents: (
+    value: (prev: StudentState[] | null) => StudentState[] | null
+  ) => void;
+  setMovedStudent: (value: (prev: boolean) => boolean) => void;
 }
 
-export const ToTalkStudents = ({students, setStudents}: Props) => {
+export const ToTalkStudents = ({
+  students,
+  setStudents,
+  setMovedStudent,
+}: Props) => {
   const {name} = useSelector((state: RootState) => state.name);
 
   return (
@@ -32,6 +39,7 @@ export const ToTalkStudents = ({students, setStudents}: Props) => {
                 lastName={user.lastName}
                 addedDate={user.dateAdded as Date}
                 setStudents={setStudents}
+                setMovedStudent={setMovedStudent}
                 user={user as AllAvailableUsers}
               />
             ))

@@ -18,6 +18,7 @@ export const HrAvailableStudents = () => {
   const [pages, setPages] = useState(0);
   const [itemsOnPage, setItemsOnPage] = useState(ItemsOnPageEnum.ONE);
   const [students, setStudents] = useState<StudentState[] | null>(null);
+  const [movedStudent, setMovedStudent] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -26,6 +27,7 @@ export const HrAvailableStudents = () => {
         page,
         id as string
       );
+
       if (data.success) {
         setStudents(data.users);
         setPages(data.pages);
@@ -33,9 +35,7 @@ export const HrAvailableStudents = () => {
         setStudents([]);
       }
     })();
-  }, [page, itemsOnPage, pages]);
-
-  console.log('ss.log');
+  }, [page, itemsOnPage, pages, movedStudent]);
 
   return (
     <>
@@ -43,7 +43,11 @@ export const HrAvailableStudents = () => {
       <WrapperHr>
         <NavHr activeLink={NavigationHr.AVAILABLE_STUDENTS} />
         <UtilsHr />
-        <AvailableStudents students={students} setStudents={setStudents} />
+        <AvailableStudents
+          students={students}
+          setStudents={setStudents}
+          setMovedStudent={setMovedStudent}
+        />
       </WrapperHr>
       {pages !== 0 && (
         <Pagination

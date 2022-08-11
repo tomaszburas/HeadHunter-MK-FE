@@ -20,6 +20,7 @@ interface User {
   addedDate: Date;
   user?: AllAvailableUsers;
   setStudents: any;
+  setMovedStudent: (value: (prev: boolean) => boolean) => void;
 }
 
 export const ToTalkStudent = ({
@@ -30,6 +31,7 @@ export const ToTalkStudent = ({
   id,
   setStudents,
   user,
+  setMovedStudent,
 }: User) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const {id: hrId} = useSelector((store: RootState) => store.auth);
@@ -53,9 +55,9 @@ export const ToTalkStudent = ({
 
     if (data.success) {
       setStudents((prev: StudentState[]) => {
-        console.log(prev);
         return [...prev].filter((el) => el.id !== id);
       });
+      setMovedStudent((prev: boolean) => !prev);
     } else {
       toast.error(data.message);
     }

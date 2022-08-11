@@ -18,6 +18,7 @@ export const HrTTStudents = () => {
   const [pages, setPages] = useState(0);
   const [itemsOnPage, setItemsOnPage] = useState(ItemsOnPageEnum.ONE);
   const [students, setStudents] = useState<StudentState[] | null>(null);
+  const [movedStudent, setMovedStudent] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -29,7 +30,7 @@ export const HrTTStudents = () => {
         setStudents([]);
       }
     })();
-  }, [page, itemsOnPage, pages]);
+  }, [page, itemsOnPage, pages, movedStudent]);
 
   return (
     <>
@@ -37,7 +38,11 @@ export const HrTTStudents = () => {
       <WrapperHr>
         <NavHr activeLink={NavigationHr.TO_TALK_STUDENTS} />
         <UtilsHr />
-        <ToTalkStudents students={students} setStudents={setStudents} />
+        <ToTalkStudents
+          students={students}
+          setStudents={setStudents}
+          setMovedStudent={setMovedStudent}
+        />
       </WrapperHr>
       {pages !== 0 && (
         <Pagination

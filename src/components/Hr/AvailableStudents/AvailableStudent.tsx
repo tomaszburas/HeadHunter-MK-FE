@@ -3,17 +3,16 @@ import {Button} from '../../Button';
 import {useState} from 'react';
 import {StudentInfo} from '../StudentInfo';
 import {UnderlineHr} from '../../../assets/styled/Hr/UnderlineHr';
-import {AllAvailableUsers} from '../../../types/interfaces/Student/EmploymentInterface';
 import {API_URL} from '../../../config';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux';
 import {toast} from 'react-toastify';
 import {StudentState} from '../../../redux/features/studentSlice';
+import {AllAvailableUsers} from '../../../types/interfaces/Student/EmploymentInterface';
 
 export const AvailableStudent = (user: AllAvailableUsers) => {
   const [isOpen, setIsOpen] = useState(false);
   const {id} = useSelector((store: RootState) => store.auth);
-
 
   const addToTalk = async () => {
     const res = await fetch(`${API_URL}/hr/addToTalk/${id}/${user.id}`, {
@@ -25,9 +24,12 @@ export const AvailableStudent = (user: AllAvailableUsers) => {
 
     if (data.success) {
       user.setStudents((prev: StudentState[]) => {
-        console.log(prev);
         return [...prev].filter((el) => el.id !== user.id);
       });
+
+      if (user.setMovedStudent) {
+        user.setMovedStudent((prev: boolean) => !prev);
+      }
     } else {
       toast.error(data.message);
     }
