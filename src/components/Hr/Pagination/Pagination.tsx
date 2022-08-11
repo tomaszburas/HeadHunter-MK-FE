@@ -28,6 +28,10 @@ export const Pagination = ({
   }, [page, pages]);
 
   const clickUp = () => {
+    if (pages === 0) {
+      pages = 1;
+    }
+
     if (page === pages) {
       return;
     } else {
