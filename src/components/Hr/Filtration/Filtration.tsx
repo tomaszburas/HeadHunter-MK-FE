@@ -12,6 +12,8 @@ import {ContractForm} from './ContractForm';
 import {Internships} from '../../../types/enums/Internships';
 import {NavigationHr} from '../../../types/enums/NavigationHr';
 import {StudentState} from '../../../redux/features/studentSlice';
+import {toast} from 'react-toastify';
+import {API_URL} from '../../../config';
 
 interface Props {
   setOpenFiltration: (param: boolean) => void;
@@ -21,7 +23,7 @@ interface Props {
 
 export const Filtration = ({setOpenFiltration, by, setStudents}: Props) => {
   const [courseGrade, setCourseGrade] = useState<Stars[]>([]);
-  const [activityGrade, setActivityGrade] = useState<Stars[]>([]);
+  const [engagementGrade, setEngagementGrade] = useState<Stars[]>([]);
   const [codeGrade, setCodeGrade] = useState<Stars[]>([]);
   const [scrumGrade, setScrumGrade] = useState<Stars[]>([]);
   const [workplace, setWorkplace] = useState<WorkType[]>([]);
@@ -39,7 +41,7 @@ export const Filtration = ({setOpenFiltration, by, setStudents}: Props) => {
 
   const clearAll = () => {
     setCourseGrade([]);
-    setActivityGrade([]);
+    setEngagementGrade([]);
     setCodeGrade([]);
     setScrumGrade([]);
     setWorkplace([]);
@@ -51,23 +53,90 @@ export const Filtration = ({setOpenFiltration, by, setStudents}: Props) => {
     setClear(true);
   };
 
-  const handle = () => {
-    console.log(`courseGrade ${courseGrade}`);
-    console.log(`activityGrade ${activityGrade}`);
-    console.log(`codeGrade ${codeGrade}`);
-    console.log(`scrumGrade ${scrumGrade}`);
-    console.log(`workplace ${workplace}`);
-    console.log(`contract ${contract}`);
-    console.log(`internships ${internships}`);
-    console.log(`salary from:${salary.from} to:${salary.to}`);
-    console.log(`experience ${experience}`);
+  const handle = async () => {
+    const params = new URLSearchParams();
+
+    if (courseGrade.length > 0) {
+      courseGrade.map((el) => params.append('coursegrade', `${el}`));
+    }
+
+    if (engagementGrade.length > 0) {
+      engagementGrade.map((el) => params.append('engagementgrade', `${el}`));
+    }
+
+    if (codeGrade.length > 0) {
+      codeGrade.map((el) => params.append('codegrade', `${el}`));
+    }
+
+    if (scrumGrade.length > 0) {
+      scrumGrade.map((el) => params.append('scrumgrade', `${el}`));
+    }
+
+    if (workplace.length > 0) {
+      workplace.map((el) => params.append('workplace', `${el}`));
+    }
+
+    if (contract.length > 0) {
+      contract.map((el) => params.append('contract', `${el}`));
+    }
+
+    if (internships > 0) {
+      params.append('internships', `${internships}`);
+    }
+
+    if (salary.from.length > 0) {
+      params.append('salaryfrom', `${salary.from}`);
+    } else {
+      params.append('salaryfrom', `0`);
+    }
+
+    if (salary.to.length > 0) {
+      params.append('salaryto', `${salary.to}`);
+    } else {
+      params.append('salaryto', `0`);
+    }
+
+    if (experience.length > 0) {
+      if (Number(experience) < 1 || Number(experience) > 12) {
+        toast.error('Wpisz prawidłową liczbę misięcy');
+        return;
+      } else {
+        params.append('experience', `${experience}`);
+      }
+    }
 
     if (by === NavigationHr.AVAILABLE_STUDENTS) {
-      // FILTRATION BY AVAILABLE STUDENTS
+      const res = await fetch(`${API_URL}/.../${params.toString()}`, {
+        method: 'GET',
+        credentials: 'include',
+        mode: 'cors',
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setStudents(data.students);
+        setOpenFiltration(false);
+      } else {
+        toast.error(data.message);
+      }
     }
 
     if (by === NavigationHr.TO_TALK_STUDENTS) {
-      // FILTRATION BY TO TALKS STUDENTS
+      const res = await fetch(`${API_URL}/.../${params.toString()}`, {
+        method: 'GET',
+        credentials: 'include',
+        mode: 'cors',
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setStudents(data.students);
+        setOpenFiltration(false);
+      } else {
+        toast.error(data.message);
+      }
     }
   };
 
@@ -106,8 +175,8 @@ export const Filtration = ({setOpenFiltration, by, setStudents}: Props) => {
           />
 
           <ActivityGrade
-            activityGrade={activityGrade}
-            setActivityGrade={setActivityGrade}
+            engagementGrade={engagementGrade}
+            setEngagementGrade={setEngagementGrade}
             toggleBtn={toggleBtn}
             clear={clear}
             setClear={setClear}
