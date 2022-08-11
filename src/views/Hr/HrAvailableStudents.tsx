@@ -27,7 +27,6 @@ export const HrAvailableStudents = () => {
         page,
         id as string
       );
-
       if (data.success) {
         setStudents(data.users);
         setPages(data.pages);

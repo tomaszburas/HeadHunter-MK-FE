@@ -57,44 +57,44 @@ export const Filtration = ({setOpenFiltration, by, setStudents}: Props) => {
     const params = new URLSearchParams();
 
     if (courseGrade.length > 0) {
-      courseGrade.map((el) => params.append('coursegrade', `${el}`));
+      courseGrade.map((el) => params.append('courseCompletion', `${el}`));
     }
 
     if (engagementGrade.length > 0) {
-      engagementGrade.map((el) => params.append('engagementgrade', `${el}`));
+      engagementGrade.map((el) => params.append('courseEngagement', `${el}`));
     }
 
     if (codeGrade.length > 0) {
-      codeGrade.map((el) => params.append('codegrade', `${el}`));
+      codeGrade.map((el) => params.append('projectDegree', `${el}`));
     }
 
     if (scrumGrade.length > 0) {
-      scrumGrade.map((el) => params.append('scrumgrade', `${el}`));
+      scrumGrade.map((el) => params.append('teamProjectDegree', `${el}`));
     }
 
     if (workplace.length > 0) {
-      workplace.map((el) => params.append('workplace', `${el}`));
+      workplace.map((el) => params.append('expectedTypeWork', `${el}`));
     }
 
     if (contract.length > 0) {
-      contract.map((el) => params.append('contract', `${el}`));
+      contract.map((el) => params.append('expectedContractType', `${el}`));
     }
 
     if (internships > 0) {
-      params.append('internships', `${internships}`);
+      params.append('canTakeApprenticeship', `${internships}`);
     }
 
-    if (salary.from.length > 0) {
-      params.append('salaryfrom', `${salary.from}`);
-    } else {
-      params.append('salaryfrom', `0`);
-    }
-
-    if (salary.to.length > 0) {
-      params.append('salaryto', `${salary.to}`);
-    } else {
-      params.append('salaryto', `0`);
-    }
+    // if (salary.from.length > 0) {
+    //   params.append('expectedSalary', `${salary.from}`);
+    // } else {
+    //   params.append('expectedSalary', `0`);
+    // }
+    //
+    // if (salary.to.length > 0) {
+    //   params.append('expectedSalary', `${salary.to}`);
+    // } else {
+    //   params.append('expectedSalary', `0`);
+    // }
 
     if (experience.length > 0) {
       if (Number(experience) < 1 || Number(experience) > 12) {
@@ -105,12 +105,16 @@ export const Filtration = ({setOpenFiltration, by, setStudents}: Props) => {
       }
     }
 
+    console.log(params.toString())
+
     if (by === NavigationHr.AVAILABLE_STUDENTS) {
-      const res = await fetch(`${API_URL}/.../${params.toString()}`, {
+      const res = await fetch(`${API_URL}/hr/filter?${params.toString()}`, {
         method: 'GET',
         credentials: 'include',
         mode: 'cors',
       });
+
+      console.log(res)
 
       const data = await res.json();
 
@@ -120,6 +124,8 @@ export const Filtration = ({setOpenFiltration, by, setStudents}: Props) => {
       } else {
         toast.error(data.message);
       }
+
+      console.log(data)
     }
 
     if (by === NavigationHr.TO_TALK_STUDENTS) {
@@ -291,10 +297,11 @@ export const Filtration = ({setOpenFiltration, by, setStudents}: Props) => {
             </p>
             <div className="input-box">
               <input
-                type="number"
-                placeholder="np. 6 miesięcy"
-                value={experience}
-                onChange={(e) => setExperience(e.target.value)}
+                  type="number"
+                  min={0}
+                  placeholder="np. 6 miesięcy"
+                  value={experience}
+                  onChange={(e) => setExperience(e.target.value)}
               />
             </div>
           </div>
