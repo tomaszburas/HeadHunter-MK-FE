@@ -1,19 +1,22 @@
 import styled from 'styled-components';
 import {Input} from '../../assets/styled/Input';
-import {useState} from 'react';
 import {Filtration} from './Filtration/Filtration';
 import {useDispatch} from 'react-redux';
 import {searchName} from '../../redux/features/searchBarSlice';
-import {NavigationHr} from '../../types/enums/NavigationHr';
-import {StudentState} from '../../redux/features/studentSlice';
 
 interface Props {
-  by: NavigationHr;
-  setStudents: (value: StudentState[]) => void;
+  setFiltration: (value: boolean) => void;
+  setParams: any;
+  openFiltration: boolean;
+  setOpenFiltration: (value: boolean) => void;
 }
 
-export const UtilsHr = ({by, setStudents}: Props) => {
-  const [openFiltration, setOpenFiltration] = useState(false);
+export const UtilsHr = ({
+  setFiltration,
+  setOpenFiltration,
+  setParams,
+  openFiltration,
+}: Props) => {
   const dispatch = useDispatch();
 
   return (
@@ -38,9 +41,9 @@ export const UtilsHr = ({by, setStudents}: Props) => {
       </Utils>
       {openFiltration && (
         <Filtration
+          setParams={setParams}
+          setFiltration={setFiltration}
           setOpenFiltration={setOpenFiltration}
-          by={by}
-          setStudents={setStudents}
         />
       )}
     </>

@@ -5,14 +5,6 @@ export const fetchAllToTalkUsers = async (
   page: number,
   id: string
 ) => {
-  if (page === 0) {
-    page = 1;
-  }
-
-  if (itemsOnPage === 0) {
-    itemsOnPage = 1;
-  }
-
   const res = await fetch(
     `${API_URL}/hr/interested/${id}/${itemsOnPage}/${page}`,
     {

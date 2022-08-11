@@ -20,6 +20,10 @@ export const HrTTStudents = () => {
   const [students, setStudents] = useState<StudentState[] | null>(null);
   const [movedStudent, setMovedStudent] = useState<boolean>(false);
 
+  const [filtration, setFiltration] = useState(false);
+  const [params, setParams] = useState('');
+  const [openFiltration, setOpenFiltration] = useState(false);
+
   useEffect(() => {
     (async () => {
       const data = await fetchAllToTalkUsers(+itemsOnPage, page, id as string);
@@ -32,13 +36,17 @@ export const HrTTStudents = () => {
     })();
   }, [page, itemsOnPage, pages, movedStudent]);
 
-
   return (
     <>
       <Header />
       <WrapperHr>
         <NavHr activeLink={NavigationHr.TO_TALK_STUDENTS} />
-        <UtilsHr by={NavigationHr.TO_TALK_STUDENTS} setStudents={setStudents} />
+        <UtilsHr
+          setFiltration={setFiltration}
+          setParams={setParams}
+          openFiltration={openFiltration}
+          setOpenFiltration={setOpenFiltration}
+        />
         <ToTalkStudents
           students={students}
           setStudents={setStudents}

@@ -10,18 +10,19 @@ import {WorkType} from '../../../types/enums/WorkType';
 import {ContractType} from '../../../types/enums/ContractType';
 import {ContractForm} from './ContractForm';
 import {Internships} from '../../../types/enums/Internships';
-import {NavigationHr} from '../../../types/enums/NavigationHr';
-import {StudentState} from '../../../redux/features/studentSlice';
 import {toast} from 'react-toastify';
-import {API_URL} from '../../../config';
 
 interface Props {
-  setOpenFiltration: (param: boolean) => void;
-  by: NavigationHr;
-  setStudents: (value: StudentState[]) => void;
+  setFiltration: (value: boolean) => void;
+  setParams: any;
+  setOpenFiltration: (value: boolean) => void;
 }
 
-export const Filtration = ({setOpenFiltration, by, setStudents}: Props) => {
+export const Filtration = ({
+  setFiltration,
+  setParams,
+  setOpenFiltration,
+}: Props) => {
   const [courseGrade, setCourseGrade] = useState<Stars[]>([]);
   const [engagementGrade, setEngagementGrade] = useState<Stars[]>([]);
   const [codeGrade, setCodeGrade] = useState<Stars[]>([]);
@@ -37,6 +38,7 @@ export const Filtration = ({setOpenFiltration, by, setStudents}: Props) => {
     from: '',
     to: '',
   });
+
   const [clear, setClear] = useState(false);
 
   const clearAll = () => {
@@ -105,44 +107,8 @@ export const Filtration = ({setOpenFiltration, by, setStudents}: Props) => {
       }
     }
 
-    if (by === NavigationHr.AVAILABLE_STUDENTS) {
-      const res = await fetch(
-        `${API_URL}/hr/filter-available?${params.toString()}`,
-        {
-          method: 'GET',
-          credentials: 'include',
-          mode: 'cors',
-        }
-      );
-
-      const data = await res.json();
-
-      console.log(data);
-
-      // if (data.success) {
-      //   setStudents(data.students);
-      //   setOpenFiltration(false);
-      // } else {
-      //   toast.error(data.message);
-      // }
-    }
-
-    if (by === NavigationHr.TO_TALK_STUDENTS) {
-      const res = await fetch(`${API_URL}/.../${params.toString()}`, {
-        method: 'GET',
-        credentials: 'include',
-        mode: 'cors',
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        setStudents(data.students);
-        setOpenFiltration(false);
-      } else {
-        toast.error(data.message);
-      }
-    }
+    setFiltration(true);
+    setParams(params.toString());
   };
 
   const toggleBtn = (

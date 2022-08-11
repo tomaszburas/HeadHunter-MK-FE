@@ -11,6 +11,8 @@ import {ItemsOnPageEnum} from '../../types/enums/ItemsOnPageEnum';
 import {StudentState} from '../../redux/features/studentSlice';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux';
+import {API_URL} from '../../config';
+import {toast} from 'react-toastify';
 
 export const HrAvailableStudents = () => {
   const {id} = useSelector((store: RootState) => store.auth);
@@ -20,18 +22,51 @@ export const HrAvailableStudents = () => {
   const [students, setStudents] = useState<StudentState[] | null>(null);
   const [movedStudent, setMovedStudent] = useState<boolean>(false);
 
+  const [filtration, setFiltration] = useState(false);
+  const [params, setParams] = useState('');
+  const [openFiltration, setOpenFiltration] = useState(false);
+
   useEffect(() => {
     (async () => {
-      const data = await fetchAllAvailableUsers(
-        +itemsOnPage,
-        page,
-        id as string
-      );
-      if (data.success) {
-        setStudents(data.users);
-        setPages(data.pages);
+      if (filtration) {
+        const res = await fetch(
+          `${API_URL}/hr/filter-available/${page}/${itemsOnPage}/${id}?${params}`,
+          {
+            method: 'GET',
+            credentials: 'include',
+            mode: 'cors',
+          }
+        );
+
+        const data = await res.json();
+
+        console.log(data);
+
+        if (data.success) {
+          if (data.students.length === 0) {
+            toast.error('Nie wyszukano kursantów z podanymi kryteriami');
+            return;
+          }
+          setStudents(data.students);
+          setPages(data.pages);
+          setOpenFiltration(false);
+        } else {
+          toast.error(data.message);
+        }
+        console.log('eee');
+        setFiltration(false);
       } else {
-        setStudents([]);
+        const data = await fetchAllAvailableUsers(
+          itemsOnPage,
+          page,
+          id as string
+        );
+        if (data.success) {
+          setStudents(data.users);
+          setPages(data.pages);
+        } else {
+          setStudents([]);
+        }
       }
     })();
   }, [page, itemsOnPage, pages, movedStudent]);
@@ -42,8 +77,10 @@ export const HrAvailableStudents = () => {
       <WrapperHr>
         <NavHr activeLink={NavigationHr.AVAILABLE_STUDENTS} />
         <UtilsHr
-          by={NavigationHr.AVAILABLE_STUDENTS}
-          setStudents={setStudents}
+          setFiltration={setFiltration}
+          setParams={setParams}
+          openFiltration={openFiltration}
+          setOpenFiltration={setOpenFiltration}
         />
         <AvailableStudents
           students={students}
