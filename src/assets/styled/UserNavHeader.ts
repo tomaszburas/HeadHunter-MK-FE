@@ -47,10 +47,10 @@ export const MenuNav = styled.div`
     }
   }
 
-  -webkit-animation: SHOW-BOX 1s ease;
-  -moz-animation: SHOW-BOX 1s ease;
-  -o-animation: SHOW-BOX 1s ease;
-  animation: SHOW-BOX 1s ease;
+  -webkit-animation: SHOW-BOX 0.5s ease;
+  -moz-animation: SHOW-BOX 0.5s ease;
+  -o-animation: SHOW-BOX 0.5s ease;
+  animation: SHOW-BOX 0.5s ease;
 
   position: absolute;
   width: fit-content;

@@ -120,10 +120,10 @@ const Container = styled.div<{isOpen: Boolean}>`
     }
   }
 
-  -webkit-animation: SHOW-BOX 1s ease;
-  -moz-animation: SHOW-BOX 1s ease;
-  -o-animation: SHOW-BOX 1s ease;
-  animation: SHOW-BOX 1s ease;
+  -webkit-animation: SHOW-BOX 0.5s ease;
+  -moz-animation: SHOW-BOX 0.5s ease;
+  -o-animation: SHOW-BOX 0.5s ease;
+  animation: SHOW-BOX 0.5s ease;
 
   background-color: ${(props) => props.theme.colors.background};
   padding: ${(props) => props.theme.paddingSize.sm};
