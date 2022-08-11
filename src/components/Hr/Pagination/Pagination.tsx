@@ -33,7 +33,6 @@ export const Pagination = ({
     }
 
     if (page === pages) {
-      console.log('elo')
       return;
     } else {
       setPage(page + 1);

@@ -80,52 +80,51 @@ export const Filtration = ({setOpenFiltration, by, setStudents}: Props) => {
       contract.map((el) => params.append('expectedContractType', `${el}`));
     }
 
-    if (internships > 0) {
+    if (internships === 0 || internships == 1) {
       params.append('canTakeApprenticeship', `${internships}`);
     }
 
-    // if (salary.from.length > 0) {
-    //   params.append('expectedSalary', `${salary.from}`);
-    // } else {
-    //   params.append('expectedSalary', `0`);
-    // }
-    //
-    // if (salary.to.length > 0) {
-    //   params.append('expectedSalary', `${salary.to}`);
-    // } else {
-    //   params.append('expectedSalary', `0`);
-    // }
+    if (salary.from.length > 0) {
+      params.append('expectedSalaryFrom', `${salary.from}`);
+    } else {
+      params.append('expectedSalaryFrom', `0`);
+    }
+
+    if (salary.to.length > 0) {
+      params.append('expectedSalaryTo', `${salary.to}`);
+    } else {
+      params.append('expectedSalaryTo', `0`);
+    }
 
     if (experience.length > 0) {
-      if (Number(experience) < 1 || Number(experience) > 12) {
+      if (Number(experience) < 0) {
         toast.error('Wpisz prawidłową liczbę misięcy');
         return;
       } else {
-        params.append('experience', `${experience}`);
+        params.append('monthsOfCommercialExp', `${experience}`);
       }
     }
 
-    console.log(params.toString())
-
     if (by === NavigationHr.AVAILABLE_STUDENTS) {
-      const res = await fetch(`${API_URL}/hr/filter?${params.toString()}`, {
-        method: 'GET',
-        credentials: 'include',
-        mode: 'cors',
-      });
-
-      console.log(res)
+      const res = await fetch(
+        `${API_URL}/hr/filter-available?${params.toString()}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          mode: 'cors',
+        }
+      );
 
       const data = await res.json();
 
-      if (data.success) {
-        setStudents(data.students);
-        setOpenFiltration(false);
-      } else {
-        toast.error(data.message);
-      }
+      console.log(data);
 
-      console.log(data)
+      // if (data.success) {
+      //   setStudents(data.students);
+      //   setOpenFiltration(false);
+      // } else {
+      //   toast.error(data.message);
+      // }
     }
 
     if (by === NavigationHr.TO_TALK_STUDENTS) {
@@ -292,16 +291,16 @@ export const Filtration = ({setOpenFiltration, by, setStudents}: Props) => {
 
           <div className="input-wrapper">
             <p className="title">
-              Ilość miesięcy doświadczenia komercyjnego kandydata w
+              Min. ilość miesięcy doświadczenia komercyjnego kandydata w
               programowaniu
             </p>
             <div className="input-box">
               <input
-                  type="number"
-                  min={0}
-                  placeholder="np. 6 miesięcy"
-                  value={experience}
-                  onChange={(e) => setExperience(e.target.value)}
+                type="number"
+                min={0}
+                placeholder="np. 6 miesięcy"
+                value={experience}
+                onChange={(e) => setExperience(e.target.value)}
               />
             </div>
           </div>
