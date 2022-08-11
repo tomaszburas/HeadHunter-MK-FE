@@ -25,10 +25,11 @@ export const Pagination = ({
     if (pages === page) {
       setPage(pages);
     }
-  }, [page, pages]);
+  }, [page, pages, setPage, setItemsOnPage]);
 
   const clickUp = () => {
     if (page === pages) {
+      console.log('elo')
       return;
     } else {
       setPage(page + 1);

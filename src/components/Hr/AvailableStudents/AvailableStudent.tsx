@@ -22,6 +22,7 @@ export const AvailableStudent = (user: AllAvailableUsers) => {
 
     const data = await res.json();
 
+
     if (data.success) {
       user.setStudents((prev: StudentState[]) => {
         return [...prev].filter((el) => el.id !== user.id);
@@ -43,7 +44,7 @@ export const AvailableStudent = (user: AllAvailableUsers) => {
           1
         )}.`}</p>
         <div className="student-nav">
-          <Button text="Zarezerwuj rozmowę" onClick={addToTalk} />
+          <Button text="Zarezerwuj rozmowę" onClick={() => addToTalk()}/>
           {!isOpen ? (
             <i
               className="bx bx-chevron-down"
