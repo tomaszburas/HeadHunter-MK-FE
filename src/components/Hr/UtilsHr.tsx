@@ -3,21 +3,21 @@ import {Input} from '../../assets/styled/Input';
 import {Filtration} from './Filtration/Filtration';
 import {useDispatch} from 'react-redux';
 import {searchName} from '../../redux/features/searchBarSlice';
+import {NavigationHr} from '../../types/enums/NavigationHr';
+import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 interface Props {
-  setFiltration: (value: boolean) => void;
-  setParams: any;
-  openFiltration: boolean;
-  setOpenFiltration: (value: boolean) => void;
+  by: NavigationHr;
+  filter?: boolean;
+  page: number;
+  itemsOnPage: number;
 }
 
-export const UtilsHr = ({
-  setFiltration,
-  setOpenFiltration,
-  setParams,
-  openFiltration,
-}: Props) => {
+export const UtilsHr = ({by, filter, page, itemsOnPage}: Props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [openFiltration, setOpenFiltration] = useState(false);
 
   return (
     <>
@@ -35,15 +35,31 @@ export const UtilsHr = ({
             <i className="bx bx-search" />
           </label>
         </div>
-        <button onClick={() => setOpenFiltration(true)}>
-          <i className="bx bx-filter" /> Filtrowanie
-        </button>
+        <div className="btn-box">
+          {filter && (
+            <button
+              className="btn-clear"
+              onClick={() =>
+                navigate(`/hr/available`, {
+                  replace: true,
+                })
+              }
+            >
+              <i className="bx bx-trash-alt"></i>
+              Wyczyść Filtrowanie
+            </button>
+          )}
+          <button onClick={() => setOpenFiltration(true)}>
+            <i className="bx bx-filter" /> Filtrowanie
+          </button>
+        </div>
       </Utils>
       {openFiltration && (
         <Filtration
-          setParams={setParams}
-          setFiltration={setFiltration}
           setOpenFiltration={setOpenFiltration}
+          by={by}
+          page={page}
+          itemsOnPage={itemsOnPage}
         />
       )}
     </>
@@ -95,16 +111,26 @@ const Utils = styled.div`
     }
   }
 
-  button {
-    background-color: ${(props) => props.theme.colors.black};
-    color: ${(props) => props.theme.colors.lightGray};
-    border: none;
-    cursor: pointer;
+  .btn-box {
     display: flex;
-    align-items: center;
 
-    .bx-filter {
-      padding-right: ${(props) => props.theme.paddingSize.sm};
+    button {
+      background-color: ${(props) => props.theme.colors.black};
+      color: ${(props) => props.theme.colors.lightGray};
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+
+      .bx {
+        padding-right: ${(props) => props.theme.paddingSize.sm};
+      }
+    }
+
+    .btn-clear {
+      background-color: ${(props) => props.theme.colors.darkBlue};
+      color: ${(props) => props.theme.colors.white};
+      margin-right: ${(props) => props.theme.marginSize.sm};
     }
   }
 

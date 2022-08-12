@@ -1,36 +1,53 @@
-import {Header} from '../../components/Header/Header';
-import {NavHr} from '../../components/Hr/NavHr';
-import {NavigationHr} from '../../types/enums/NavigationHr';
-import {UtilsHr} from '../../components/Hr/UtilsHr';
-import {ToTalkStudents} from '../../components/Hr/ToTalkStudents/ToTalkStudents';
-import {WrapperHr} from '../../assets/styled/Hr/WrapperHr';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux';
 import {useEffect, useState} from 'react';
-import {fetchAllToTalkUsers} from '../../utils/fetch/fetchAllToTalkUsers';
-import {Pagination} from '../../components/Hr/Pagination/Pagination';
 import {ItemsOnPageEnum} from '../../types/enums/ItemsOnPageEnum';
 import {StudentState} from '../../redux/features/studentSlice';
+import {Header} from '../../components/Header/Header';
+import {WrapperHr} from '../../assets/styled/Hr/WrapperHr';
+import {NavHr} from '../../components/Hr/NavHr';
+import {NavigationHr} from '../../types/enums/NavigationHr';
+import {UtilsHr} from '../../components/Hr/UtilsHr';
+import {AvailableStudents} from '../../components/Hr/AvailableStudents/AvailableStudents';
+import {Pagination} from '../../components/Hr/Pagination/Pagination';
+import {API_URL} from '../../config';
+import {toast} from 'react-toastify';
+import {useSearchParams} from 'react-router-dom';
 
-export const HrTTStudents = () => {
+export const HrTTStudentsFilter = () => {
   const {id} = useSelector((store: RootState) => store.auth);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(0);
   const [itemsOnPage, setItemsOnPage] = useState(ItemsOnPageEnum.ONE);
   const [students, setStudents] = useState<StudentState[] | null>(null);
   const [movedStudent, setMovedStudent] = useState<boolean>(false);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     (async () => {
-      const data = await fetchAllToTalkUsers(itemsOnPage, page, id as string);
+      const res = await fetch(
+        `${API_URL}/hr/filter-to-talk/${page}/${itemsOnPage}/${id}?${searchParams.toString()}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          mode: 'cors',
+        }
+      );
+
+      const data = await res.json();
+
       if (data.success) {
-        setStudents(data.users);
+        if (data.students.length === 0) {
+          setStudents([]);
+          return;
+        }
+        setStudents(data.students);
         setPages(data.pages);
       } else {
-        setStudents([]);
+        toast.error(data.message);
       }
     })();
-  }, [page, itemsOnPage, pages, movedStudent]);
+  }, [page, itemsOnPage, pages, movedStudent, searchParams]);
 
   return (
     <>
@@ -39,10 +56,11 @@ export const HrTTStudents = () => {
         <NavHr activeLink={NavigationHr.TO_TALK_STUDENTS} />
         <UtilsHr
           by={NavigationHr.TO_TALK_STUDENTS}
+          filter={true}
           page={page}
           itemsOnPage={itemsOnPage}
         />
-        <ToTalkStudents
+        <AvailableStudents
           students={students}
           setStudents={setStudents}
           setMovedStudent={setMovedStudent}

@@ -11,17 +11,24 @@ import {ContractType} from '../../../types/enums/ContractType';
 import {ContractForm} from './ContractForm';
 import {Internships} from '../../../types/enums/Internships';
 import {toast} from 'react-toastify';
+import {NavigationHr} from '../../../types/enums/NavigationHr';
+import {useNavigate} from 'react-router-dom';
+import {API_URL} from '../../../config';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../redux';
 
 interface Props {
-  setFiltration: (value: boolean) => void;
-  setParams: any;
   setOpenFiltration: (value: boolean) => void;
+  by: NavigationHr;
+  page: number;
+  itemsOnPage: number;
 }
 
 export const Filtration = ({
-  setFiltration,
-  setParams,
   setOpenFiltration,
+  by,
+  page,
+  itemsOnPage,
 }: Props) => {
   const [courseGrade, setCourseGrade] = useState<Stars[]>([]);
   const [engagementGrade, setEngagementGrade] = useState<Stars[]>([]);
@@ -35,9 +42,11 @@ export const Filtration = ({
     from: string;
     to: string;
   }>({
-    from: '',
-    to: '',
+    from: '0',
+    to: '8000',
   });
+  const navigate = useNavigate();
+  const {id} = useSelector((store: RootState) => store.auth);
 
   const [clear, setClear] = useState(false);
 
@@ -107,8 +116,57 @@ export const Filtration = ({
       }
     }
 
-    setFiltration(true);
-    setParams(params.toString());
+    if (by === NavigationHr.AVAILABLE_STUDENTS) {
+      const res = await fetch(
+        `${API_URL}/hr/filter-available/${page}/${itemsOnPage}/${id}?${params.toString()}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          mode: 'cors',
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.success) {
+        if (data.students.length === 0) {
+          toast.error('Nie wyszukano kursantów z podanymi kryteriami');
+          return;
+        }
+        navigate(`/hr/available/filter?${params.toString()}`, {
+          replace: true,
+        });
+      } else {
+        toast.error(data.message);
+      }
+      setOpenFiltration(false);
+    }
+
+    if (by === NavigationHr.TO_TALK_STUDENTS) {
+      const res = await fetch(
+        `${API_URL}/hr/filter-to-talk/${page}/${itemsOnPage}/${id}?${params.toString()}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          mode: 'cors',
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.success) {
+        if (data.students.length === 0) {
+          toast.error('Nie wyszukano kursantów z podanymi kryteriami');
+          return;
+        }
+        navigate(`/hr/to-talk/filter?${params.toString()}`, {
+          replace: true,
+        });
+      } else {
+        toast.error(data.message);
+      }
+      setOpenFiltration(false);
+    }
   };
 
   const toggleBtn = (

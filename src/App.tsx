@@ -18,6 +18,8 @@ import {Role} from './types/enums/Role';
 import {CheckAuth} from './components/CheckAuth';
 import {Auth} from './components/Auth';
 import {FirstLogin} from './components/Student/FirstLogin';
+import {HrAvailableStudentsFilter} from './views/Hr/HrAvailableStudentsFilter';
+import {HrTTStudentsFilter} from './views/Hr/HrToTalksStudentsFilter';
 
 export const App = () => {
   return (
@@ -92,11 +94,16 @@ export const App = () => {
           }
         >
           <Route path={`/hr/available`} element={<HrAvailableStudents />} />
-          <Route path={`/hr/to-talk`} element={<HrTTStudents/>}/>
-          <Route path={`/hr/cv/:id`} element={<HrStudentCv/>}/>
           <Route
-              path={`/hr/account-edit`}
-              element={<Form title="Edycja konta" children={<HrEditForm/>}/>}
+            path={`/hr/available/filter`}
+            element={<HrAvailableStudentsFilter />}
+          />
+          <Route path={`/hr/to-talk`} element={<HrTTStudents />} />
+          <Route path={`/hr/to-talk/filter`} element={<HrTTStudentsFilter />} />
+          <Route path={`/hr/cv/:id`} element={<HrStudentCv />} />
+          <Route
+            path={`/hr/account-edit`}
+            element={<Form title="Edycja konta" children={<HrEditForm />} />}
           />
           <Route path={`/hr/*`} element={<Navigate to={'/hr/available'} />} />
         </Route>
