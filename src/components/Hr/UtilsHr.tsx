@@ -90,7 +90,6 @@ const Utils = styled.div`
       padding-right: ${(props) => props.theme.paddingSize.xl};
     }
 
-    /* clears the 'X' from Internet Explorer */
     input[type='search']::-ms-clear {
       display: none;
       width: 0;
@@ -102,7 +101,6 @@ const Utils = styled.div`
       height: 0;
     }
 
-    /* clears the 'X' from Chrome */
     input[type='search']::-webkit-search-decoration,
     input[type='search']::-webkit-search-cancel-button,
     input[type='search']::-webkit-search-results-button,
@@ -149,7 +147,16 @@ const Utils = styled.div`
 
   @media only screen and (max-width: 600px) {
     .input-wrapper {
-      width: 60%;
+      width: 50%;
+    }
+
+    .btn-box {
+      flex-direction: column;
+
+      .btn-clear {
+        margin-right: 0;
+        margin-bottom: ${(props) => props.theme.marginSize.sm};
+      }
     }
   }
 `;
