@@ -9,8 +9,9 @@ import {useEffect, useState} from 'react';
 import {fetchAllAvailableUsers} from '../../utils/fetch/fetchAllAvailableUsers';
 import {ItemsOnPageEnum} from '../../types/enums/ItemsOnPageEnum';
 import {StudentState} from '../../redux/features/studentSlice';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux';
+import {searchName} from '../../redux/features/searchBarSlice';
 
 export const HrAvailableStudents = () => {
   const {id} = useSelector((store: RootState) => store.auth);
@@ -19,6 +20,9 @@ export const HrAvailableStudents = () => {
   const [itemsOnPage, setItemsOnPage] = useState(ItemsOnPageEnum.ONE);
   const [students, setStudents] = useState<StudentState[] | null>(null);
   const [movedStudent, setMovedStudent] = useState<boolean>(false);
+  const [allStudents, setAllStudents] = useState([]);
+  const {name} = useSelector((state: RootState) => state.name);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -28,13 +32,18 @@ export const HrAvailableStudents = () => {
         id as string
       );
       if (data.success) {
-        setStudents(data.users);
+        setStudents(data.students);
+        setAllStudents(data.allStudents);
         setPages(data.pages);
       } else {
         setStudents([]);
       }
     })();
   }, [page, itemsOnPage, pages, movedStudent]);
+
+  useEffect(() => {
+    dispatch(searchName({name: ''}));
+  }, []);
 
   return (
     <>
@@ -50,9 +59,10 @@ export const HrAvailableStudents = () => {
           students={students}
           setStudents={setStudents}
           setMovedStudent={setMovedStudent}
+          allStudents={allStudents}
         />
       </WrapperHr>
-      {students?.length !== 0 && students !== null && (
+      {students?.length !== 0 && students !== null && name.length === 0 && (
         <Pagination
           page={page}
           pages={pages}

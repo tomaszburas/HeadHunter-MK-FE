@@ -13,12 +13,14 @@ interface Props {
     value: (prev: StudentState[] | null) => StudentState[] | null
   ) => void;
   setMovedStudent: (value: (prev: boolean) => boolean) => void;
+  allStudents: any;
 }
 
 export const ToTalkStudents = ({
   students,
   setStudents,
   setMovedStudent,
+  allStudents,
 }: Props) => {
   const {name} = useSelector((state: RootState) => state.name);
 
@@ -27,6 +29,29 @@ export const ToTalkStudents = ({
       {students !== null ? (
         students.length === 0 ? (
           <NoData>Brak kursantów</NoData>
+        ) : name.length > 0 ? (
+          allStudents?.filter((item: any) =>
+            item.firstName?.toLowerCase().includes(name)
+          ).length === 0 ? (
+            <NoData>Brak kursantów</NoData>
+          ) : (
+            allStudents
+              .filter((item: any) =>
+                item.firstName?.toLowerCase().includes(name)
+              )
+              .map((user: any) => (
+                <ToTalkStudent
+                  key={user.id}
+                  id={user.id}
+                  firstName={user.firstName}
+                  githubUsername={user.githubUsername}
+                  lastName={user.lastName}
+                  setStudents={setStudents}
+                  setMovedStudent={setMovedStudent}
+                  user={user as AllAvailableUsers}
+                />
+              ))
+          )
         ) : (
           students
             .filter((item) => item.firstName?.toLowerCase().includes(name))
@@ -37,7 +62,6 @@ export const ToTalkStudents = ({
                 firstName={user.firstName}
                 githubUsername={user.githubUsername}
                 lastName={user.lastName}
-                // addedDate={user.dateAdded as Date}
                 setStudents={setStudents}
                 setMovedStudent={setMovedStudent}
                 user={user as AllAvailableUsers}

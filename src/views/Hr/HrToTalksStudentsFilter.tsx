@@ -1,4 +1,4 @@
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux';
 import {useEffect, useState} from 'react';
 import {ItemsOnPageEnum} from '../../types/enums/ItemsOnPageEnum';
@@ -8,11 +8,12 @@ import {WrapperHr} from '../../assets/styled/Hr/WrapperHr';
 import {NavHr} from '../../components/Hr/NavHr';
 import {NavigationHr} from '../../types/enums/NavigationHr';
 import {UtilsHr} from '../../components/Hr/UtilsHr';
-import {AvailableStudents} from '../../components/Hr/AvailableStudents/AvailableStudents';
 import {Pagination} from '../../components/Hr/Pagination/Pagination';
 import {API_URL} from '../../config';
 import {toast} from 'react-toastify';
 import {useSearchParams} from 'react-router-dom';
+import {ToTalkStudents} from '../../components/Hr/ToTalkStudents/ToTalkStudents';
+import {searchName} from '../../redux/features/searchBarSlice';
 
 export const HrTTStudentsFilter = () => {
   const {id} = useSelector((store: RootState) => store.auth);
@@ -22,6 +23,9 @@ export const HrTTStudentsFilter = () => {
   const [students, setStudents] = useState<StudentState[] | null>(null);
   const [movedStudent, setMovedStudent] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
+  const [allStudents, setAllStudents] = useState([]);
+  const {name} = useSelector((state: RootState) => state.name);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -42,12 +46,17 @@ export const HrTTStudentsFilter = () => {
           return;
         }
         setStudents(data.students);
+        setAllStudents(allStudents);
         setPages(data.pages);
       } else {
         toast.error(data.message);
       }
     })();
   }, [page, itemsOnPage, pages, movedStudent, searchParams]);
+
+  useEffect(() => {
+    dispatch(searchName({name: ''}));
+  }, []);
 
   return (
     <>
@@ -60,13 +69,14 @@ export const HrTTStudentsFilter = () => {
           page={page}
           itemsOnPage={itemsOnPage}
         />
-        <AvailableStudents
+        <ToTalkStudents
           students={students}
           setStudents={setStudents}
           setMovedStudent={setMovedStudent}
+          allStudents={allStudents}
         />
       </WrapperHr>
-      {students?.length !== 0 && students !== null && (
+      {students?.length !== 0 && students !== null && name.length === 0 && (
         <Pagination
           page={page}
           pages={pages}

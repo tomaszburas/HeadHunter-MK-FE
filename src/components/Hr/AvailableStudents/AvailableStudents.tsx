@@ -12,12 +12,14 @@ interface Props {
     value: (prev: StudentState[] | null) => StudentState[] | null
   ) => void;
   setMovedStudent: (value: (prev: boolean) => boolean) => void;
+  allStudents: any;
 }
 
 export const AvailableStudents = ({
   students,
   setStudents,
   setMovedStudent,
+  allStudents,
 }: Props) => {
   const {name} = useSelector((state: RootState) => state.name);
 
@@ -26,29 +28,58 @@ export const AvailableStudents = ({
       {students !== null ? (
         students.length === 0 ? (
           <NoData>Brak kursantów</NoData>
+        ) : name.length > 0 ? (
+          allStudents?.filter((item: any) =>
+            item.firstName?.toLowerCase().includes(name)
+          ).length === 0 ? (
+            <NoData>Brak kursantów</NoData>
+          ) : (
+            allStudents
+              .filter((item: any) =>
+                item.firstName?.toLowerCase().includes(name)
+              )
+              .map((item: any) => (
+                <AvailableStudent
+                  key={item.id}
+                  id={item.id}
+                  canTakeApprenticeship={item.canTakeApprenticeship}
+                  expectedContractType={item.expectedContractType}
+                  expectedSalary={item.expectedSalary}
+                  expectedTypeWork={item.expectedTypeWork}
+                  firstName={item.firstName}
+                  lastName={item.lastName}
+                  monthsOfCommercialExp={item.monthsOfCommercialExp}
+                  targetWorkCity={item.targetWorkCity}
+                  courseCompletion={item.courseCompletion}
+                  courseEngagement={item.courseEngagement}
+                  projectDegree={item.projectDegree}
+                  teamProjectDegree={item.teamProjectDegree}
+                  setStudents={setStudents}
+                  setMovedStudent={setMovedStudent}
+                />
+              ))
+          )
         ) : (
-          students
-            .filter((item) => item.firstName?.toLowerCase().includes(name))
-            .map((item) => (
-              <AvailableStudent
-                key={item.id}
-                id={item.id}
-                canTakeApprenticeship={item.canTakeApprenticeship}
-                expectedContractType={item.expectedContractType}
-                expectedSalary={item.expectedSalary}
-                expectedTypeWork={item.expectedTypeWork}
-                firstName={item.firstName}
-                lastName={item.lastName}
-                monthsOfCommercialExp={item.monthsOfCommercialExp}
-                targetWorkCity={item.targetWorkCity}
-                courseCompletion={item.courseCompletion}
-                courseEngagement={item.courseEngagement}
-                projectDegree={item.projectDegree}
-                teamProjectDegree={item.teamProjectDegree}
-                setStudents={setStudents}
-                setMovedStudent={setMovedStudent}
-              />
-            ))
+          students.map((item) => (
+            <AvailableStudent
+              key={item.id}
+              id={item.id}
+              canTakeApprenticeship={item.canTakeApprenticeship}
+              expectedContractType={item.expectedContractType}
+              expectedSalary={item.expectedSalary}
+              expectedTypeWork={item.expectedTypeWork}
+              firstName={item.firstName}
+              lastName={item.lastName}
+              monthsOfCommercialExp={item.monthsOfCommercialExp}
+              targetWorkCity={item.targetWorkCity}
+              courseCompletion={item.courseCompletion}
+              courseEngagement={item.courseEngagement}
+              projectDegree={item.projectDegree}
+              teamProjectDegree={item.teamProjectDegree}
+              setStudents={setStudents}
+              setMovedStudent={setMovedStudent}
+            />
+          ))
         )
       ) : (
         <NoData>
