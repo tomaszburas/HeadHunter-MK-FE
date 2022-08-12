@@ -23,39 +23,41 @@ export const AvailableStudents = ({
 }: Props) => {
   const {name} = useSelector((state: RootState) => state.name);
 
+  console.log(allStudents, students)
+
   return (
-    <ContainerHrStudents>
-      {students !== null ? (
-        students.length === 0 ? (
-          <NoData>Brak kursantów</NoData>
-        ) : name.length > 0 ? (
-          allStudents?.filter((item: any) =>
-            item.firstName?.toLowerCase().includes(name)
-          ).length === 0 ? (
-            <NoData>Brak kursantów</NoData>
-          ) : (
-            allStudents
-              .filter((item: any) =>
-                item.firstName?.toLowerCase().includes(name)
+      <ContainerHrStudents>
+        {students !== null ? (
+            students?.length === 0 ? (
+                <NoData>Brak kursantów</NoData>
+            ) : name.length > 0 ? (
+                allStudents?.filter((item: any) =>
+                    item.firstName?.toLowerCase().includes(name)
+                ).length === 0 ? (
+                    <NoData>Brak kursantów</NoData>
+                ) : (
+                    allStudents
+                        .filter((item: any) =>
+                            item.firstName?.toLowerCase().includes(name)
               )
               .map((item: any) => (
                 <AvailableStudent
-                  key={item.id}
-                  id={item.id}
-                  canTakeApprenticeship={item.canTakeApprenticeship}
-                  expectedContractType={item.expectedContractType}
-                  expectedSalary={item.expectedSalary}
-                  expectedTypeWork={item.expectedTypeWork}
-                  firstName={item.firstName}
-                  lastName={item.lastName}
-                  monthsOfCommercialExp={item.monthsOfCommercialExp}
-                  targetWorkCity={item.targetWorkCity}
-                  courseCompletion={item.courseCompletion}
-                  courseEngagement={item.courseEngagement}
-                  projectDegree={item.projectDegree}
-                  teamProjectDegree={item.teamProjectDegree}
-                  setStudents={setStudents}
-                  setMovedStudent={setMovedStudent}
+                    key={item._id}
+                    id={item.id}
+                    canTakeApprenticeship={item.canTakeApprenticeship}
+                    expectedContractType={item.expectedContractType}
+                    expectedSalary={item.expectedSalary}
+                    expectedTypeWork={item.expectedTypeWork}
+                    firstName={item.firstName}
+                    lastName={item.lastName}
+                    monthsOfCommercialExp={item.monthsOfCommercialExp}
+                    targetWorkCity={item.targetWorkCity}
+                    courseCompletion={item.courseCompletion}
+                    courseEngagement={item.courseEngagement}
+                    projectDegree={item.projectDegree}
+                    teamProjectDegree={item.teamProjectDegree}
+                    setStudents={setStudents}
+                    setMovedStudent={setMovedStudent}
                 />
               ))
           )

@@ -39,14 +39,6 @@ export const ToTalkStudent = ({
   const [load, setLoad] = useState(false);
   const [hiredPopup, setHiredPopup] = useState(false);
   const navigate = useNavigate();
-  // const [dateState, setDate] = useState<string>('');
-
-  // useEffect(() => {
-  //   const date = addedDate.toString().split('-');
-  //   const day = date[2].split('T')[0];
-  //   const expiredDate = new Date(Number(date[0]), Number(date[1]), +day + 10);
-  //   setDate(expiredDate.toLocaleDateString());
-  // }, [dateState]);
 
   const handleRemoveStudent = async () => {
     const res = await fetch(`${API_URL}/hr/not-interested/${hrId}/${id}`, {

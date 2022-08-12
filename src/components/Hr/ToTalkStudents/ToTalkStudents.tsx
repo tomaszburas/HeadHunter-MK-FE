@@ -27,28 +27,28 @@ export const ToTalkStudents = ({
   return (
     <ContainerHrStudents>
       {students !== null ? (
-        students.length === 0 ? (
-          <NoData>Brak kursantów</NoData>
-        ) : name.length > 0 ? (
-          allStudents?.filter((item: any) =>
-            item.firstName?.toLowerCase().includes(name)
-          ).length === 0 ? (
+        students?.length === 0 ? (
             <NoData>Brak kursantów</NoData>
-          ) : (
-            allStudents
-              .filter((item: any) =>
+        ) : name.length > 0 ? (
+            allStudents?.filter((item: any) =>
                 item.firstName?.toLowerCase().includes(name)
+            ).length === 0 ? (
+                <NoData>Brak kursantów</NoData>
+            ) : (
+                allStudents
+                    .filter((item: any) =>
+                        item.firstName?.toLowerCase().includes(name)
               )
               .map((user: any) => (
                 <ToTalkStudent
-                  key={user.id}
-                  id={user.id}
-                  firstName={user.firstName}
-                  githubUsername={user.githubUsername}
-                  lastName={user.lastName}
-                  setStudents={setStudents}
-                  setMovedStudent={setMovedStudent}
-                  user={user as AllAvailableUsers}
+                    key={user._id}
+                    id={user.id}
+                    firstName={user.firstName}
+                    githubUsername={user.githubUsername}
+                    lastName={user.lastName}
+                    setStudents={setStudents}
+                    setMovedStudent={setMovedStudent}
+                    user={user as AllAvailableUsers}
                 />
               ))
           )
