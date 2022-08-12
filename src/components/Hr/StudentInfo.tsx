@@ -62,7 +62,7 @@ export const StudentInfo = ({isOpen, user}: Props) => {
       <div className="info-wrapper">
         <p className="info-title">Zgoda na odbycie bezpłatnych praktyk/stażu</p>
         <p className="info-data">
-          <span>{user?.canTakeApprenticeship ? 'TAK' : 'NIE'}</span>
+          <span>{user?.canTakeApprenticeship ? 'Nie' : 'Tak'}</span>
         </p>
       </div>
       <div className="info-wrapper">

@@ -19,6 +19,20 @@ export const UtilsHr = ({by, filter, page, itemsOnPage}: Props) => {
   const navigate = useNavigate();
   const [openFiltration, setOpenFiltration] = useState(false);
 
+  const checkNav = () => {
+    if (by === NavigationHr.AVAILABLE_STUDENTS) {
+      navigate(`/hr/available`, {
+        replace: true,
+      });
+    }
+
+    if (by === NavigationHr.TO_TALK_STUDENTS) {
+      navigate(`/hr/to-talk`, {
+        replace: true,
+      });
+    }
+  };
+
   return (
     <>
       <Utils>
@@ -37,14 +51,7 @@ export const UtilsHr = ({by, filter, page, itemsOnPage}: Props) => {
         </div>
         <div className="btn-box">
           {filter && (
-            <button
-              className="btn-clear"
-              onClick={() =>
-                navigate(`/hr/available`, {
-                  replace: true,
-                })
-              }
-            >
+            <button className="btn-clear" onClick={checkNav}>
               <i className="bx bx-trash-alt"></i>
               Wyczyść Filtrowanie
             </button>
