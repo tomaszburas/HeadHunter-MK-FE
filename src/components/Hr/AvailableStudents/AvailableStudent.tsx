@@ -7,29 +7,44 @@ import {API_URL} from '../../../config';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux';
 import {toast} from 'react-toastify';
-import {StudentState} from '../../../redux/features/studentSlice';
-import {AllAvailableUsers} from '../../../types/interfaces/Student/EmploymentInterface';
+import {AvailableStudentsInterface} from '../../../types/interfaces/Hr/AvailableStudentsInterface';
 
-export const AvailableStudent = (user: AllAvailableUsers) => {
+interface Props {
+  student: AvailableStudentsInterface;
+  setStudents: (
+    value: (
+      prev: AvailableStudentsInterface[] | null
+    ) => AvailableStudentsInterface[] | null
+  ) => void;
+  setMovedStudent: (value: (prev: boolean) => boolean) => void;
+}
+
+export const AvailableStudent = ({
+  student,
+  setStudents,
+  setMovedStudent,
+}: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const {id} = useSelector((store: RootState) => store.auth);
 
   const addToTalk = async () => {
-    const res = await fetch(`${API_URL}/hr/addToTalk/${id}/${user.id}`, {
+    const res = await fetch(`${API_URL}/hr/addToTalk/${id}/${student.id}`, {
       credentials: 'include',
       mode: 'cors',
     });
 
     const data = await res.json();
 
-
     if (data.success) {
-      user.setStudents((prev: StudentState[]) => {
-        return [...prev].filter((el) => el.id !== user.id);
+      setStudents((prev: AvailableStudentsInterface[] | null) => {
+        if (prev !== null) {
+          return [...prev].filter((el) => el.id !== student.id);
+        }
+        return null;
       });
 
-      if (user.setMovedStudent) {
-        user.setMovedStudent((prev: boolean) => !prev);
+      if (setMovedStudent) {
+        setMovedStudent((prev: boolean) => !prev);
       }
     } else {
       toast.error(data.message);
@@ -39,12 +54,11 @@ export const AvailableStudent = (user: AllAvailableUsers) => {
   return (
     <>
       <Wrapper>
-        <p className="student-name">{`${user.firstName} ${user.lastName.slice(
-          0,
-          1
-        )}.`}</p>
+        <p className="student-name">{`${
+          student.firstName
+        } ${student.lastName.slice(0, 1)}.`}</p>
         <div className="student-nav">
-          <Button text="Zarezerwuj rozmowę" onClick={() => addToTalk()}/>
+          <Button text="Zarezerwuj rozmowę" onClick={() => addToTalk()} />
           {!isOpen ? (
             <i
               className="bx bx-chevron-down"
@@ -58,7 +72,7 @@ export const AvailableStudent = (user: AllAvailableUsers) => {
           )}
         </div>
       </Wrapper>
-      <StudentInfo isOpen={isOpen} user={user} />
+      <StudentInfo isOpen={isOpen} student={student} />
       <UnderlineHr />
     </>
   );

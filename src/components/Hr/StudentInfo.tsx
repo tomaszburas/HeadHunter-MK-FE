@@ -1,42 +1,42 @@
 import styled from 'styled-components';
-import {AllAvailableUsers} from '../../types/interfaces/Student/EmploymentInterface';
+import {StudentInfoInterface} from '../../types/interfaces/Hr/StudentInfoInterface';
 
 interface Props {
   isOpen: boolean;
-  user?: AllAvailableUsers;
+  student: StudentInfoInterface;
 }
 
-export const StudentInfo = ({isOpen, user}: Props) => {
+export const StudentInfo = ({isOpen, student}: Props) => {
   return (
     <Container isOpen={isOpen}>
       <div className="info-wrapper">
         <p className="info-title">Ocena przejścia kursu</p>
         <p className="info-data">
-          <span>{user?.courseCompletion}</span> /5
+          <span>{student.courseCompletion}</span> /5
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Ocena aktywności i zaangażowania na kursie</p>
         <p className="info-data">
-          <span>{user?.courseEngagement}</span> /5
+          <span>{student.courseEngagement}</span> /5
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Ocena kodu w projekcie własnym</p>
         <p className="info-data">
-          <span>{user?.projectDegree}</span> /5
+          <span>{student.projectDegree}</span> /5
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Ocena pacy w zespole Scrum</p>
         <p className="info-data">
-          <span>{user?.teamProjectDegree}</span> /5
+          <span>{student.teamProjectDegree}</span> /5
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Preferowane miejsce pracy</p>
         <p className="info-data">
-          <span>{user?.expectedTypeWork}</span>
+          <span>{student.expectedTypeWork}</span>
         </p>
       </div>
       <div className="info-wrapper">
@@ -44,41 +44,41 @@ export const StudentInfo = ({isOpen, user}: Props) => {
           Docelowe miasto gdzie chce pracować kandydat
         </p>
         <p className="info-data">
-          <span>{user?.targetWorkCity}</span>
+          <span>{student.targetWorkCity}</span>
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Oczekiwany typ kontraktu</p>
         <p className="info-data">
-          <span>{user?.expectedContractType}</span>
+          <span>{student.expectedContractType}</span>
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Oczekiwane wynagrodzenie miesięczne netto</p>
         <p className="info-data">
-          <span>{user?.expectedSalary} zł</span>
+          <span>{student.expectedSalary} zł</span>
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Zgoda na odbycie bezpłatnych praktyk/stażu</p>
         <p className="info-data">
-          <span>{user?.canTakeApprenticeship ? 'Nie' : 'Tak'}</span>
+          <span>{student.canTakeApprenticeship ? 'Nie' : 'Tak'}</span>
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Komercyjne doświadczenie w programowaniu</p>
         <p className="info-data">
           <span>
-            {user?.monthsOfCommercialExp === 0 && 'Brak'}
-            {user?.monthsOfCommercialExp === 1 &&
-              `${user.monthsOfCommercialExp} miesiąc`}
-            {user &&
-              user.monthsOfCommercialExp >= 2 &&
-              user.monthsOfCommercialExp <= 4 &&
-              `${user.monthsOfCommercialExp} miesiące`}
-            {user &&
-              user.monthsOfCommercialExp >= 5 &&
-              `${user.monthsOfCommercialExp} miesięcy`}
+            {student.monthsOfCommercialExp === 0 && 'Brak'}
+            {student.monthsOfCommercialExp === 1 &&
+              `${student.monthsOfCommercialExp} miesiąc`}
+            {student &&
+              student.monthsOfCommercialExp >= 2 &&
+              student.monthsOfCommercialExp <= 4 &&
+              `${student.monthsOfCommercialExp} miesiące`}
+            {student &&
+              student.monthsOfCommercialExp >= 5 &&
+              `${student.monthsOfCommercialExp} miesięcy`}
           </span>
         </p>
       </div>

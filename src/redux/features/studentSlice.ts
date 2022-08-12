@@ -28,10 +28,7 @@ export interface StudentState {
   scrumUrls: string[];
   projectUrls: string[];
   firstLogin: boolean;
-  dateAdded?: Date;
-  avatarUrl?: string;
-  bonusProjectUrls?: string[];
-  _id?: string;
+  bonusProjectUrls: string[];
 }
 
 const initialState: StudentState = {
@@ -58,7 +55,8 @@ const initialState: StudentState = {
   portfolioUrls: [''],
   scrumUrls: [''],
   projectUrls: [''],
-  firstLogin: true
+  firstLogin: true,
+  bonusProjectUrls: [''],
 };
 
 interface SetStudent {
@@ -87,6 +85,7 @@ interface SetStudent {
     scrumUrls: string[];
     projectUrls: string[];
     firstLogin: boolean;
+    bonusProjectUrls: string[];
   };
 }
 

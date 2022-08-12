@@ -8,19 +8,23 @@ import {WrapperHr} from '../../assets/styled/Hr/WrapperHr';
 import {useEffect, useState} from 'react';
 import {fetchAllAvailableUsers} from '../../utils/fetch/fetchAllAvailableUsers';
 import {ItemsOnPageEnum} from '../../types/enums/ItemsOnPageEnum';
-import {StudentState} from '../../redux/features/studentSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux';
 import {searchName} from '../../redux/features/searchBarSlice';
+import {AvailableStudentsInterface} from '../../types/interfaces/Hr/AvailableStudentsInterface';
 
 export const HrAvailableStudents = () => {
   const {id} = useSelector((store: RootState) => store.auth);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(0);
   const [itemsOnPage, setItemsOnPage] = useState(ItemsOnPageEnum.ONE);
-  const [students, setStudents] = useState<StudentState[] | null>(null);
+  const [students, setStudents] = useState<AvailableStudentsInterface[] | null>(
+    null
+  );
   const [movedStudent, setMovedStudent] = useState<boolean>(false);
-  const [allStudents, setAllStudents] = useState([]);
+  const [allStudents, setAllStudents] = useState<AvailableStudentsInterface[]>(
+    []
+  );
   const {name} = useSelector((state: RootState) => state.name);
   const dispatch = useDispatch();
 

@@ -13,9 +13,11 @@ import {checkGithub} from '../../utils/checkGithub';
 import defaultAvatar from '../../assets/images/avatar.png';
 import {toast} from 'react-toastify';
 import {MiniLoader} from '../../components/MiniLoader';
+import {Loader} from '../Loader';
+import {HrNoStudent} from './HrNoStudent';
 
 export const HrStudentCv = () => {
-  const [student, setStudent] = useState<StudentState | null>(null);
+  const [student, setStudent] = useState<StudentState | null | false>(null);
   const {id: hrId} = useSelector((store: RootState) => store.auth);
   const {id} = useParams();
   const navigate = useNavigate();
@@ -54,20 +56,25 @@ export const HrStudentCv = () => {
     const showCv = async () => {
       const res = await fetch(`${API_URL}/user/details/${id}`);
       const data = await res.json();
-      setStudent(data.user);
+
+      if (data.success) {
+        setStudent(data.user);
+      } else {
+        setStudent(false);
+      }
     };
     showCv();
-  }, [id, student]);
+  }, [id]);
 
   useEffect(() => {
     (async () => {
-      if (student && student.githubUsername !== '') {
+      if (student && student?.githubUsername !== '') {
         await checkGithub(student.githubUsername, setIsAvatar);
       } else {
         setIsAvatar(false);
       }
     })();
-  }, [student?.githubUsername]);
+  }, []);
 
   const stars = (star: number) => {
     const arr = [];
@@ -85,363 +92,384 @@ export const HrStudentCv = () => {
     }
     return arr;
   };
+
+  if (student === null) {
+    return <Loader />;
+  }
+
   return (
     <>
       <Header />
       <WrapperHr>
         <Wrapper>
-          <div className="student-info-container">
-            <Link to="/hr/to-talk">
-              <button className="back-btn">
-                <i className="bx bx-chevrons-left" />
-                Wróć
-              </button>
-            </Link>
-            <img
-              src={
-                isAvatar
-                  ? `https://github.com/${student?.githubUsername}.png`
-                  : defaultAvatar
-              }
-              alt="avatar"
-              className="student-img"
-            />
-            <p className="student-name">
-              {student?.firstName} {student?.lastName}
-            </p>
-            {student?.githubUsername && (
-              <a
-                href={`https://github.com/${student?.githubUsername}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <p className="student-github">
-                  <i className="bx bxl-github" /> {student?.githubUsername}
-                </p>
-              </a>
-            )}
-            <div className="student-contact">
-              <div className="student-contact-box">
-                <span className="contact-icon">
-                  <i className="bx bxs-phone" />
-                </span>
-                <p className="contact-txt">
-                  <a href={`tel:${student?.tel}`}>+48 {student?.tel}</a>
-                </p>
-              </div>
-              <div className="student-contact-box">
-                <span className="contact-icon">
-                  <i className="bx bxs-envelope" />
-                </span>
-                <p className="contact-txt">
-                  <a href={`mailto:${student?.email}`}>{student?.email}</a>
-                </p>
-              </div>
-            </div>
-            {student?.bio && (
-              <div className="student-description-box">
-                <div className="student-description">
-                  <p className="student-description-title">O mnie</p>
-                  <p className="student-description-txt">{student?.bio}</p>
-                </div>
-              </div>
-            )}
-            <div className="button-container">
-              <div className="button-box">
-                <Button
-                  onClick={() => handleRemoveStudent()}
-                  text="Brak zainteresowania"
+          {student === false ? (
+            <HrNoStudent />
+          ) : (
+            <>
+              <div className="student-info-container">
+                <Link to="/hr/to-talk">
+                  <button className="back-btn">
+                    <i className="bx bx-chevrons-left" />
+                    Wróć
+                  </button>
+                </Link>
+                <img
+                  src={
+                    isAvatar
+                      ? `https://github.com/${student.githubUsername}.png`
+                      : defaultAvatar
+                  }
+                  alt="avatar"
+                  className="student-img"
                 />
-              </div>
-              <Button
-                text="Zatrudniony 🔥"
-                onClick={() => setHiredPopup(true)}
-              />
-            </div>
-          </div>
-          <div className="student-data-container">
-            <div className="data-wrapper">
-              <p className="title">Oceny</p>
-              <div className="content">
-                <div className="content-box">
-                  <p className="content-box-title">Ocena przejścia kursu</p>
-                  <div className="data-box">
-                    <p className="txt-data">
-                      <span className="txt-data--white">
-                        {student?.courseCompletion}
-                      </span>{' '}
-                      /5
+                <p className="student-name">
+                  {student.firstName} {student.lastName}
+                </p>
+                {student.githubUsername && (
+                  <a
+                    href={`https://github.com/${student.githubUsername}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <p className="student-github">
+                      <i className="bx bxl-github" /> {student.githubUsername}
                     </p>
-                    <div className="data">
-                      {stars(student?.courseCompletion as number).map(
-                        (el) => el
-                      )}
+                  </a>
+                )}
+                <div className="student-contact">
+                  <div className="student-contact-box">
+                    <span className="contact-icon">
+                      <i className="bx bxs-phone" />
+                    </span>
+                    <p className="contact-txt">
+                      <a href={`tel:${student.tel}`}>+48 {student.tel}</a>
+                    </p>
+                  </div>
+                  <div className="student-contact-box">
+                    <span className="contact-icon">
+                      <i className="bx bxs-envelope" />
+                    </span>
+                    <p className="contact-txt">
+                      <a href={`mailto:${student.email}`}>{student.email}</a>
+                    </p>
+                  </div>
+                </div>
+                {student.bio && (
+                  <div className="student-description-box">
+                    <div className="student-description">
+                      <p className="student-description-title">O mnie</p>
+                      <p className="student-description-txt">{student.bio}</p>
                     </div>
                   </div>
-                </div>
-                <div className="content-box">
-                  <p className="content-box-title">
-                    Ocena aktywności i zaangażowania na kursie
-                  </p>
-                  <div className="data-box">
-                    <p className="txt-data">
-                      <span className="txt-data--white">
-                        {student?.courseEngagement}
-                      </span>{' '}
-                      /5
-                    </p>
-                    <div className="data">
-                      {stars(student?.courseEngagement as number).map(
-                        (el) => el
-                      )}
-                    </div>
+                )}
+                <div className="button-container">
+                  <div className="button-box">
+                    <Button
+                      onClick={() => handleRemoveStudent()}
+                      text="Brak zainteresowania"
+                    />
                   </div>
-                </div>
-                <div className="content-box">
-                  <p className="content-box-title">
-                    Ocena kodu w projekcie własnym
-                  </p>
-                  <div className="data-box">
-                    <p className="txt-data">
-                      <span className="txt-data--white">
-                        {student?.projectDegree}
-                      </span>{' '}
-                      /5
-                    </p>
-                    <div className="data">
-                      {stars(student?.projectDegree as number).map((el) => el)}
-                    </div>
-                  </div>
-                </div>
-                <div className="content-box">
-                  <p className="content-box-title">
-                    Ocena pracy w zespole w Scrum
-                  </p>
-                  <div className="data-box">
-                    <p className="txt-data">
-                      <span className="txt-data--white">
-                        {student?.teamProjectDegree}
-                      </span>{' '}
-                      /5
-                    </p>
-                    <div className="data">
-                      {stars(student?.teamProjectDegree as number).map(
-                        (el) => el
-                      )}
-                    </div>
-                  </div>
+                  <Button
+                    text="Zatrudniony 🔥"
+                    onClick={() => setHiredPopup(true)}
+                  />
                 </div>
               </div>
-            </div>
-
-            <div className="data-wrapper">
-              <p className="title">Oczekiwania w stosunku do zatrudnienia</p>
-              <div className="content">
-                <div className="content-box">
-                  <p className="content-box-title">Preferowane miejsce pracy</p>
-                  <div className="data-box">
-                    <p className="txt-data">
-                      <span className="txt-data--white">
-                        {student?.expectedTypeWork}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div className="content-box">
-                  <p className="content-box-title">
-                    Docelowe miasto gdzie chce pracować kandydat
-                  </p>
-                  <div className="data-box">
-                    <p className="txt-data">
-                      <span className="txt-data--white">
-                        {student?.targetWorkCity}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div className="content-box">
-                  <p className="content-box-title">Oczekiwany typ kontraktu</p>
-                  <div className="data-box">
-                    <p className="txt-data">
-                      <span className="txt-data--white">
-                        {student?.expectedContractType}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div className="content-box">
-                  <p className="content-box-title">
-                    Oczekiwane wynagrodzenie miesięczne netto
-                  </p>
-                  <div className="data-box">
-                    <p className="txt-data">
-                      <span className="txt-data--white">
-                        {student?.expectedSalary} zł
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div className="content-box">
-                  <p className="content-box-title">
-                    Zgoda na odbycie bezpłatnych praktyk/stażu
-                  </p>
-                  <div className="data-box">
-                    <p className="txt-data">
-                      <span className="txt-data--white">
-                        {student?.canTakeApprenticeship ? 'TAK' : 'NIE'}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div className="content-box">
-                  <p className="content-box-title">
-                    Komercyjne doświadczenie w programowaniu
-                  </p>
-                  <div className="data-box">
-                    <p className="txt-data">
-                      <span className="txt-data--white">
-                        {student?.monthsOfCommercialExp === 0 && 'Brak'}
-                        {student?.monthsOfCommercialExp === 1 &&
-                          `${student.monthsOfCommercialExp} miesiąc`}
-                        {student &&
-                          student.monthsOfCommercialExp >= 2 &&
-                          student.monthsOfCommercialExp <= 4 &&
-                          `${student.monthsOfCommercialExp} miesiące`}
-                        {student &&
-                          student.monthsOfCommercialExp >= 5 &&
-                          `${student.monthsOfCommercialExp} miesięcy`}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {student?.education && (
-              <div className="data-wrapper">
-                <p className="title">Edukacja</p>
-                <div className="content line-height">{student?.education}</div>
-              </div>
-            )}
-
-            {student?.courses && (
-              <div className="data-wrapper">
-                <p className="title">Kursy</p>
-                <div className="content line-height">{student?.courses}</div>
-              </div>
-            )}
-
-            {student?.workExperience && (
-              <div className="data-wrapper">
-                <p className="title">Doświadczenie zawodowe</p>
-                <div className="content line-height">
-                  {student?.workExperience}
-                </div>
-              </div>
-            )}
-
-            {student?.portfolioUrls && student.portfolioUrls.length !== 0 && (
-              <div className="data-wrapper">
-                <p className="title">Portfolio</p>
-                <div className="content">
-                  <div className="link-container">
-                    {student?.portfolioUrls?.map((item, index) => (
-                      <div key={index} className="link-box">
-                        <i className="bx bx-link-alt" />
-                        <a
-                          href={`${item}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="link"
-                        >
-                          {item}
-                        </a>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {student?.scrumUrls && student?.scrumUrls.length !== 0 && (
-              <div className="data-wrapper">
-                <p className="title">Projekt w zespole Scrumowym</p>
-                <div className="content">
-                  <div className="link-container">
-                    {student?.scrumUrls?.map((item, index) => (
-                      <div key={index} className="link-box">
-                        <i className="bx bx-link-alt" />
-                        <a
-                          href="https://github.com"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="link"
-                        >
-                          {item}
-                        </a>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {student?.projectUrls && student?.projectUrls.length !== 0 && (
-              <div className="data-wrapper">
-                <p className="title">Projekt zaliczeniowy</p>
-                <div className="content">
-                  <div className="link-container">
-                    {student?.projectUrls?.map((item, index) => (
-                      <div key={index} className="link-box">
-                        <i className="bx bx-link-alt" />
-                        <a
-                          href={item}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="link"
-                        >
-                          {item}
-                        </a>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {student?.bonusProjectUrls &&
-              student?.bonusProjectUrls.length !== 0 && (
+              <div className="student-data-container">
                 <div className="data-wrapper">
-                  <p className="title">Projekt z etapu bonusowego</p>
+                  <p className="title">Oceny</p>
                   <div className="content">
-                    <div className="link-container">
-                      {student?.bonusProjectUrls?.map((item, index) => (
-                        <div key={index} className="link-box">
-                          <i className="bx bx-link-alt" />
-                          <a
-                            href={item}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="link"
-                          >
-                            {item}
-                          </a>
+                    <div className="content-box">
+                      <p className="content-box-title">Ocena przejścia kursu</p>
+                      <div className="data-box">
+                        <p className="txt-data">
+                          <span className="txt-data--white">
+                            {student.courseCompletion}
+                          </span>{' '}
+                          /5
+                        </p>
+                        <div className="data">
+                          {stars(student.courseCompletion as number).map(
+                            (el) => el
+                          )}
                         </div>
-                      ))}
+                      </div>
+                    </div>
+                    <div className="content-box">
+                      <p className="content-box-title">
+                        Ocena aktywności i zaangażowania na kursie
+                      </p>
+                      <div className="data-box">
+                        <p className="txt-data">
+                          <span className="txt-data--white">
+                            {student.courseEngagement}
+                          </span>{' '}
+                          /5
+                        </p>
+                        <div className="data">
+                          {stars(student.courseEngagement as number).map(
+                            (el) => el
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="content-box">
+                      <p className="content-box-title">
+                        Ocena kodu w projekcie własnym
+                      </p>
+                      <div className="data-box">
+                        <p className="txt-data">
+                          <span className="txt-data--white">
+                            {student.projectDegree}
+                          </span>{' '}
+                          /5
+                        </p>
+                        <div className="data">
+                          {stars(student.projectDegree as number).map(
+                            (el) => el
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="content-box">
+                      <p className="content-box-title">
+                        Ocena pracy w zespole w Scrum
+                      </p>
+                      <div className="data-box">
+                        <p className="txt-data">
+                          <span className="txt-data--white">
+                            {student.teamProjectDegree}
+                          </span>{' '}
+                          /5
+                        </p>
+                        <div className="data">
+                          {stars(student.teamProjectDegree as number).map(
+                            (el) => el
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              )}
-          </div>
+
+                <div className="data-wrapper">
+                  <p className="title">
+                    Oczekiwania w stosunku do zatrudnienia
+                  </p>
+                  <div className="content">
+                    <div className="content-box">
+                      <p className="content-box-title">
+                        Preferowane miejsce pracy
+                      </p>
+                      <div className="data-box">
+                        <p className="txt-data">
+                          <span className="txt-data--white">
+                            {student.expectedTypeWork}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="content-box">
+                      <p className="content-box-title">
+                        Docelowe miasto gdzie chce pracować kandydat
+                      </p>
+                      <div className="data-box">
+                        <p className="txt-data">
+                          <span className="txt-data--white">
+                            {student.targetWorkCity}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="content-box">
+                      <p className="content-box-title">
+                        Oczekiwany typ kontraktu
+                      </p>
+                      <div className="data-box">
+                        <p className="txt-data">
+                          <span className="txt-data--white">
+                            {student.expectedContractType}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="content-box">
+                      <p className="content-box-title">
+                        Oczekiwane wynagrodzenie miesięczne netto
+                      </p>
+                      <div className="data-box">
+                        <p className="txt-data">
+                          <span className="txt-data--white">
+                            {student.expectedSalary} zł
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="content-box">
+                      <p className="content-box-title">
+                        Zgoda na odbycie bezpłatnych praktyk/stażu
+                      </p>
+                      <div className="data-box">
+                        <p className="txt-data">
+                          <span className="txt-data--white">
+                            {student.canTakeApprenticeship ? 'TAK' : 'NIE'}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="content-box">
+                      <p className="content-box-title">
+                        Komercyjne doświadczenie w programowaniu
+                      </p>
+                      <div className="data-box">
+                        <p className="txt-data">
+                          <span className="txt-data--white">
+                            {student.monthsOfCommercialExp === 0 && 'Brak'}
+                            {student.monthsOfCommercialExp === 1 &&
+                              `${student.monthsOfCommercialExp} miesiąc`}
+                            {student &&
+                              student.monthsOfCommercialExp >= 2 &&
+                              student.monthsOfCommercialExp <= 4 &&
+                              `${student.monthsOfCommercialExp} miesiące`}
+                            {student &&
+                              student.monthsOfCommercialExp >= 5 &&
+                              `${student.monthsOfCommercialExp} miesięcy`}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {student.education && (
+                  <div className="data-wrapper">
+                    <p className="title">Edukacja</p>
+                    <div className="content line-height">
+                      {student.education}
+                    </div>
+                  </div>
+                )}
+
+                {student.courses && (
+                  <div className="data-wrapper">
+                    <p className="title">Kursy</p>
+                    <div className="content line-height">{student.courses}</div>
+                  </div>
+                )}
+
+                {student.workExperience && (
+                  <div className="data-wrapper">
+                    <p className="title">Doświadczenie zawodowe</p>
+                    <div className="content line-height">
+                      {student.workExperience}
+                    </div>
+                  </div>
+                )}
+
+                {student.portfolioUrls && student.portfolioUrls.length !== 0 && (
+                  <div className="data-wrapper">
+                    <p className="title">Portfolio</p>
+                    <div className="content">
+                      <div className="link-container">
+                        {student.portfolioUrls?.map((item, index) => (
+                          <div key={index} className="link-box">
+                            <i className="bx bx-link-alt" />
+                            <a
+                              href={`${item}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="link"
+                            >
+                              {item}
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {student.scrumUrls && student.scrumUrls.length !== 0 && (
+                  <div className="data-wrapper">
+                    <p className="title">Projekt w zespole Scrumowym</p>
+                    <div className="content">
+                      <div className="link-container">
+                        {student.scrumUrls?.map((item, index) => (
+                          <div key={index} className="link-box">
+                            <i className="bx bx-link-alt" />
+                            <a
+                              href="https://github.com"
+                              target="_blank"
+                              rel="noreferrer"
+                              className="link"
+                            >
+                              {item}
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {student.projectUrls && student.projectUrls.length !== 0 && (
+                  <div className="data-wrapper">
+                    <p className="title">Projekt zaliczeniowy</p>
+                    <div className="content">
+                      <div className="link-container">
+                        {student.projectUrls?.map((item, index) => (
+                          <div key={index} className="link-box">
+                            <i className="bx bx-link-alt" />
+                            <a
+                              href={item}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="link"
+                            >
+                              {item}
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {student.bonusProjectUrls &&
+                  student.bonusProjectUrls.length !== 0 && (
+                    <div className="data-wrapper">
+                      <p className="title">Projekt z etapu bonusowego</p>
+                      <div className="content">
+                        <div className="link-container">
+                          {student.bonusProjectUrls?.map((item, index) => (
+                            <div key={index} className="link-box">
+                              <i className="bx bx-link-alt" />
+                              <a
+                                href={item}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="link"
+                              >
+                                {item}
+                              </a>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+              </div>
+            </>
+          )}
         </Wrapper>
       </WrapperHr>
-      {hiredPopup && (
+      {hiredPopup && student && (
         <HiredPopup>
           <div className="bg" onClick={() => setHiredPopup(false)} />
           <div className="popup">
             <p className="title">
-              Potwierdź zatrudnienie. Konto {student?.firstName}{' '}
-              {student?.lastName} od tej chwili będzie dezaktywowane.
+              Potwierdź zatrudnienie. Konto {student.firstName}{' '}
+              {student.lastName} od tej chwili będzie dezaktywowane.
             </p>
             <div className="btn-box">
               {load ? (

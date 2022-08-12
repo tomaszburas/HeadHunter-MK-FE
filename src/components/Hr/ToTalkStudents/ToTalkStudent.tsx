@@ -8,32 +8,25 @@ import defaultAvatar from '../../../assets/images/avatar.png';
 import {API_URL} from '../../../config';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux';
-import {StudentState} from '../../../redux/features/studentSlice';
 import {toast} from 'react-toastify';
-import {AllAvailableUsers} from '../../../types/interfaces/Student/EmploymentInterface';
 import {MiniLoader} from '../../MiniLoader';
+import {ToTalksStudentsInterface} from '../../../types/interfaces/Hr/ToTalksStudentsInterface';
 
-interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  githubUsername: string;
-  // addedDate: Date;
-  user?: AllAvailableUsers;
-  setStudents: any;
+interface Props {
+  student: ToTalksStudentsInterface;
+  setStudents: (
+    value: (
+      prev: ToTalksStudentsInterface[] | null
+    ) => ToTalksStudentsInterface[] | null
+  ) => void;
   setMovedStudent: (value: (prev: boolean) => boolean) => void;
 }
 
 export const ToTalkStudent = ({
-  // addedDate,
-  githubUsername,
-  firstName,
-  lastName,
-  id,
+  student,
   setStudents,
-  user,
   setMovedStudent,
-}: User) => {
+}: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const {id: hrId} = useSelector((store: RootState) => store.auth);
   const [load, setLoad] = useState(false);
@@ -41,17 +34,23 @@ export const ToTalkStudent = ({
   const navigate = useNavigate();
 
   const handleRemoveStudent = async () => {
-    const res = await fetch(`${API_URL}/hr/not-interested/${hrId}/${id}`, {
-      method: 'GET',
-      credentials: 'include',
-      mode: 'cors',
-    });
+    const res = await fetch(
+      `${API_URL}/hr/not-interested/${hrId}/${student.id}`,
+      {
+        method: 'GET',
+        credentials: 'include',
+        mode: 'cors',
+      }
+    );
 
     const data = await res.json();
 
     if (data.success) {
-      setStudents((prev: StudentState[]) => {
-        return [...prev].filter((el) => el.id !== id);
+      setStudents((prev: ToTalksStudentsInterface[] | null) => {
+        if (prev !== null) {
+          return [...prev].filter((el) => el.id !== student.id);
+        }
+        return null;
       });
       setMovedStudent((prev: boolean) => !prev);
     } else {
@@ -61,7 +60,7 @@ export const ToTalkStudent = ({
 
   const handleHiredPopup = async () => {
     setLoad(true);
-    const res = await fetch(`${API_URL}/hr/hired/${id}`, {
+    const res = await fetch(`${API_URL}/hr/hired/${student.id}`, {
       method: 'GET',
       credentials: 'include',
       mode: 'cors',
@@ -84,26 +83,22 @@ export const ToTalkStudent = ({
     <>
       <Wrapper>
         <div className="student-info">
-          {/*<div className="student-reservation">*/}
-          {/*  <p className="student-reservation-title">Rezerwacja do:</p>*/}
-          {/*  <p className="student-reservation-date">{dateState}</p>*/}
-          {/*</div>*/}
           <div className="student-data">
             <img
               src={
-                githubUsername !== ''
-                  ? (`https://github.com/${githubUsername}.png` as string)
+                student.githubUsername !== ''
+                  ? (`https://github.com/${student.githubUsername}.png` as string)
                   : defaultAvatar
               }
               alt="avatar"
               className="student-img"
             />
-            <p className="student-name">{`${firstName} ${lastName}`}</p>
+            <p className="student-name">{`${student.firstName} ${student.lastName}`}</p>
           </div>
         </div>
         <div className="student-nav">
           <div className="student-nav-buttons">
-            <Link to={`/hr/cv/${id}`}>
+            <Link to={`/hr/cv/${student.id}`}>
               <Button text="Pokaż CV" />
             </Link>
             <div className="btn-container">
@@ -127,15 +122,15 @@ export const ToTalkStudent = ({
           )}
         </div>
       </Wrapper>
-      <StudentInfo isOpen={isOpen} user={user as AllAvailableUsers} />
+      <StudentInfo isOpen={isOpen} student={student} />
       <UnderlineHr />
       {hiredPopup && (
         <HiredPopup>
           <div className="bg" onClick={() => setHiredPopup(false)} />
           <div className="popup">
             <p className="title">
-              Potwierdź zatrudnienie. Konto {firstName} {lastName} od tej chwili
-              będzie dezaktywowane.
+              Potwierdź zatrudnienie. Konto {student.firstName}{' '}
+              {student.lastName} od tej chwili będzie dezaktywowane.
             </p>
             <div className="btn-box">
               {load ? (

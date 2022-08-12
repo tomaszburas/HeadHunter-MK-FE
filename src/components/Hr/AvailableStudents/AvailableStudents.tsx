@@ -4,15 +4,17 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux';
 import styled from 'styled-components';
 import {MiniLoader} from '../../MiniLoader';
-import {StudentState} from '../../../redux/features/studentSlice';
+import {AvailableStudentsInterface} from '../../../types/interfaces/Hr/AvailableStudentsInterface';
 
 interface Props {
-  students: StudentState[] | null;
+  students: AvailableStudentsInterface[] | null;
   setStudents: (
-    value: (prev: StudentState[] | null) => StudentState[] | null
+    value: (
+      prev: AvailableStudentsInterface[] | null
+    ) => AvailableStudentsInterface[] | null
   ) => void;
   setMovedStudent: (value: (prev: boolean) => boolean) => void;
-  allStudents: any;
+  allStudents: AvailableStudentsInterface[];
 }
 
 export const AvailableStudents = ({
@@ -23,61 +25,33 @@ export const AvailableStudents = ({
 }: Props) => {
   const {name} = useSelector((state: RootState) => state.name);
 
-  console.log(allStudents, students)
-
   return (
-      <ContainerHrStudents>
-        {students !== null ? (
-            students?.length === 0 ? (
-                <NoData>Brak kursantów</NoData>
-            ) : name.length > 0 ? (
-                allStudents?.filter((item: any) =>
-                    item.firstName?.toLowerCase().includes(name)
-                ).length === 0 ? (
-                    <NoData>Brak kursantów</NoData>
-                ) : (
-                    allStudents
-                        .filter((item: any) =>
-                            item.firstName?.toLowerCase().includes(name)
-              )
-              .map((item: any) => (
+    <ContainerHrStudents>
+      {students !== null ? (
+        students?.length === 0 ? (
+          <NoData>Brak kursantów</NoData>
+        ) : name.length > 0 ? (
+          allStudents?.filter((item: any) =>
+            item.firstName?.toLowerCase().includes(name)
+          ).length === 0 ? (
+            <NoData>Brak kursantów</NoData>
+          ) : (
+            allStudents
+              .filter((item) => item.firstName?.toLowerCase().includes(name))
+              .map((student) => (
                 <AvailableStudent
-                    key={item._id}
-                    id={item.id}
-                    canTakeApprenticeship={item.canTakeApprenticeship}
-                    expectedContractType={item.expectedContractType}
-                    expectedSalary={item.expectedSalary}
-                    expectedTypeWork={item.expectedTypeWork}
-                    firstName={item.firstName}
-                    lastName={item.lastName}
-                    monthsOfCommercialExp={item.monthsOfCommercialExp}
-                    targetWorkCity={item.targetWorkCity}
-                    courseCompletion={item.courseCompletion}
-                    courseEngagement={item.courseEngagement}
-                    projectDegree={item.projectDegree}
-                    teamProjectDegree={item.teamProjectDegree}
-                    setStudents={setStudents}
-                    setMovedStudent={setMovedStudent}
+                  key={student.id}
+                  student={student}
+                  setStudents={setStudents}
+                  setMovedStudent={setMovedStudent}
                 />
               ))
           )
         ) : (
-          students.map((item) => (
+          students.map((student) => (
             <AvailableStudent
-              key={item.id}
-              id={item.id}
-              canTakeApprenticeship={item.canTakeApprenticeship}
-              expectedContractType={item.expectedContractType}
-              expectedSalary={item.expectedSalary}
-              expectedTypeWork={item.expectedTypeWork}
-              firstName={item.firstName}
-              lastName={item.lastName}
-              monthsOfCommercialExp={item.monthsOfCommercialExp}
-              targetWorkCity={item.targetWorkCity}
-              courseCompletion={item.courseCompletion}
-              courseEngagement={item.courseEngagement}
-              projectDegree={item.projectDegree}
-              teamProjectDegree={item.teamProjectDegree}
+              key={student.id}
+              student={student}
               setStudents={setStudents}
               setMovedStudent={setMovedStudent}
             />

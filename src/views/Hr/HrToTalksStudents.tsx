@@ -10,17 +10,21 @@ import {useEffect, useState} from 'react';
 import {fetchAllToTalkUsers} from '../../utils/fetch/fetchAllToTalkUsers';
 import {Pagination} from '../../components/Hr/Pagination/Pagination';
 import {ItemsOnPageEnum} from '../../types/enums/ItemsOnPageEnum';
-import {StudentState} from '../../redux/features/studentSlice';
 import {searchName} from '../../redux/features/searchBarSlice';
+import {ToTalksStudentsInterface} from '../../types/interfaces/Hr/ToTalksStudentsInterface';
 
 export const HrTTStudents = () => {
   const {id} = useSelector((store: RootState) => store.auth);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(0);
   const [itemsOnPage, setItemsOnPage] = useState(ItemsOnPageEnum.ONE);
-  const [students, setStudents] = useState<StudentState[] | null>(null);
+  const [students, setStudents] = useState<ToTalksStudentsInterface[] | null>(
+    null
+  );
   const [movedStudent, setMovedStudent] = useState<boolean>(false);
-  const [allStudents, setAllStudents] = useState([]);
+  const [allStudents, setAllStudents] = useState<ToTalksStudentsInterface[]>(
+    []
+  );
   const {name} = useSelector((state: RootState) => state.name);
   const dispatch = useDispatch();
 

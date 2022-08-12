@@ -1,19 +1,20 @@
 import {ContainerHrStudents} from '../../../assets/styled/Hr/ContainerHrStudents';
 import {ToTalkStudent} from './ToTalkStudent';
-import {StudentState} from '../../../redux/features/studentSlice';
 import styled from 'styled-components';
 import {MiniLoader} from '../../MiniLoader';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux';
-import {AllAvailableUsers} from '../../../types/interfaces/Student/EmploymentInterface';
+import {ToTalksStudentsInterface} from '../../../types/interfaces/Hr/ToTalksStudentsInterface';
 
 interface Props {
-  students: StudentState[] | null;
+  students: ToTalksStudentsInterface[] | null;
   setStudents: (
-    value: (prev: StudentState[] | null) => StudentState[] | null
+    value: (
+      prev: ToTalksStudentsInterface[] | null
+    ) => ToTalksStudentsInterface[] | null
   ) => void;
   setMovedStudent: (value: (prev: boolean) => boolean) => void;
-  allStudents: any;
+  allStudents: ToTalksStudentsInterface[];
 }
 
 export const ToTalkStudents = ({
@@ -28,43 +29,33 @@ export const ToTalkStudents = ({
     <ContainerHrStudents>
       {students !== null ? (
         students?.length === 0 ? (
-            <NoData>Brak kursantów</NoData>
+          <NoData>Brak kursantów</NoData>
         ) : name.length > 0 ? (
-            allStudents?.filter((item: any) =>
-                item.firstName?.toLowerCase().includes(name)
-            ).length === 0 ? (
-                <NoData>Brak kursantów</NoData>
-            ) : (
-                allStudents
-                    .filter((item: any) =>
-                        item.firstName?.toLowerCase().includes(name)
-              )
-              .map((user: any) => (
+          allStudents?.filter((item) =>
+            item.firstName?.toLowerCase().includes(name)
+          ).length === 0 ? (
+            <NoData>Brak kursantów</NoData>
+          ) : (
+            allStudents
+              .filter((item) => item.firstName?.toLowerCase().includes(name))
+              .map((student) => (
                 <ToTalkStudent
-                    key={user._id}
-                    id={user.id}
-                    firstName={user.firstName}
-                    githubUsername={user.githubUsername}
-                    lastName={user.lastName}
-                    setStudents={setStudents}
-                    setMovedStudent={setMovedStudent}
-                    user={user as AllAvailableUsers}
+                  key={student.id}
+                  student={student}
+                  setStudents={setStudents}
+                  setMovedStudent={setMovedStudent}
                 />
               ))
           )
         ) : (
           students
             .filter((item) => item.firstName?.toLowerCase().includes(name))
-            .map((user) => (
+            .map((student) => (
               <ToTalkStudent
-                key={user.id}
-                id={user.id}
-                firstName={user.firstName}
-                githubUsername={user.githubUsername}
-                lastName={user.lastName}
+                key={student.id}
+                student={student}
                 setStudents={setStudents}
                 setMovedStudent={setMovedStudent}
-                user={user as AllAvailableUsers}
               />
             ))
         )
