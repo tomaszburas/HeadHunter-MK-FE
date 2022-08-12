@@ -36,8 +36,6 @@ export const HrAvailableStudentsFilter = () => {
 
       const data = await res.json();
 
-      console.log(data);
-
       if (data.success) {
         if (data.students.length === 0) {
           setStudents([]);
