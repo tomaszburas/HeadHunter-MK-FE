@@ -42,7 +42,7 @@ export const UtilsHr = ({by, filter, page, itemsOnPage}: Props) => {
               dispatch(searchName({name: e.target.value.toLowerCase()}))
             }
             type="search"
-            placeholder="Szukaj"
+            placeholder="Szukaj po nazwisku"
             id="search"
           />
           <label htmlFor="search">

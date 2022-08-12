@@ -28,16 +28,16 @@ export const ToTalkStudents = ({
   return (
     <ContainerHrStudents>
       {students !== null ? (
-        students?.length === 0 ? (
+        students.length === 0 ? (
           <NoData>Brak kursantów</NoData>
         ) : name.length > 0 ? (
-          allStudents?.filter((item) =>
-            item.firstName?.toLowerCase().includes(name)
+          allStudents.filter((item) =>
+            item.lastName.toLowerCase().includes(name)
           ).length === 0 ? (
             <NoData>Brak kursantów</NoData>
           ) : (
             allStudents
-              .filter((item) => item.firstName?.toLowerCase().includes(name))
+              .filter((item) => item.lastName.toLowerCase().includes(name))
               .map((student) => (
                 <ToTalkStudent
                   key={student.id}
