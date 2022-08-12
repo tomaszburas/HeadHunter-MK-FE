@@ -1,21 +1,19 @@
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../redux';
+import {Header} from '../../../components/Header/Header';
+import {NavHr} from '../../../components/Hr/NavHr';
+import {AvailableStudents} from '../../../components/Hr/AvailableStudents/AvailableStudents';
+import {UtilsHr} from '../../../components/Hr/UtilsHr';
+import {Pagination} from '../../../components/Hr/Pagination/Pagination';
+import {NavigationHr} from '../../../types/enums/NavigationHr';
+import {WrapperHr} from '../../../assets/styled/Hr/WrapperHr';
 import {useEffect, useState} from 'react';
-import {ItemsOnPageEnum} from '../../types/enums/ItemsOnPageEnum';
-import {Header} from '../../components/Header/Header';
-import {WrapperHr} from '../../assets/styled/Hr/WrapperHr';
-import {NavHr} from '../../components/Hr/NavHr';
-import {NavigationHr} from '../../types/enums/NavigationHr';
-import {UtilsHr} from '../../components/Hr/UtilsHr';
-import {AvailableStudents} from '../../components/Hr/AvailableStudents/AvailableStudents';
-import {Pagination} from '../../components/Hr/Pagination/Pagination';
-import {API_URL} from '../../config';
-import {toast} from 'react-toastify';
-import {useSearchParams} from 'react-router-dom';
-import {searchName} from '../../redux/features/searchBarSlice';
-import {AvailableStudentsInterface} from '../../types/interfaces/Hr/AvailableStudentsInterface';
+import {fetchAllAvailableUsers} from '../../../utils/fetch/fetchAllAvailableUsers';
+import {ItemsOnPageEnum} from '../../../types/enums/ItemsOnPageEnum';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../redux';
+import {searchName} from '../../../redux/features/searchBarSlice';
+import {AvailableStudentsInterface} from '../../../types/interfaces/Hr/AvailableStudentsInterface';
 
-export const HrAvailableStudentsFilter = () => {
+export const HrAvailableStudents = () => {
   const {id} = useSelector((store: RootState) => store.auth);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(0);
@@ -24,7 +22,6 @@ export const HrAvailableStudentsFilter = () => {
     null
   );
   const [movedStudent, setMovedStudent] = useState<boolean>(false);
-  const [searchParams] = useSearchParams();
   const [allStudents, setAllStudents] = useState<AvailableStudentsInterface[]>(
     []
   );
@@ -33,32 +30,20 @@ export const HrAvailableStudentsFilter = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(
-        `${API_URL}/hr/filter-available/${page}/${itemsOnPage}/${id}?${searchParams.toString()}`,
-        {
-          method: 'GET',
-          credentials: 'include',
-          mode: 'cors',
-        }
+      const data = await fetchAllAvailableUsers(
+        itemsOnPage,
+        page,
+        id as string
       );
-
-      const data = await res.json();
-
-      console.log(data.allStudents);
-
       if (data.success) {
-        if (data.students.length === 0) {
-          setStudents([]);
-          return;
-        }
         setStudents(data.students);
         setAllStudents(data.allStudents);
         setPages(data.pages);
       } else {
-        toast.error(data.message);
+        setStudents([]);
       }
     })();
-  }, [page, itemsOnPage, pages, movedStudent, searchParams]);
+  }, [page, itemsOnPage, pages, movedStudent]);
 
   useEffect(() => {
     dispatch(searchName({name: ''}));
@@ -71,7 +56,6 @@ export const HrAvailableStudentsFilter = () => {
         <NavHr activeLink={NavigationHr.AVAILABLE_STUDENTS} />
         <UtilsHr
           by={NavigationHr.AVAILABLE_STUDENTS}
-          filter={true}
           page={page}
           itemsOnPage={itemsOnPage}
         />
