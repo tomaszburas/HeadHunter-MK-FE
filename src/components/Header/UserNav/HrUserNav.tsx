@@ -8,17 +8,21 @@ import {
 } from '../../../assets/styled/UserNavHeader';
 import {Link} from 'react-router-dom';
 import {handleLogout} from '../../../utils/handleLogout';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../redux';
 
 export const HrUserNav = () => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen((prev) => !prev);
+  const {firstName, lastName} = useSelector((store: RootState) => store.hr);
 
   return (
     <UserNav>
       <Avatar src={avatar} onClick={toggleMenu} />
-      <Name onClick={toggleMenu}>Jan Kowalski</Name>
+      <Name onClick={toggleMenu}>
+        {firstName} {lastName}
+      </Name>
       {isOpen ? (
         <>
           <i className="bx bxs-up-arrow" onClick={toggleMenu} />

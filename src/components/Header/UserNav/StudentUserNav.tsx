@@ -11,6 +11,7 @@ import {handleLogout} from '../../../utils/handleLogout';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../redux';
 import {checkGithub} from '../../../utils/checkGithub';
+import {MiniLoader} from '../../MiniLoader';
 
 export const StudentUserNav = () => {
   const dispatch = useDispatch();
@@ -19,24 +20,32 @@ export const StudentUserNav = () => {
   const {firstName, lastName, githubUsername} = useSelector(
     (store: RootState) => store.student
   );
-  const [isAvatar, setIsAvatar] = useState(false);
+  const [isAvatar, setIsAvatar] = useState<null | boolean>(null);
 
   useEffect(() => {
     (async () => {
       if (githubUsername !== '') {
         await checkGithub(githubUsername, setIsAvatar);
+      } else {
+        setIsAvatar(false);
       }
     })();
   }, [githubUsername]);
 
   return (
     <UserNav>
-      <Avatar
-        src={
-          isAvatar ? `https://github.com/${githubUsername}.png` : defaultAvatar
-        }
-        onClick={toggleMenu}
-      />
+      {isAvatar === null ? (
+        <MiniLoader />
+      ) : (
+        <Avatar
+          src={
+            isAvatar
+              ? `https://github.com/${githubUsername}.png`
+              : defaultAvatar
+          }
+          onClick={toggleMenu}
+        />
+      )}
       <Name onClick={toggleMenu}>
         {firstName} {lastName}
       </Name>

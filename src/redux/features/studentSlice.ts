@@ -28,9 +28,11 @@ export interface StudentState {
   scrumUrls: string[];
   projectUrls: string[];
   firstLogin: boolean;
+  bonusProjectUrls: string[];
 }
 
 const initialState: StudentState = {
+  courseEngagement: 0,
   id: '',
   firstName: '',
   lastName: '',
@@ -39,7 +41,6 @@ const initialState: StudentState = {
   githubUsername: '',
   bio: '',
   courseCompletion: 0,
-  courseEngagement: 0,
   projectDegree: 0,
   teamProjectDegree: 0,
   expectedTypeWork: WorkType.WHATEVER,
@@ -55,6 +56,7 @@ const initialState: StudentState = {
   scrumUrls: [''],
   projectUrls: [''],
   firstLogin: true,
+  bonusProjectUrls: [''],
 };
 
 interface SetStudent {
@@ -83,6 +85,7 @@ interface SetStudent {
     scrumUrls: string[];
     projectUrls: string[];
     firstLogin: boolean;
+    bonusProjectUrls: string[];
   };
 }
 

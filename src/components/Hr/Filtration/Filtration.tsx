@@ -10,14 +10,28 @@ import {WorkType} from '../../../types/enums/WorkType';
 import {ContractType} from '../../../types/enums/ContractType';
 import {ContractForm} from './ContractForm';
 import {Internships} from '../../../types/enums/Internships';
+import {toast} from 'react-toastify';
+import {NavigationHr} from '../../../types/enums/NavigationHr';
+import {useNavigate} from 'react-router-dom';
+import {API_URL} from '../../../config';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../redux';
 
 interface Props {
-  setOpenFiltration: (param: boolean) => void;
+  setOpenFiltration: (value: boolean) => void;
+  by: NavigationHr;
+  page: number;
+  itemsOnPage: number;
 }
 
-export const Filtration = ({setOpenFiltration}: Props) => {
+export const Filtration = ({
+  setOpenFiltration,
+  by,
+  page,
+  itemsOnPage,
+}: Props) => {
   const [courseGrade, setCourseGrade] = useState<Stars[]>([]);
-  const [activityGrade, setActivityGrade] = useState<Stars[]>([]);
+  const [engagementGrade, setEngagementGrade] = useState<Stars[]>([]);
   const [codeGrade, setCodeGrade] = useState<Stars[]>([]);
   const [scrumGrade, setScrumGrade] = useState<Stars[]>([]);
   const [workplace, setWorkplace] = useState<WorkType[]>([]);
@@ -28,14 +42,17 @@ export const Filtration = ({setOpenFiltration}: Props) => {
     from: string;
     to: string;
   }>({
-    from: '',
-    to: '',
+    from: '0',
+    to: '8000',
   });
+  const navigate = useNavigate();
+  const {id} = useSelector((store: RootState) => store.auth);
+
   const [clear, setClear] = useState(false);
 
   const clearAll = () => {
     setCourseGrade([]);
-    setActivityGrade([]);
+    setEngagementGrade([]);
     setCodeGrade([]);
     setScrumGrade([]);
     setWorkplace([]);
@@ -47,16 +64,109 @@ export const Filtration = ({setOpenFiltration}: Props) => {
     setClear(true);
   };
 
-  const handle = () => {
-    console.log(`courseGrade ${courseGrade}`);
-    console.log(`activityGrade ${activityGrade}`);
-    console.log(`codeGrade ${codeGrade}`);
-    console.log(`scrumGrade ${scrumGrade}`);
-    console.log(`workplace ${workplace}`);
-    console.log(`contract ${contract}`);
-    console.log(`internships ${internships}`);
-    console.log(`salary from:${salary.from} to:${salary.to}`);
-    console.log(`experience ${experience}`);
+  const handle = async () => {
+    const params = new URLSearchParams();
+
+    if (courseGrade.length > 0) {
+      courseGrade.map((el) => params.append('courseCompletion', `${el}`));
+    }
+
+    if (engagementGrade.length > 0) {
+      engagementGrade.map((el) => params.append('courseEngagement', `${el}`));
+    }
+
+    if (codeGrade.length > 0) {
+      codeGrade.map((el) => params.append('projectDegree', `${el}`));
+    }
+
+    if (scrumGrade.length > 0) {
+      scrumGrade.map((el) => params.append('teamProjectDegree', `${el}`));
+    }
+
+    if (workplace.length > 0) {
+      workplace.map((el) => params.append('expectedTypeWork', `${el}`));
+    }
+
+    if (contract.length > 0) {
+      contract.map((el) => params.append('expectedContractType', `${el}`));
+    }
+
+    if (internships === 0 || internships == 1) {
+      params.append('canTakeApprenticeship', `${internships}`);
+    }
+
+    if (salary.from.length > 0) {
+      params.append('expectedSalaryFrom', `${salary.from}`);
+    } else {
+      params.append('expectedSalaryFrom', `0`);
+    }
+
+    if (salary.to.length > 0) {
+      params.append('expectedSalaryTo', `${salary.to}`);
+    } else {
+      params.append('expectedSalaryTo', `0`);
+    }
+
+    if (experience.length > 0) {
+      if (Number(experience) < 0) {
+        toast.error('Wpisz prawidłową liczbę misięcy');
+        return;
+      } else {
+        params.append('monthsOfCommercialExp', `${experience}`);
+      }
+    }
+
+    if (by === NavigationHr.AVAILABLE_STUDENTS) {
+      const res = await fetch(
+        `${API_URL}/hr/filter-available/${page}/${itemsOnPage}/${id}?${params.toString()}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          mode: 'cors',
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.success) {
+        if (data.students.length === 0) {
+          toast.error('Nie wyszukano kursantów z podanymi kryteriami');
+          return;
+        }
+        navigate(`/hr/available/filter?${params.toString()}`, {
+          replace: true,
+        });
+      } else {
+        toast.error(data.message);
+      }
+      setOpenFiltration(false);
+    }
+
+    if (by === NavigationHr.TO_TALK_STUDENTS) {
+      const res = await fetch(
+        `${API_URL}/hr/filter-to-talk/${page}/${itemsOnPage}/${id}?${params.toString()}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          mode: 'cors',
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.success) {
+        if (data.students.length === 0) {
+          toast.error('Nie wyszukano kursantów z podanymi kryteriami');
+          return;
+        }
+        navigate(`/hr/to-talk/filter?${params.toString()}`, {
+          replace: true,
+        });
+      } else {
+        toast.error(data.message);
+      }
+      setOpenFiltration(false);
+    }
   };
 
   const toggleBtn = (
@@ -94,8 +204,8 @@ export const Filtration = ({setOpenFiltration}: Props) => {
           />
 
           <ActivityGrade
-            activityGrade={activityGrade}
-            setActivityGrade={setActivityGrade}
+            engagementGrade={engagementGrade}
+            setEngagementGrade={setEngagementGrade}
             toggleBtn={toggleBtn}
             clear={clear}
             setClear={setClear}
@@ -205,12 +315,13 @@ export const Filtration = ({setOpenFiltration}: Props) => {
 
           <div className="input-wrapper">
             <p className="title">
-              Ilość miesięcy doświadczenia komercyjnego kandydata w
+              Min. ilość miesięcy doświadczenia komercyjnego kandydata w
               programowaniu
             </p>
             <div className="input-box">
               <input
                 type="number"
+                min={0}
                 placeholder="np. 6 miesięcy"
                 value={experience}
                 onChange={(e) => setExperience(e.target.value)}

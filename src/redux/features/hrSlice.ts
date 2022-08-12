@@ -1,19 +1,28 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-export interface AdminState {
+export interface HrState {
   email: string;
   id: string;
+  firstName: string;
+  lastName: string;
+  company: string;
 }
 
-const initialState: AdminState = {
+const initialState: HrState = {
   email: '',
   id: '',
+  firstName: '',
+  lastName: '',
+  company: '',
 };
 
-interface SetAdmin {
+interface SetHr {
   payload: {
     email: string;
     id: string;
+    firstName: string;
+    lastName: string;
+    company: string;
   };
 }
 
@@ -21,9 +30,8 @@ export const hrSlice = createSlice({
   name: 'hr',
   initialState,
   reducers: {
-    setHr: (state, action: SetAdmin) => {
-      state.email = action.payload.email;
-      state.id = action.payload.id;
+    setHr: (state, action: SetHr) => {
+      return {...action.payload};
     },
   },
 });

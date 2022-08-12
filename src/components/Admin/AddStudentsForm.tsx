@@ -23,12 +23,13 @@ export const AddStudentsForm = () => {
         const bonusProjectUrls = [];
         for (const property in obj) {
           if (/^bonusProjectUrls/.test(property)) {
-            bonusProjectUrls.push(`${obj[property]}`);
+            if (obj[property] !== null && /^https:\/\//.test(obj[property])) {
+              bonusProjectUrls.push(`${obj[property]}`);
+            }
           }
         }
 
         return {
-          id: obj.id,
           email: obj.email,
           courseCompletion: obj.courseCompletion,
           courseEngagement: obj.courseEngagement,

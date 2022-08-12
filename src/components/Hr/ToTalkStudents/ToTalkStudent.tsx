@@ -3,34 +3,111 @@ import {Button} from '../../Button';
 import {StudentInfo} from '../StudentInfo';
 import styled from 'styled-components';
 import {UnderlineHr} from '../../../assets/styled/Hr/UnderlineHr';
-import avatar from '../../../assets/images/avatar.png';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import defaultAvatar from '../../../assets/images/avatar.png';
+import {API_URL} from '../../../config';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../redux';
+import {toast} from 'react-toastify';
+import {MiniLoader} from '../../MiniLoader';
+import {ToTalksStudentsInterface} from '../../../types/interfaces/Hr/ToTalksStudentsInterface';
 
-export const ToTalkStudent = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface Props {
+  student: ToTalksStudentsInterface;
+  setStudents: (
+    value: (
+      prev: ToTalksStudentsInterface[] | null
+    ) => ToTalksStudentsInterface[] | null
+  ) => void;
+  setMovedStudent: (value: (prev: boolean) => boolean) => void;
+}
+
+export const ToTalkStudent = ({
+  student,
+  setStudents,
+  setMovedStudent,
+}: Props) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const {id: hrId} = useSelector((store: RootState) => store.auth);
+  const [load, setLoad] = useState(false);
+  const [hiredPopup, setHiredPopup] = useState(false);
+  const navigate = useNavigate();
+
+  const handleRemoveStudent = async () => {
+    const res = await fetch(
+      `${API_URL}/hr/not-interested/${hrId}/${student.id}`,
+      {
+        method: 'GET',
+        credentials: 'include',
+        mode: 'cors',
+      }
+    );
+
+    const data = await res.json();
+
+    if (data.success) {
+      setStudents((prev: ToTalksStudentsInterface[] | null) => {
+        if (prev !== null) {
+          return [...prev].filter((el) => el.id !== student.id);
+        }
+        return null;
+      });
+      setMovedStudent((prev: boolean) => !prev);
+    } else {
+      toast.error(data.message);
+    }
+  };
+
+  const handleHiredPopup = async () => {
+    setLoad(true);
+    const res = await fetch(`${API_URL}/hr/hired/${student.id}`, {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'cors',
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      navigate('/hr/to-talk', {replace: true});
+    } else {
+      toast.error(data.message);
+    }
+
+    setMovedStudent((prev: boolean) => !prev);
+    setHiredPopup(false);
+    setLoad(false);
+  };
 
   return (
     <>
       <Wrapper>
         <div className="student-info">
-          <div className="student-reservation">
-            <p className="student-reservation-title">Rezerwacja do:</p>
-            <p className="student-reservation-date">11.09.2022 r.</p>
-          </div>
           <div className="student-data">
-            <img src={avatar} alt="avatar" className="student-img" />
-            <p className="student-name">Jan Kowalski</p>
+            <img
+              src={
+                student.githubUsername !== ''
+                  ? (`https://github.com/${student.githubUsername}.png` as string)
+                  : defaultAvatar
+              }
+              alt="avatar"
+              className="student-img"
+            />
+            <p className="student-name">{`${student.firstName} ${student.lastName}`}</p>
           </div>
         </div>
         <div className="student-nav">
           <div className="student-nav-buttons">
-            <Link to="/hr/cv">
+            <Link to={`/hr/cv/${student.id}`}>
               <Button text="Pokaż CV" />
             </Link>
             <div className="btn-container">
-              <Button text="Brak zainteresowania" />
+              <Button
+                text="Brak zainteresowania"
+                onClick={handleRemoveStudent}
+              />
             </div>
-            <Button text="Zatrudniony" />
+            <Button text="Zatrudniony" onClick={() => setHiredPopup(true)} />
           </div>
           {!isOpen ? (
             <i
@@ -45,11 +122,90 @@ export const ToTalkStudent = () => {
           )}
         </div>
       </Wrapper>
-      <StudentInfo isOpen={isOpen} />
+      <StudentInfo isOpen={isOpen} student={student} />
       <UnderlineHr />
+      {hiredPopup && (
+        <HiredPopup>
+          <div className="bg" onClick={() => setHiredPopup(false)} />
+          <div className="popup">
+            <p className="title">
+              Potwierdź zatrudnienie. Konto {student.firstName}{' '}
+              {student.lastName} od tej chwili będzie dezaktywowane.
+            </p>
+            <div className="btn-box">
+              {load ? (
+                <MiniLoader width={22} height={22} />
+              ) : (
+                <>
+                  <button className="hired" onClick={handleHiredPopup}>
+                    Zatrudniony
+                  </button>
+                  <button
+                    className="no-hired"
+                    onClick={() => setHiredPopup(false)}
+                  >
+                    Nie zatrudniony
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </HiredPopup>
+      )}
     </>
   );
 };
+
+const HiredPopup = styled.div`
+  .bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(34, 35, 36, 0.8);
+    backdrop-filter: blur(4px);
+  }
+
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: ${(props) => props.theme.colors.black};
+    padding: ${(props) => props.theme.paddingSize.base};
+    z-index: 11;
+    color: ${(props) => props.theme.colors.white};
+    max-height: 80vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .title {
+      margin-bottom: ${(props) => props.theme.marginSize.base};
+    }
+
+    .btn-box {
+      button {
+        color: ${(props) => props.theme.colors.white};
+        padding: ${(props) => props.theme.paddingSize.sm};
+        border: none;
+        cursor: pointer;
+      }
+
+      .hired {
+        background-color: ${(props) => props.theme.colors.red};
+        margin-right: ${(props) => props.theme.marginSize.base};
+      }
+
+      .no-hired {
+        background-color: ${(props) => props.theme.colors.darkBlue};
+      }
+    }
+  }
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -82,6 +238,7 @@ const Wrapper = styled.div`
 
       .student-img {
         height: 2rem;
+        border-radius: 50%;
       }
 
       .student-name {

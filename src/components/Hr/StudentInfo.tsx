@@ -1,40 +1,42 @@
 import styled from 'styled-components';
+import {StudentInfoInterface} from '../../types/interfaces/Hr/StudentInfoInterface';
 
 interface Props {
   isOpen: boolean;
+  student: StudentInfoInterface;
 }
 
-export const StudentInfo = ({isOpen}: Props) => {
+export const StudentInfo = ({isOpen, student}: Props) => {
   return (
     <Container isOpen={isOpen}>
       <div className="info-wrapper">
         <p className="info-title">Ocena przejścia kursu</p>
         <p className="info-data">
-          <span>5</span> /5
+          <span>{student.courseCompletion}</span> /5
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Ocena aktywności i zaangażowania na kursie</p>
         <p className="info-data">
-          <span>5</span> /5
+          <span>{student.courseEngagement}</span> /5
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Ocena kodu w projekcie własnym</p>
         <p className="info-data">
-          <span>5</span> /5
+          <span>{student.projectDegree}</span> /5
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Ocena pacy w zespole Scrum</p>
         <p className="info-data">
-          <span>5</span> /5
+          <span>{student.teamProjectDegree}</span> /5
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Preferowane miejsce pracy</p>
         <p className="info-data">
-          <span>Biuro</span>
+          <span>{student.expectedTypeWork}</span>
         </p>
       </div>
       <div className="info-wrapper">
@@ -42,31 +44,42 @@ export const StudentInfo = ({isOpen}: Props) => {
           Docelowe miasto gdzie chce pracować kandydat
         </p>
         <p className="info-data">
-          <span>Warszawa</span>
+          <span>{student.targetWorkCity}</span>
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Oczekiwany typ kontraktu</p>
         <p className="info-data">
-          <span>UoP</span>
+          <span>{student.expectedContractType}</span>
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Oczekiwane wynagrodzenie miesięczne netto</p>
         <p className="info-data">
-          <span>8000 zł</span>
+          <span>{student.expectedSalary} zł</span>
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Zgoda na odbycie bezpłatnych praktyk/stażu</p>
         <p className="info-data">
-          <span>TAK</span>
+          <span>{student.canTakeApprenticeship ? 'Nie' : 'Tak'}</span>
         </p>
       </div>
       <div className="info-wrapper">
         <p className="info-title">Komercyjne doświadczenie w programowaniu</p>
         <p className="info-data">
-          <span>6 miesięcy</span>
+          <span>
+            {student.monthsOfCommercialExp === 0 && 'Brak'}
+            {student.monthsOfCommercialExp === 1 &&
+              `${student.monthsOfCommercialExp} miesiąc`}
+            {student &&
+              student.monthsOfCommercialExp >= 2 &&
+              student.monthsOfCommercialExp <= 4 &&
+              `${student.monthsOfCommercialExp} miesiące`}
+            {student &&
+              student.monthsOfCommercialExp >= 5 &&
+              `${student.monthsOfCommercialExp} miesięcy`}
+          </span>
         </p>
       </div>
     </Container>
@@ -74,6 +87,44 @@ export const StudentInfo = ({isOpen}: Props) => {
 };
 
 const Container = styled.div<{isOpen: Boolean}>`
+  @-webkit-keyframes SHOW-BOX {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @-moz-keyframes SHOW-BOX {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @-o-keyframes SHOW-BOX {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes SHOW-BOX {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  -webkit-animation: SHOW-BOX 0.5s ease;
+  -moz-animation: SHOW-BOX 0.5s ease;
+  -o-animation: SHOW-BOX 0.5s ease;
+  animation: SHOW-BOX 0.5s ease;
+
   background-color: ${(props) => props.theme.colors.background};
   padding: ${(props) => props.theme.paddingSize.sm};
   font-size: ${(props) => props.theme.fontSize.m};

@@ -13,6 +13,7 @@ import {toast} from 'react-toastify';
 import {setAdmin} from '../redux/features/adminSlice';
 import {useNavigate} from 'react-router-dom';
 import {setStudent} from '../redux/features/studentSlice';
+import {setHr} from '../redux/features/hrSlice';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -55,18 +56,18 @@ export const Login = () => {
           })
         );
       }
-      // if (data.user.role === Role.HR) {
-      //   dispatch(
-      //       setAdmin({
-      //         ...data.user
-      //       })
-      //   );
-      // }
+      if (data.user.role === Role.HR) {
+        dispatch(
+          setHr({
+            ...data.user,
+          })
+        );
+      }
 
       dispatch(setAuth({isAuth: true, role: data.user.role, id: data.user.id}));
       navigate(data.user.role, {replace: true});
     } else {
-      toast.error('Podano zły adres email lub hasło');
+      toast.error(data.message);
     }
 
     setLoad(false);

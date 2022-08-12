@@ -6,11 +6,12 @@ interface Props {
   text: string | ReactNode;
   type?: 'button' | 'submit' | 'reset';
   load?: boolean;
+  onClick?: () => void;
 }
 
-export const Button = ({text, load, type = 'button'}: Props) => {
+export const Button = ({text, load, type = 'button', onClick}: Props) => {
   return (
-    <Btn type={type} disabled={load}>
+    <Btn type={type} disabled={load} onClick={onClick}>
       {load ? <MiniLoader /> : text}
     </Btn>
   );

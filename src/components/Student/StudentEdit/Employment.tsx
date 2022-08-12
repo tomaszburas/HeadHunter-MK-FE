@@ -34,7 +34,6 @@ export const Employment = ({
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const value = {...state};
-    console.log(e.target.value);
     setState({...value, [`${e.target.name}`]: e.target.value});
   };
 
@@ -87,6 +86,7 @@ export const Employment = ({
         </div>
         <Input
           type="number"
+          min={0}
           id="monthsOfCommercialExp"
           name="monthsOfCommercialExp"
           value={monthsOfCommercialExp}

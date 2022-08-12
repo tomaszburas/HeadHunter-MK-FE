@@ -7,28 +7,60 @@ import {HrEditFormInterface} from '../../types/interfaces/Hr/HrEditFormInterface
 import {validationPassword} from '../../utils/validationPassword';
 import {toast} from 'react-toastify';
 import {validationEmail} from '../../utils/validationEmail';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../redux';
+import {API_URL} from '../../config';
+import {setHr} from '../../redux/features/hrSlice';
 
 export const HrEditForm = () => {
+  const {firstName, lastName, email, company, id} = useSelector(
+    (store: RootState) => store.hr
+  );
   const [form, setForm] = useState<HrEditFormInterface>({
-    company: '',
-    email: '',
-    firstName: '',
-    lastName: '',
+    company,
+    email,
+    firstName,
+    lastName,
     password: '',
     passwordRepeat: '',
   });
+  const [load, setLoad] = useState(false);
+  const dispatch = useDispatch();
 
   const changeValue = (e: ChangeEvent<HTMLInputElement>) => {
     const value = {...form};
     setForm({...value, [`${e.target.name}`]: e.target.value});
   };
 
-  const handleForm = (e: FormEvent) => {
+  const handleForm = async (e: FormEvent) => {
     e.preventDefault();
+    setLoad(true);
 
-    if (!valid()) return false;
+    if (!valid()) {
+      setLoad(false);
+      return;
+    }
 
-    console.log(form);
+    const res = await fetch(`${API_URL}/hr/update/${id}`, {
+      method: 'PUT',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      toast.success('Zmiany zostały zapisane');
+      dispatch(setHr({...data.user}));
+    } else {
+      toast.error('Zmiany nie zostały zapisane');
+    }
+
+    setLoad(false);
   };
 
   const valid = (): boolean => {
@@ -148,7 +180,7 @@ export const HrEditForm = () => {
         />
       </InputWrapper>
       <div className="btn-box">
-        <Button text="Zapisz" type="submit" />
+        <Button text="Zapisz" type="submit" load={load} />
       </div>
     </FormAccount>
   );
