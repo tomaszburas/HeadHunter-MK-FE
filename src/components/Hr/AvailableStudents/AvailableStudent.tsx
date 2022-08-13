@@ -28,7 +28,7 @@ export const AvailableStudent = ({
   const {id} = useSelector((store: RootState) => store.auth);
 
   const addToTalk = async () => {
-    const res = await fetch(`${API_URL}/hr/addToTalk/${id}/${student.id}`, {
+    const res = await fetch(`${API_URL}/hr/add-to-talk/${id}/${student.id}`, {
       credentials: 'include',
       mode: 'cors',
     });
