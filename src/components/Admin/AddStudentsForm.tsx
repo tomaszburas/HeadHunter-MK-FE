@@ -39,7 +39,7 @@ export const AddStudentsForm = () => {
         };
       });
 
-      const res = await fetch(`${API_URL}/admin/upload`, {
+      const res = await fetch(`${API_URL}/admin/add/students`, {
         method: 'POST',
         credentials: 'include',
         mode: 'cors',
