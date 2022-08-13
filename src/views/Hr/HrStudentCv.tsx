@@ -380,7 +380,9 @@ export const HrStudentCv = () => {
                               rel="noreferrer"
                               className="link"
                             >
-                              {item}
+                              {item.length < 40
+                                ? item
+                                : `${item.slice(0, 41)}...`}
                             </a>
                           </div>
                         ))}
@@ -403,7 +405,9 @@ export const HrStudentCv = () => {
                               rel="noreferrer"
                               className="link"
                             >
-                              {item}
+                              {item.length < 40
+                                ? item
+                                : `${item.slice(0, 41)}...`}
                             </a>
                           </div>
                         ))}
@@ -426,7 +430,9 @@ export const HrStudentCv = () => {
                               rel="noreferrer"
                               className="link"
                             >
-                              {item}
+                              {item.length < 40
+                                ? item
+                                : `${item.slice(0, 41)}...`}
                             </a>
                           </div>
                         ))}
@@ -450,7 +456,9 @@ export const HrStudentCv = () => {
                                 rel="noreferrer"
                                 className="link"
                               >
-                                {item}
+                                {item.length < 40
+                                  ? item
+                                  : `${item.slice(0, 41)}...`}
                               </a>
                             </div>
                           ))}
