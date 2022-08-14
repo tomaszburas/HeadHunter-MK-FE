@@ -59,6 +59,10 @@ export const HrStudentCv = () => {
 
       if (data.success) {
         setStudent(data.user);
+
+        if (data.user.githubUsername) {
+          setIsAvatar(true);
+        }
       } else {
         setStudent(false);
       }
@@ -68,13 +72,13 @@ export const HrStudentCv = () => {
 
   useEffect(() => {
     (async () => {
-      if (student && student?.githubUsername !== '') {
+      if (student && student.githubUsername !== '') {
         await checkGithub(student.githubUsername, setIsAvatar);
       } else {
         setIsAvatar(false);
       }
     })();
-  }, []);
+  }, [isAvatar]);
 
   const stars = (star: number) => {
     const arr = [];
