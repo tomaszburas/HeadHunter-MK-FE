@@ -54,7 +54,7 @@ export const AddHrForm = () => {
         maxStudents: 0,
       });
     } else {
-      toast.error('Hr nie został dodany');
+      toast.error(data.message);
     }
 
     setLoad(false);
