@@ -94,7 +94,7 @@ export const ToTalkStudent = ({
   return (
     <>
       <Wrapper>
-        <div className="student-info">
+        <div className="student-info" onClick={() => setIsOpen(!isOpen)}>
           <div className="student-data">
             <img
               src={
@@ -231,6 +231,7 @@ const Wrapper = styled.div`
 
   .student-info {
     display: flex;
+    cursor: pointer;
 
     .student-reservation {
       display: flex;

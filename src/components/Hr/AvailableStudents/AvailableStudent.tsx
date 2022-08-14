@@ -54,7 +54,7 @@ export const AvailableStudent = ({
   return (
     <>
       <Wrapper>
-        <p className="student-name">{`${
+        <p className="student-name" onClick={() => setIsOpen(!isOpen)}>{`${
           student.firstName
         } ${student.lastName.slice(0, 1)}.`}</p>
         <div className="student-nav">
@@ -91,6 +91,7 @@ const Wrapper = styled.div`
   .student-name {
     padding-left: ${(props) => props.theme.paddingSize.sm};
     color: ${(props) => props.theme.colors.white};
+    cursor: pointer;
   }
 
   .student-nav {
