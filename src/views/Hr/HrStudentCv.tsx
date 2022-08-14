@@ -78,7 +78,7 @@ export const HrStudentCv = () => {
         setIsAvatar(false);
       }
     })();
-  }, [isAvatar]);
+  }, []);
 
   const stars = (star: number) => {
     const arr = [];
