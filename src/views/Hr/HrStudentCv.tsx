@@ -59,6 +59,10 @@ export const HrStudentCv = () => {
 
       if (data.success) {
         setStudent(data.user);
+
+        if (data.user.githubUsername) {
+          setIsAvatar(true);
+        }
       } else {
         setStudent(false);
       }
@@ -68,7 +72,7 @@ export const HrStudentCv = () => {
 
   useEffect(() => {
     (async () => {
-      if (student && student?.githubUsername !== '') {
+      if (student && student.githubUsername !== '') {
         await checkGithub(student.githubUsername, setIsAvatar);
       } else {
         setIsAvatar(false);
@@ -380,7 +384,9 @@ export const HrStudentCv = () => {
                               rel="noreferrer"
                               className="link"
                             >
-                              {item}
+                              {item.length < 40
+                                ? item
+                                : `${item.slice(0, 41)}...`}
                             </a>
                           </div>
                         ))}
@@ -403,7 +409,9 @@ export const HrStudentCv = () => {
                               rel="noreferrer"
                               className="link"
                             >
-                              {item}
+                              {item.length < 40
+                                ? item
+                                : `${item.slice(0, 41)}...`}
                             </a>
                           </div>
                         ))}
@@ -426,7 +434,9 @@ export const HrStudentCv = () => {
                               rel="noreferrer"
                               className="link"
                             >
-                              {item}
+                              {item.length < 40
+                                ? item
+                                : `${item.slice(0, 41)}...`}
                             </a>
                           </div>
                         ))}
@@ -450,7 +460,9 @@ export const HrStudentCv = () => {
                                 rel="noreferrer"
                                 className="link"
                               >
-                                {item}
+                                {item.length < 40
+                                  ? item
+                                  : `${item.slice(0, 41)}...`}
                               </a>
                             </div>
                           ))}

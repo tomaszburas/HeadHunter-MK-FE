@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Button} from '../../Button';
 import {StudentInfo} from '../StudentInfo';
 import styled from 'styled-components';
@@ -11,6 +11,7 @@ import {RootState} from '../../../redux';
 import {toast} from 'react-toastify';
 import {MiniLoader} from '../../MiniLoader';
 import {ToTalksStudentsInterface} from '../../../types/interfaces/Hr/ToTalksStudentsInterface';
+import {checkGithub} from '../../../utils/checkGithub';
 
 interface Props {
   student: ToTalksStudentsInterface;
@@ -32,6 +33,7 @@ export const ToTalkStudent = ({
   const [load, setLoad] = useState(false);
   const [hiredPopup, setHiredPopup] = useState(false);
   const navigate = useNavigate();
+  const [isAvatar, setIsAvatar] = useState<null | boolean>(null);
 
   const handleRemoveStudent = async () => {
     const res = await fetch(
@@ -79,6 +81,16 @@ export const ToTalkStudent = ({
     setLoad(false);
   };
 
+  useEffect(() => {
+    (async () => {
+      if (student && student.githubUsername !== '') {
+        await checkGithub(student.githubUsername, setIsAvatar);
+      } else {
+        setIsAvatar(false);
+      }
+    })();
+  }, []);
+
   return (
     <>
       <Wrapper>
@@ -86,8 +98,8 @@ export const ToTalkStudent = ({
           <div className="student-data">
             <img
               src={
-                student.githubUsername !== ''
-                  ? (`https://github.com/${student.githubUsername}.png` as string)
+                isAvatar
+                  ? `https://github.com/${student.githubUsername}.png`
                   : defaultAvatar
               }
               alt="avatar"

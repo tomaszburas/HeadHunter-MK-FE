@@ -11,7 +11,7 @@ import {setAuth} from '../redux/features/authSlice';
 import {API_URL} from '../config';
 import {toast} from 'react-toastify';
 import {setAdmin} from '../redux/features/adminSlice';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {setStudent} from '../redux/features/studentSlice';
 import {setHr} from '../redux/features/hrSlice';
 
@@ -94,6 +94,10 @@ export const Login = () => {
           required
         />
         <Button type="submit" text="Zaloguj" load={load} />
+
+        <div className="reset-password-box">
+          <Link to="/reset-password-email">Zapomniałeś hasła?</Link>
+        </div>
       </LoginForm>
     </CenterContainer>
   );
