@@ -16,6 +16,7 @@ import {useNavigate} from 'react-router-dom';
 import {API_URL} from '../../../config';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux';
+import { MiniLoader } from '../../MiniLoader';
 
 interface Props {
   setOpenFiltration: (value: boolean) => void;
@@ -49,6 +50,7 @@ export const Filtration = ({
   const {id} = useSelector((store: RootState) => store.auth);
 
   const [clear, setClear] = useState(false);
+  const [load, setLoad] = useState(false);
 
   const clearAll = () => {
     setCourseGrade([]);
@@ -65,6 +67,7 @@ export const Filtration = ({
   };
 
   const handle = async () => {
+    setLoad(true)
     const params = new URLSearchParams();
 
     if (courseGrade.length > 0) {
@@ -110,6 +113,7 @@ export const Filtration = ({
     if (experience.length > 0) {
       if (Number(experience) < 0) {
         toast.error('Wpisz prawidłową liczbę misięcy');
+        setLoad(false)
         return;
       } else {
         params.append('monthsOfCommercialExp', `${experience}`);
@@ -131,6 +135,7 @@ export const Filtration = ({
       if (data.success) {
         if (data.students.length === 0) {
           toast.error('Nie wyszukano kursantów z podanymi kryteriami');
+          setLoad(false)
           return;
         }
         navigate(`/hr/available/filter?${params.toString()}`, {
@@ -157,6 +162,7 @@ export const Filtration = ({
       if (data.success) {
         if (data.students.length === 0) {
           toast.error('Nie wyszukano kursantów z podanymi kryteriami');
+          setLoad(false)
           return;
         }
         navigate(`/hr/to-talk/filter?${params.toString()}`, {
@@ -167,6 +173,7 @@ export const Filtration = ({
       }
       setOpenFiltration(false);
     }
+    setLoad(false)
   };
 
   const toggleBtn = (
@@ -336,8 +343,8 @@ export const Filtration = ({
           >
             Anuluj
           </button>
-          <button className="save-btn" onClick={handle}>
-            Pokaż wynik
+          <button className="save-btn" onClick={handle} disabled={load}>
+            {load ? <MiniLoader /> : 'Pokaż wynik'}
           </button>
         </div>
       </div>
