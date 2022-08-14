@@ -1,14 +1,14 @@
 import {FormEvent, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import {validationPassword} from '../utils/validationPassword';
+import {validationPassword} from '../../utils/validationPassword';
 import {toast} from 'react-toastify';
-import {API_URL} from '../config';
-import {CenterContainer} from '../assets/styled/CenterContainer';
-import {Logo} from '../assets/styled/Logo';
-import logo from '../assets/images/logo.png';
-import {LoginForm} from '../assets/styled/LoginForm';
-import {Input} from '../assets/styled/Input';
-import {Button} from '../components/Button';
+import {API_URL} from '../../config';
+import {CenterContainer} from '../../assets/styled/CenterContainer';
+import {Logo} from '../../assets/styled/Logo';
+import logo from '../../assets/images/logo.png';
+import {LoginForm} from '../../assets/styled/LoginForm';
+import {Input} from '../../assets/styled/Input';
+import {Button} from '../../components/Button';
 import styled from 'styled-components';
 
 export const ResetPassword = () => {

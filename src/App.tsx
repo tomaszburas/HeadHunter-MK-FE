@@ -20,7 +20,7 @@ import {Auth} from './components/Auth';
 import {FirstLogin} from './components/Student/FirstLogin';
 import {HrAvailableStudentsFilter} from './views/Hr/AvailableStudents/HrAvailableStudentsFilter';
 import {HrTTStudentsFilter} from './views/Hr/ToTalksStudents/HrToTalksStudentsFilter';
-import {ResetPassword} from './views/ResetPassword';
+import {ResetPassword} from './views/ResetPassword/ResetPassword';
 import {ResetPasswordEmail} from './views/ResetPassword/ResetPasswordEmail';
 
 export const App = () => {
