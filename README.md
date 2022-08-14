@@ -17,6 +17,7 @@
     * [Features](#dart-features)
     * [Environment Variables](#key-environment-variables)
     * [Run Locally](#running-run-locally)
+    * [Demo](#globe_with_meridians-demo)
 
 <!-- About the Project -->
 ## :star2: About the Project
@@ -116,6 +117,19 @@ Start the server
   npm start
 ```
 
+<!-- Demo -->
+### :globe_with_meridians: Demo
+
+This is a demo version and does not include all functionalities. If you want to see all functionalities run the application locally.
+
+`Link:`
+<https://tomaszenko.networkmanager.pl/hh>
+
+`Admin Panel:` email: admin@hh.com password: Qwerty1
+
+`Hr Panel:` email: hr@hh.com password: Qwerty1
+
+`Student Panel:` email: student@hh.com password: Qwerty1
 
 
 
