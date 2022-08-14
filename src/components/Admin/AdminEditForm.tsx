@@ -37,8 +37,6 @@ export const AdminEditForm = () => {
       return;
     }
 
-    console.log(id);
-
     const res = await fetch(`${API_URL}/admin/${id}`, {
       method: 'PUT',
       credentials: 'include',
