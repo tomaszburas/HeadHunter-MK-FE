@@ -13,7 +13,8 @@ import {API_URL} from '../../config';
 import {setAdminEmail} from '../../redux/features/adminSlice';
 
 export const AdminEditForm = () => {
-  const {email, id} = useSelector((store: RootState) => store.admin);
+  const {id} = useSelector((store: RootState) => store.auth);
+  const {email} = useSelector((store: RootState) => store.admin);
   const dispatch = useDispatch();
   const [form, setForm] = useState<AdminEditFormInterface>({
     email: email || '',
@@ -35,6 +36,8 @@ export const AdminEditForm = () => {
       setLoad(false);
       return;
     }
+
+    console.log(id);
 
     const res = await fetch(`${API_URL}/admin/${id}`, {
       method: 'PUT',

@@ -20,6 +20,8 @@ import {Auth} from './components/Auth';
 import {FirstLogin} from './components/Student/FirstLogin';
 import {HrAvailableStudentsFilter} from './views/Hr/AvailableStudents/HrAvailableStudentsFilter';
 import {HrTTStudentsFilter} from './views/Hr/ToTalksStudents/HrToTalksStudentsFilter';
+import {ResetPassword} from './views/ResetPassword';
+import {ResetPasswordEmail} from './views/ResetPassword/ResetPasswordEmail';
 
 export const App = () => {
   return (
@@ -33,16 +35,23 @@ export const App = () => {
           }
         >
           <Route path={`/`} element={<Login />} />
+          <Route
+            path={`/reset-password-email`}
+            element={<ResetPasswordEmail />}
+          />
+          <Route
+            path={`/activation/hr/:id/:registerToken`}
+            element={<AccountActivation role={Role.HR} />}
+          />
+          <Route
+            path={`/activation/student/:id/:registerToken`}
+            element={<AccountActivation role={Role.STUDENT} />}
+          />
+          <Route
+            path={`/password-reset/:id/:refreshToken`}
+            element={<ResetPassword />}
+          />
         </Route>
-
-        <Route
-          path={`/activation/hr/:id/:registerToken`}
-          element={<AccountActivation role={Role.HR} />}
-        />
-        <Route
-          path={`/activation/student/:id/:registerToken`}
-          element={<AccountActivation role={Role.STUDENT} />}
-        />
 
         {/*STUDENT*/}
         <Route

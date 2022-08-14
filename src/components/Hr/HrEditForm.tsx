@@ -13,7 +13,8 @@ import {API_URL} from '../../config';
 import {setHr} from '../../redux/features/hrSlice';
 
 export const HrEditForm = () => {
-  const {firstName, lastName, email, company, id} = useSelector(
+  const {id} = useSelector((store: RootState) => store.auth);
+  const {firstName, lastName, email, company} = useSelector(
     (store: RootState) => store.hr
   );
   const [form, setForm] = useState<HrEditFormInterface>({
