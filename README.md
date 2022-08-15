@@ -5,9 +5,9 @@
   </p>
 
 <h4>
-    <a href="https://github.com/Simoon234/HeadHunter-MK-BE">Server repo.</a>
+    <a href="https://tomaszenko.networkmanager.pl/hh">View demo</a>
     <span> · </span>
-    <a href="https://tomaszenko.networkmanager.pl/hh">Demo</a>
+    <a href="https://github.com/Simoon234/HeadHunter-MK-BE">Server repo.</a>
   </h4>
 </div>
 
