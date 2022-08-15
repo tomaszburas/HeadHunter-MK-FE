@@ -741,6 +741,8 @@ const Wrapper = styled.div`
 
     .student-data-container {
       width: 100%;
+      padding-right: 0;
+      padding-bottom: 0;
     }
   }
 
