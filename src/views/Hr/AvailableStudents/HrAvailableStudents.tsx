@@ -30,6 +30,7 @@ export const HrAvailableStudents = () => {
 
   useEffect(() => {
     (async () => {
+      setStudents(null)
       const data = await fetchAllAvailableUsers(
         itemsOnPage,
         page,
@@ -43,7 +44,7 @@ export const HrAvailableStudents = () => {
         setStudents([]);
       }
     })();
-  }, [page, itemsOnPage, pages, movedStudent]);
+  }, [page, itemsOnPage, movedStudent]);
 
   useEffect(() => {
     dispatch(searchName({name: ''}));

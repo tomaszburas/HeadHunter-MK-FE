@@ -25,14 +25,16 @@ export const HrAvailableStudentsFilter = () => {
   );
   const [movedStudent, setMovedStudent] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
-  const [allStudents, setAllStudents] = useState<AvailableStudentsInterface[]>(
-    []
+  const [allStudents, setAllStudents] = useState<AvailableStudentsInterface[] | null>(
+    null
   );
   const {name} = useSelector((state: RootState) => state.name);
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
+      setStudents(null)
+      setAllStudents(null)
       const res = await fetch(
         `${API_URL}/hr/filter-available/${page}/${itemsOnPage}/${id}?${searchParams.toString()}`,
         {
@@ -47,6 +49,7 @@ export const HrAvailableStudentsFilter = () => {
       if (data.success) {
         if (data.students.length === 0) {
           setStudents([]);
+          setAllStudents([])
           return;
         }
         setStudents(data.students);
@@ -56,7 +59,7 @@ export const HrAvailableStudentsFilter = () => {
         toast.error(data.message);
       }
     })();
-  }, [page, itemsOnPage, pages, movedStudent, searchParams]);
+  }, [page, itemsOnPage, movedStudent, searchParams]);
 
   useEffect(() => {
     dispatch(searchName({name: ''}));

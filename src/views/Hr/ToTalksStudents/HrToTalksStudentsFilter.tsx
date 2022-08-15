@@ -25,14 +25,16 @@ export const HrTTStudentsFilter = () => {
   );
   const [movedStudent, setMovedStudent] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
-  const [allStudents, setAllStudents] = useState<ToTalksStudentsInterface[]>(
-    []
+  const [allStudents, setAllStudents] = useState<ToTalksStudentsInterface[] | null>(
+    null
   );
   const {name} = useSelector((state: RootState) => state.name);
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
+      setStudents(null)
+      setAllStudents(null)
       const res = await fetch(
         `${API_URL}/hr/filter-to-talk/${page}/${itemsOnPage}/${id}?${searchParams.toString()}`,
         {
@@ -47,6 +49,7 @@ export const HrTTStudentsFilter = () => {
       if (data.success) {
         if (data.students.length === 0) {
           setStudents([]);
+          setAllStudents([])
           return;
         }
         setStudents(data.students);
@@ -56,7 +59,7 @@ export const HrTTStudentsFilter = () => {
         toast.error(data.message);
       }
     })();
-  }, [page, itemsOnPage, pages, movedStudent, searchParams]);
+  }, [page, itemsOnPage, movedStudent, searchParams]);
 
   useEffect(() => {
     dispatch(searchName({name: ''}));

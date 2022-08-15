@@ -14,7 +14,7 @@ interface Props {
     ) => AvailableStudentsInterface[] | null
   ) => void;
   setMovedStudent: (value: (prev: boolean) => boolean) => void;
-  allStudents: AvailableStudentsInterface[];
+  allStudents: AvailableStudentsInterface[] | null;
 }
 
 export const AvailableStudents = ({
@@ -31,13 +31,12 @@ export const AvailableStudents = ({
         students.length === 0 ? (
           <NoData>Brak kursantów</NoData>
         ) : name.length > 0 ? (
-          allStudents.filter((item) =>
+          allStudents?.filter((item) =>
             item.lastName.toLowerCase().includes(name)
           ).length === 0 ? (
             <NoData>Brak kursantów</NoData>
           ) : (
-            allStudents
-              .filter((item) => item.lastName.toLowerCase().includes(name))
+            allStudents?.filter((item) => item.lastName.toLowerCase().includes(name))
               .map((student) => (
                 <AvailableStudent
                   key={student.id}

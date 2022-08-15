@@ -14,7 +14,7 @@ interface Props {
     ) => ToTalksStudentsInterface[] | null
   ) => void;
   setMovedStudent: (value: (prev: boolean) => boolean) => void;
-  allStudents: ToTalksStudentsInterface[];
+  allStudents: ToTalksStudentsInterface[] | null;
 }
 
 export const ToTalkStudents = ({
@@ -31,13 +31,12 @@ export const ToTalkStudents = ({
         students.length === 0 ? (
           <NoData>Brak kursantów</NoData>
         ) : name.length > 0 ? (
-          allStudents.filter((item) =>
+          allStudents?.filter((item) =>
             item.lastName.toLowerCase().includes(name)
           ).length === 0 ? (
             <NoData>Brak kursantów</NoData>
           ) : (
-            allStudents
-              .filter((item) => item.lastName.toLowerCase().includes(name))
+            allStudents?.filter((item) => item.lastName.toLowerCase().includes(name))
               .map((student) => (
                 <ToTalkStudent
                   key={student.id}
