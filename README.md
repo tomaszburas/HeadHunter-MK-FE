@@ -48,7 +48,7 @@ The **system administrator** has such functions as editing his own data (email a
 | email             | E-mail adress.                                                                        | Contains @. Unique in the system. |
 | courseCompletion  | Assessment of the degree of course completion in the range of 0 - 5.                  | 0 - 5                             |
 | courseEngagement  | Assessment of the degree of activity and involvement in the course in the range of 0 - 5. | 0 - 5                             |
-| projectDegree     | Ocena zadania zaliczeniowego w kursie w zakresie 0 - 5.                               | 0 - 5                             |
+| projectDegree     | Assessment of the final project in the course in the range of 0 - 5.                     | 0 - 5                             |
 | teamProjectDegree | Assessment of team work in the Scrum bonus project in the course in the range 0 - 5.  | 0 - 5                             |
 | bonusProjectUrls* | The url to GitHub of the project from the bonus stage. If there are several links, repeat the key in the file as many times as necessary. `Important!` the key must contain the word bonusProjectUrls and any prefix. The key cannot repeat itself.                        | Url address (https://...)         |
 <img src="https://i.imgur.com/b59FJBs.jpg" alt="MK Head Hunter" />
