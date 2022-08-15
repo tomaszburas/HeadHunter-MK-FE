@@ -94,7 +94,7 @@ export const Filtration = ({
       contract.map((el) => params.append('expectedContractType', `${el}`));
     }
 
-    if (internships === 0 || internships == 1) {
+    if (internships === 0 || internships === 1) {
       params.append('canTakeApprenticeship', `${internships}`);
     }
 

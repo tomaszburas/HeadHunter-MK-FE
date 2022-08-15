@@ -30,6 +30,7 @@ export const HrTTStudents = () => {
 
   useEffect(() => {
     (async () => {
+      setStudents(null)
       const data = await fetchAllToTalkUsers(itemsOnPage, page, id as string);
       if (data.success) {
         setStudents(data.students);
@@ -39,7 +40,7 @@ export const HrTTStudents = () => {
         setStudents([]);
       }
     })();
-  }, [page, itemsOnPage, pages, movedStudent]);
+  }, [page, itemsOnPage, movedStudent]);
 
   useEffect(() => {
     dispatch(searchName({name: ''}));

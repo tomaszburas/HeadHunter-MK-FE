@@ -25,7 +25,7 @@ export const Pagination = ({
     if (pages === page) {
       setPage(pages);
     }
-  }, [page, pages, setPage, setItemsOnPage]);
+  }, [page, pages]);
 
   const clickUp = () => {
     if (pages === 0) {
