@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://i.imgur.com/nYV30Ba.png" alt="logo" width="200" height="auto" />
 <p>
-    Frontend for the application that allows you to easily connect people from HR departments of companies, including Headhunters [HR], with people looking for a job in IT.
+    Frontend for the application that allows you to easily connect people from HR departments of companies with people looking for a job in IT.
   </p>
 
 <h4>
